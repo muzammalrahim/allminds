@@ -1,4 +1,10 @@
+import django_filters.rest_framework
 from tablib import Dataset
+from django.contrib.auth.models import User
+from .models import Person
+from rest_framework import viewsets
+from allminds.serializers import PersonSerializer
+# from rest_framework import filters
 
 def simple_upload(request):
     if request.method == 'POST':
@@ -13,3 +19,23 @@ def simple_upload(request):
             person_resource.import_data(dataset, dry_run=False)  # Actually import now
 
     return render(request, 'core/simple_upload.html')
+
+
+class PersonViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = Person.objects.all().order_by('-first_name')
+    serializer_class = PersonSerializer
+    # filter_backends = [django_filters.rest_framework.DjangoFilterBackend, viewsets.SearchFilter]
+    filterset_fields = ['first_name', 'last_name']
+
+    # def get_queryset(self):
+    #     """
+    #     Optionally restricts the returned purchases to a given user,
+    #     by filtering against a `username` query parameter in the URL.
+    #     """
+    #     last_name = self.request.query_params.get('last_name', None)
+    #     if last_name is not None:
+    #         self.queryset = self.queryset.filter(last_name=last_name)
+    #     return self.queryset
