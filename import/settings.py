@@ -83,23 +83,14 @@ WSGI_APPLICATION = 'import.wsgi.application'
 
 DATABASES = {
     'default': {
-<<<<<<< HEAD
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-       # 'USER': 'postgres',
-       # 'PASSWORD': 'postgres',
-       # 'HOST': '127.0.0.1',
-       # 'PORT': '5432',
-=======
         # 'ENGINE': 'django.db.backends.postgresql',
         # 'NAME': 'allminds',
         # 'USER': 'postgres',
         # 'PASSWORD': 'postgres',
         # 'HOST': '127.0.0.1',
         # 'PORT': '5432',
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
->>>>>>> 2f2b4ef79de29dc9e30fef2a7d1a8b3a6a20f125
     }
 }
 
@@ -144,9 +135,7 @@ STATIC_URL = '/static/'
 
 IMPORT_EXPORT_USE_TRANSACTIONS = True
 
-<<<<<<< HEAD
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-=======
+
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
@@ -180,4 +169,3 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 # EMAIL_PORT = 2525
 # EMAIL_HOST_USER = 'hamidraza715@gmail.com'
 # EMAIL_HOST_PASSWORD = 'NzJmbDU5bTV1ZzQw'
->>>>>>> 2f2b4ef79de29dc9e30fef2a7d1a8b3a6a20f125
