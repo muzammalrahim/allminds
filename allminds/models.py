@@ -2,11 +2,11 @@ from django.db import models
 
 class Person(models.Model):
 	first_name = models.TextField()
-	middle_name = models.TextField()
+	middle_name = models.TextField(null=True)
 	last_name = models.TextField()
 	phone = models.TextField()
 	profile_image_url = models.TextField()
-	gender = models.TextField()
+	gender = models.TextField(null=True)
 	city = models.TextField()
 	state = models.TextField()
 	zip_code = models.TextField()

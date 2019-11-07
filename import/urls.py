@@ -15,11 +15,35 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+<<<<<<< HEAD
+from django.conf.urls.static import static
+from django.conf import settings
+=======
+from django.urls import include
+from rest_framework import routers
+from allminds import views
 from django.conf.urls.static import static
 from django.conf import settings
 
+router = routers.DefaultRouter()
+router.register(r'therapist', views.PersonViewSet)
+>>>>>>> 2f2b4ef79de29dc9e30fef2a7d1a8b3a6a20f125
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/', include(router.urls)),
+    path('', views.index),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('sendEmail', views.sendEmail)
 ]
+<<<<<<< HEAD
 if settings.DEBUG:
 	urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+=======
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+
+
+>>>>>>> 2f2b4ef79de29dc9e30fef2a7d1a8b3a6a20f125

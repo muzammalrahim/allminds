@@ -39,13 +39,19 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'allminds',
     'import_export',
+    'rest_framework',
+    'django_filters',
+    'corsheaders'
 ]
+
+CORS_ORIGIN_ALLOW_ALL = True
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -56,7 +62,7 @@ ROOT_URLCONF = 'import.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'frontend')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -77,12 +83,23 @@ WSGI_APPLICATION = 'import.wsgi.application'
 
 DATABASES = {
     'default': {
+<<<<<<< HEAD
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
        # 'USER': 'postgres',
        # 'PASSWORD': 'postgres',
        # 'HOST': '127.0.0.1',
        # 'PORT': '5432',
+=======
+        # 'ENGINE': 'django.db.backends.postgresql',
+        # 'NAME': 'allminds',
+        # 'USER': 'postgres',
+        # 'PASSWORD': 'postgres',
+        # 'HOST': '127.0.0.1',
+        # 'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+>>>>>>> 2f2b4ef79de29dc9e30fef2a7d1a8b3a6a20f125
     }
 }
 
@@ -127,4 +144,40 @@ STATIC_URL = '/static/'
 
 IMPORT_EXPORT_USE_TRANSACTIONS = True
 
+<<<<<<< HEAD
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+=======
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
+    # 'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend', 'django_filters.rest_framework.SearchFilter']
+}
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'mail.smtp2go.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 2525
+EMAIL_HOST_USER = 'mudassirmir25@gmail.com'
+EMAIL_HOST_PASSWORD = 'djJnZmppaGFqMjgw'
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'frontend/build'),
+)
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'mail.smtp2go.com'
+# EMAIL_USE_TLS = True
+# EMAIL_PORT = 2525
+# EMAIL_HOST_USER = 'mudassir.creative@gmail.com'
+# EMAIL_HOST_PASSWORD = 'lxtrRPojpSrI'
+
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'mail.smtp2go.com'
+# EMAIL_USE_TLS = True
+# EMAIL_PORT = 2525
+# EMAIL_HOST_USER = 'hamidraza715@gmail.com'
+# EMAIL_HOST_PASSWORD = 'NzJmbDU5bTV1ZzQw'
+>>>>>>> 2f2b4ef79de29dc9e30fef2a7d1a8b3a6a20f125
