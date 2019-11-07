@@ -40,12 +40,16 @@ INSTALLED_APPS = [
     'allminds',
     'import_export',
     'rest_framework',
-    'django_filters'
+    'django_filters',
+    'corsheaders'
 ]
+
+CORS_ORIGIN_ALLOW_ALL = True
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -58,7 +62,7 @@ ROOT_URLCONF = 'import.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'frontend')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -143,6 +147,13 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 2525
 EMAIL_HOST_USER = 'mudassirmir25@gmail.com'
 EMAIL_HOST_PASSWORD = 'djJnZmppaGFqMjgw'
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'frontend/build'),
+)
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
 
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # EMAIL_HOST = 'mail.smtp2go.com'

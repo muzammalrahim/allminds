@@ -18,13 +18,22 @@ from django.urls import path
 from django.urls import include
 from rest_framework import routers
 from allminds import views
+from django.conf.urls.static import static
+from django.conf import settings
 
 router = routers.DefaultRouter()
 router.register(r'therapist', views.PersonViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include(router.urls)),
+    path('api/', include(router.urls)),
+    path('', views.index),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('sendEmail', views.sendEmail)
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+
+

@@ -8,7 +8,11 @@ from rest_framework import filters
 from django_filters.rest_framework import DjangoFilterBackend
 from django.core.mail import send_mail
 from django.http import JsonResponse
+from django.shortcuts import render
 # from rest_framework import filters
+
+def index(request):
+	return render(request, "build/index.html")
 
 def simple_upload(request):
 	if request.method == 'POST':
@@ -32,7 +36,7 @@ class PersonViewSet(viewsets.ModelViewSet):
 	queryset = Person.objects.all().order_by('-first_name')
 	serializer_class = PersonSerializer
 	filter_backends = [filters.SearchFilter, DjangoFilterBackend]
-	filterset_fields = ['^first_name', '^last_name']
+	filterset_fields = ['first_name', 'last_name']
 	search_fields = ['^first_name', '^last_name']
 
 def sendEmail(request):
