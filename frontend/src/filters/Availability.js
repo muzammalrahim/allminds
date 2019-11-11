@@ -2,15 +2,14 @@ import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
 import {get} from '../api';
 
-
-export default class ClientFocus extends Component {
+export default class Availability extends Component {
   constructor(props) {
     super(props);
     
     this.state = {
       therapists: [],
       filter:{
-        gender:[], ageGroup:[], communities:[]
+        availability:[],
       },
       
      
@@ -77,27 +76,13 @@ export default class ClientFocus extends Component {
         </nav>
         <section className="section">
           <div className="container">
-            <h5 className="title is-5 filter-header-add">Client Focus</h5>
-            <p>Choose the client type your therapist works with
+            <h5 className="title is-5 filter-header-add">Availability</h5>
+            <p>Choose if you need appointments outside traditional business hours
             </p>
             <br />
             <div className="filter-list">
-              <p><strong>Gender</strong></p>
-              <button id="Female" className="button is-outlined" onClick={()=>this.isCurrent("gender","Female")}>Women</button>
-              <button id="Male" className="button is-outlined" onClick={()=>this.isCurrent("gender","Male")}>Men</button>
-              <button id="Non-binary" className="button is-outlined" onClick={()=>this.isCurrent("gender","Non-binary")}>Non-binary</button>
-              <br />
-              <p><strong>Age group</strong></p>
-              <button id="Adults" className="button is-outlined" onClick={()=>this.isCurrent("ageGroup","Adults")}>Adults</button>
-              <button id="Elders" className="button is-outlined" onClick={()=>this.isCurrent("ageGroup","Elders")}>Elders</button>
-              <button id="Teens" className="button is-outlined" onClick={()=>this.isCurrent("ageGroup","Teens")}>Teens</button>
-              <br />
-              <p><strong>Communities</strong></p>
-              <button id="Ethnic minorites" className="button is-outlined" onClick={()=>this.isCurrent("communities","Ethnic minorites")}>Ethnic minorites</button>
-              <button id="LGBQT" className="button is-outlined" onClick={()=>this.isCurrent("communities","LGBQT")}>LGBQT</button>
-              <button id="Veterans" className="button is-outlined" onClick={()=>this.isCurrent("communities","Veterans")}>Veterans</button>
-              <button id="Cancer survivors" className="button is-outlined" onClick={()=>this.isCurrent("communities","Cancer survivors")}>Cancer survivors</button>
-              <button id="Religious / Spiritual" className="button is-outlined" onClick={()=>this.isCurrent("communities","Religious / Spiritual")}>Religious / Spiritual</button>
+            <button id="Evenings" className="button is-outlined" onClick={()=>this.isCurrent("availability","Evenings")}>Evenings</button>
+              <button id="Weekends" className="button is-outlined" onClick={()=>this.isCurrent("availability","Weekends")}>Weekends</button>
             </div>
           </div>
         </section>

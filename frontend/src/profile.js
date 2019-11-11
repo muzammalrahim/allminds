@@ -12,6 +12,7 @@ export default class home extends Component {
           special:[],
           communitie:[],
           insurance:[],
+          id:null,
           
          
          
@@ -33,6 +34,7 @@ export default class home extends Component {
             special,
             communitie,
             insurance,
+            id,
              });
              
     }
@@ -110,9 +112,9 @@ export default class home extends Component {
                   </div>
                 </article>
                 <br />
-                <a className="button is-primary is-medium is-fullwidth" href="contactFormTherapist.html">
+                <Link to={"/contactForm/"+this.state.id} className="button is-primary is-medium is-fullwidth">
                   Message me
-                </a>
+                </Link>
               </div>
             </div>
             <hr />
@@ -132,13 +134,7 @@ export default class home extends Component {
                 <h5 className="title is-5">Communities</h5>
                 <div className="buttons therapist-tags">
                 {communities}
-                  <div className="therapist-tags-missing">
-                    <div className="label"><small>Missing:</small></div>
-                    <button className="button is-light">
-                      Men
-                    </button>
-                  </div>
-                </div>
+                 </div>
                 <h5 className="title is-5">Bio</h5>
                 <div className="buttons therapist-tags">
                   <button className="button is-outlined">
