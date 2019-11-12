@@ -11,3 +11,4 @@ export function post(url, data) {
     axios.post(API_URL + url, data).then(res => console.log(res.data));
 }
 
+
