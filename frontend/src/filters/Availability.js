@@ -22,23 +22,21 @@ export default class Availability extends Component {
 
     let dat=null;
     if(event!=null){
-      if(document.getElementById(event).className=='button is-outlined'){
-        document.getElementById(event).className= 'button is-light';
+      if(document.getElementById(event).className === 'button is-outlined'){
+        document.getElementById(event).className = 'button is-light';
         this.state.filter[key].push(event);}
-      else if(document.getElementById(event).className=='button is-light'){
-              document.getElementById(event).className= 'button is-outlined';
+      else if(document.getElementById(event).className === 'button is-light'){
+              document.getElementById(event).className = 'button is-outlined';
               var index = this.state.filter[key].indexOf(event);
               if (index !== -1) this.state.filter[key].splice(index, 1);
               }
       }
       
     
-    console.log(this.state.filter);
     let filters=JSON.stringify(this.state.filter);
-    console.log(filters);
     dat = await get("therapist/?gender="+filters);
     let therapists = dat.data.results;
-    // let count = dat.data.count;
+    
       this.setState({
         therapists, 
          });
