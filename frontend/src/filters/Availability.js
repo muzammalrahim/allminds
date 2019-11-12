@@ -32,9 +32,8 @@ export default class Availability extends Component {
               }
       }
       
-    
-    let filters=JSON.stringify(this.state.filter);
-    dat = await get("therapist/?gender="+filters);
+
+    dat = await get("therapist/?availability="+JSON.stringify(this.state.filter.availability));
     let therapists = dat.data.results;
     
       this.setState({

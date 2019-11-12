@@ -33,8 +33,7 @@ export default class Insurance extends Component {
       }
       
     
-    let filters=JSON.stringify(this.state.filter);
-    dat = await get("therapist/?gender="+filters);
+    dat = await get("therapist/?insurance="+JSON.stringify(this.state.filter.insurance));
     let therapists = dat.data.results;
     // let count = dat.data.count;
       this.setState({

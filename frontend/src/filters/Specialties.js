@@ -33,8 +33,8 @@ export default class Specialties extends Component {
       }
       
     
-    let filters=JSON.stringify(this.state.filter);
-    dat = await get("therapist/?gender="+filters);
+    
+    dat = await get("therapist/?specialties="+JSON.stringify(this.state.filter.specialties));
     let therapists = dat.data.results;
     // let count = dat.data.count;
       this.setState({

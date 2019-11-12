@@ -34,8 +34,8 @@ export default class ClientFocus extends Component {
       }
       
     
-    let filters=JSON.stringify(this.state.filter);
-    dat = await get("therapist/?gender="+filters);
+    let filters=this.state.filter;
+    dat = await get("therapist/?gender="+JSON.stringify(filters.gender)+"&ageGroup="+JSON.stringify(filters.ageGroup)+"&communities="+JSON.stringify(filters.communities));
     let therapists = dat.data.results;
     this.setState({
         therapists, 
