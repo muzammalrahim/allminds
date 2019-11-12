@@ -34,8 +34,9 @@ export default class Background extends Component {
       }
       
     
-    let filters=JSON.stringify(this.state.filter);
-    dat = await get("therapist/?gender="+filters);
+    let filters=this.state.filter;
+    dat = await get("therapist/?gender="+JSON.stringify(filters.gender)+"&title="+JSON.stringify(filters.title)+"&yearsInPractice="+JSON.stringify(filters.yearsInPractice)+"&languages="+JSON.stringify(filters.languages));
+
     let therapists = dat.data.results;
     this.setState({
         therapists, 
