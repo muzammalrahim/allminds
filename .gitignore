@@ -4,3 +4,4 @@ db.sqlite3
 venv
 frontend/node_modules
 /static
+.vscode

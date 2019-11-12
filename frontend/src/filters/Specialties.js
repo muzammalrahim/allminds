@@ -1,7 +1,46 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
+import {get} from '../api';
 
 export default class Specialties extends Component {
+  constructor(props) {
+    super(props);
+    
+    this.state = {
+      therapists: [],
+      filter:{
+        specialties:[],
+      },
+      
+     
+    };
+    
+    this.isCurrent = this.isCurrent.bind(this);
+  }
+  
+  async isCurrent(key, event) {
+
+    let dat=null;
+    if(event!=null){
+      if(document.getElementById(event).className==='button is-outlined'){
+        document.getElementById(event).className= 'button is-light';
+        this.state.filter[key].push(event);}
+      else if(document.getElementById(event).className==='button is-light'){
+              document.getElementById(event).className= 'button is-outlined';
+              var index = this.state.filter[key].indexOf(event);
+              if (index !== -1) this.state.filter[key].splice(index, 1);
+              }
+      }
+      
+    
+    let filters=JSON.stringify(this.state.filter);
+    dat = await get("therapist/?gender="+filters);
+    let therapists = dat.data.results;
+    // let count = dat.data.count;
+      this.setState({
+        therapists, 
+         });
+}
     render() {
         return (
             <div>
@@ -35,21 +74,21 @@ export default class Specialties extends Component {
             </nav>
             <section className="section">
               <div className="container">
-                <h5 className="title is-5" style={{marginTop:"50px"}}>Specialties</h5>
+                <h5 className="title is-5 filter-header-add">Specialties</h5>
                 <p>Choose your therapist's specialties
                 </p>
                 <br />
                 <div className="filter-list">
-                  <button className="button is-outlined">Addiction</button>
-                  <button className="button is-light">ADHD or attention issues</button>
-                  <button className="button is-outlined">Anxiety or panic attacks</button>
-                  <button className="button is-light">Depression</button>
-                  <button className="button is-outlined">Eating and food issues</button>
-                  <button className="button is-outlined">Grief</button>
-                  <button className="button is-outlined">Relationship issues</button>
-                  <button className="button is-outlined">Life transitions</button>
-                  <button className="button is-outlined">Sex and sexuality</button>
-                  <button className="button is-outlined">Trauma or abuse</button>
+                  <button id="Addiction" className="button is-outlined" onClick={()=>this.isCurrent("specialties","Addiction")}>Addiction</button>
+                  <button id="ADHD or attention issues" className="button is-outlined" onClick={()=>this.isCurrent("specialties","ADHD or attention issues")}>ADHD or attention issues</button>
+                  <button id="Anxiety or panic attacks" className="button is-outlined" onClick={()=>this.isCurrent("specialties","Anxiety or panic attacks")}>Anxiety or panic attacks</button>
+                  <button id="Depression" className="button is-outlined" onClick={()=>this.isCurrent("specialties","Depression")}>Depression</button>
+                  <button id="Eating and food issues" className="button is-outlined" onClick={()=>this.isCurrent("specialties","Eating and food issues")}>Eating and food issues</button>
+                  <button id="Grief" className="button is-outlined" onClick={()=>this.isCurrent("specialties","Grief")}>Grief</button>
+                  <button id="Relationship issues" className="button is-outlined" onClick={()=>this.isCurrent("specialties","Relationship issues")}>Relationship issues</button>
+                  <button id="Life transitions" className="button is-outlined" onClick={()=>this.isCurrent("specialties","Life transitions")}>Life transitions</button>
+                  <button id="Sex and sexuality" className="button is-outlined" onClick={()=>this.isCurrent("specialties","Sex and sexuality")}>Sex and sexuality</button>
+                  <button id="Trauma or abuse" className="button is-outlined" onClick={()=>this.isCurrent("specialties","Trauma or abuse")}>Trauma or abuse</button>
                 </div>
               </div>
             </section>

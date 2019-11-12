@@ -36,7 +36,7 @@ class PersonViewSet(viewsets.ModelViewSet):
 	queryset = Person.objects.all().order_by('-first_name')
 	serializer_class = PersonSerializer
 	filter_backends = [filters.SearchFilter, DjangoFilterBackend]
-	filterset_fields = ['first_name', 'last_name']
+	filterset_fields = ['first_name', 'last_name','gender']
 	search_fields = ['^first_name', '^last_name']
 
 def sendEmail(request):

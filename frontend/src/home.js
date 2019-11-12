@@ -12,6 +12,7 @@ export default class home extends Component {
       count: null,
       currentPage: 1,
       todosPerPage: 15,
+      perPage:1,
      
      
     };
@@ -23,28 +24,38 @@ export default class home extends Component {
     this.isCurrent();
          
   }
-  componentWillMount() {
-    
-    this.isCurrent();
-         
-  }
-handleClick(event) {
+  
+  handleClick(event) {
+  document.getElementById(this.state.perPage).className = 'pagination-link';
+  this.state.perPage=((event.target.id-1)*15+1); 
   this.setState({
-    currentPage: Number(event.target.id),
+    currentPage: Number(event.target.id), 
       });
+      
   }
 
   async isCurrent(event) {
     let dat=null;
-    // event.target.className+= ' is-current'
+    var perPage = this.state.perPage;
+    let crtPage = event;
     if(event==null)
-    {dat = await get("therapist/");}
+    { 
+      dat = await get("therapist/");
+      document.getElementById(perPage).className += ' is-current';
+    }
     else if(event!=null)
-    {dat = await get("therapist/?page="+event);}
+    {
+    dat = await get("therapist/?page="+event);
+    document.getElementById(perPage).className = 'pagination-link';
+    perPage = event;
+    }
+    
+    document.getElementById(perPage).className += ' is-current';
     let therapists = dat.data.results;
     let count = dat.data.count;
+    
       this.setState({
-        therapists, count,
+        therapists, count, perPage,
          });
 }
 
@@ -76,9 +87,9 @@ handleClick(event) {
       const indexOfFirstTodo = indexOfLastTodo - todosPerPage;
       const currentTodos = pages.slice(indexOfFirstTodo, indexOfLastTodo);
 
-      const renderTodos = currentTodos.map((page, index) => {
-        return <li>
-                  <a name={"therapist/?page="+page} key={index} id={page} className={index+' pagination-link'} onClick={()=>this.isCurrent(page)} aria-label={"Page "+page} aria-current="page">{page}</a>
+      const renderTodos = currentTodos.map((page, i) => {
+        return <li key={i}>
+                  <a name={"therapist/?page="+page} id={page} className={'pagination-link'} onClick={()=>this.isCurrent(page)} aria-label={"Page "+page} aria-current="page">{page}</a>
                 </li> 
         
       });
@@ -120,18 +131,18 @@ handleClick(event) {
                 <Link to="/clientFocus" className="button is-outlined">
                   Client Focus
                 </Link>
-                <a className="button is-outlined" href="filterBackground.html">
+                <Link to="/background" className="button is-outlined">
                   Background
-                </a>
-                <a className="button is-outlined" href="filterInsurance.html">
+                </Link>
+                <Link to="/insurance" className="button is-outlined">
                   Insurance
-                </a>
-                <a className="button is-outlined" href="filterAvailability.html">
+                </Link>
+                <Link to="/availability" className="button is-outlined">
                   Availability
-                </a>
-                <a className="button is-outlined" href="filterRates.html">
+                </Link>
+                <Link to="/rates" className="button is-outlined">
                   Rates
-                </a>
+                </Link>
               </div>
             </div>
             <div className="box home-alert">
