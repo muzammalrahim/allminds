@@ -7140,3 +7140,8 @@
   .filter-header-add {
   margin-top: 50px;
   }
+
+  .mail-isChecked {
+    pointer-events: none !important;
+    background-color:#c2c4c0 !important;
+  }

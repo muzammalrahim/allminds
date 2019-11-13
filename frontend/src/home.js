@@ -27,9 +27,9 @@ export default class home extends Component {
   
   handleClick(event) {
   document.getElementById(this.state.perPage).className = 'pagination-link';
-  this.state.perPage=((event.target.id-1)*15+1); 
+  let perPage=((event.target.id-1)*15+1); 
   this.setState({
-    currentPage: Number(event.target.id), 
+    currentPage: Number(event.target.id), perPage,
       });
       
   }
@@ -37,7 +37,6 @@ export default class home extends Component {
   async isCurrent(event) {
     let dat=null;
     var perPage = this.state.perPage;
-    let crtPage = event;
     if(event==null)
     { 
       dat = await get("therapist/");
@@ -58,26 +57,36 @@ export default class home extends Component {
         therapists, count, perPage,
          });
 }
-
-
     render() {
       const {currentPage, todosPerPage } = this.state;
       let totalPages = pageCount(this.state.count);
-        function pageCount(val){
-          let value = 1;
-          if(value%10==0){
-            value = val/10;
-          }
-          else{
-            value = val/10+1;
-          }
-          return value | 0;
+      let lastPage = rightCount(totalPages);
+      function pageCount(val){
+        let value = 1;
+        if(value%10==0){
+          value = val/10;
         }
-        let isLeft = 'pagination-previous';
-        if (currentPage<2) {
-          isLeft += ' is-first-page';
+        else{
+          value = val/10+1;
+        }
+        return value | 0;
       }
-      
+      function rightCount(val){
+        if(val%15==0){
+          return val/15 |0;
+        }
+        else{
+          return val/15+1 | 0;
+        }
+      }
+      let isLeft = 'pagination-previous';
+      let isRight = 'pagination-next'
+      if (currentPage<2) {
+        isLeft += ' is-first-page';
+      }
+      if (currentPage>=lastPage) {
+        isRight += ' is-first-page';
+      }
     
       let pages = [];
         for(let i=0; i<totalPages; i++){
@@ -86,6 +95,7 @@ export default class home extends Component {
       const indexOfLastTodo = currentPage * todosPerPage;
       const indexOfFirstTodo = indexOfLastTodo - todosPerPage;
       const currentTodos = pages.slice(indexOfFirstTodo, indexOfLastTodo);
+
 
       const renderTodos = currentTodos.map((page, i) => {
         return <li key={i}>
@@ -189,7 +199,7 @@ export default class home extends Component {
              {renderTodos}
                                
               </ul>
-              <a className="pagination-next"><span className="icon"><i className="fas fa-chevron-right" id={currentPage+1} onClick={this.handleClick}/></span></a>
+              <a className={isRight}><span className="icon"><i className="fas fa-chevron-right" id={currentPage+1} onClick={this.handleClick}/></span></a>
             </nav>
           </div>
         </section>
