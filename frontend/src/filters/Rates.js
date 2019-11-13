@@ -1,7 +1,38 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
+import {get} from '../api';
+
 
 export default class Rates extends Component {
+
+  constructor(props) {
+    super(props);
+    
+    this.state = {
+      therapists: [],
+      filter:{
+        min:[], max:[],
+      },
+      
+     
+    };
+    
+    this.isCurrent = this.isCurrent.bind(this);
+  }
+  
+  async isCurrent(key, event) {
+
+    let dat=null;
+    if(event!=null){
+      this.state.filter[key].push(event);
+    }
+    dat = await get("therapist/?min="+JSON.stringify(this.state.filter.min)+"&max"+JSON.stringify(this.state.filter.max));
+    let therapists = dat.data.results;
+    this.setState({
+      therapists, 
+    });
+}
+
     render() {
         return (
             <div>
@@ -9,13 +40,7 @@ export default class Rates extends Component {
           <div className="navbar-brand">
             <Link to="/" className="navbar-item">
               <span className="icon is-medium"><i className="fas fa-times fa-2x" /></span>
-              {/* <a class="delete is-large"></a> */}
             </Link>
-            {/* <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-        </a> */}
           </div>
           <div className="navbar-menu is-active">
             <div className="navbar-start">
@@ -45,7 +70,7 @@ export default class Rates extends Component {
                   <div className="field">
                     <label className="label">Min</label>
                     <p className="control has-icons-left">
-                      <input className="input" type="text" placeholder={10} defaultValue={10} />
+                      <input id="min-value" className="input" type="text" placeholder={10} defaultValue={10} onChange={()=>this.isCurrent("min",document.getElementById("min-value").value)} />
                       <span className="icon is-small is-left">
                         <strong>$</strong>
                       </span>
@@ -57,7 +82,7 @@ export default class Rates extends Component {
                   <div className="field">
                     <label className="label">Max</label>
                     <p className="control has-icons-left">
-                      <input className="input" type="text" placeholder={200} defaultValue={200} />
+                      <input id="max-value" className="input" type="text" placeholder={200} defaultValue={200} onChange={()=>this.isCurrent("max",document.getElementById("max-value").value)} />
                       <span className="icon is-small is-left">
                         <strong>$</strong>
                       </span>
