@@ -83,14 +83,14 @@ WSGI_APPLICATION = 'import.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        # 'ENGINE': 'django.db.backends.postgresql',
-        # 'NAME': 'allminds',
-        # 'USER': 'postgres',
-        # 'PASSWORD': 'postgres',
-        # 'HOST': '127.0.0.1',
-        # 'PORT': '5432',
+        # 'ENGINE': 'django.db.backends.sqlite3',
+        # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'allminds',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
     }
 }
 
@@ -139,6 +139,7 @@ IMPORT_EXPORT_USE_TRANSACTIONS = True
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
+    # 'DEFAULT_PARSER_CLASSES': ['rest_framework.parsers.JSONParser'],
     # 'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend', 'django_filters.rest_framework.SearchFilter']
 }
 

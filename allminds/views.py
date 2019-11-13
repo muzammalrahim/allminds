@@ -9,6 +9,8 @@ from django_filters.rest_framework import DjangoFilterBackend
 from django.core.mail import send_mail
 from django.http import JsonResponse
 from django.shortcuts import render
+import json
+from rest_framework.parsers import JSONParser
 # from rest_framework import filters
 
 def index(request):
@@ -33,29 +35,33 @@ class PersonViewSet(viewsets.ModelViewSet):
 	"""
 	API endpoint that allows users to be viewed or edited.
 	"""
+	parser_classes = [JSONParser]
 	queryset = Person.objects.all().order_by('-first_name')
 	serializer_class = PersonSerializer
 	filter_backends = [filters.SearchFilter, DjangoFilterBackend]
 	filterset_fields = ['first_name', 'last_name','gender']
 	search_fields = ['^first_name', '^last_name']
+			
+	def get_queryset(self):
+		"""
+		Optionally restricts the returned purchases to a given user,
+		by filtering against a `username` query parameter in the URL.
+		"""
+		gender = self.request.query_params.get('gender', None)
+		print(gender.specialties)
+		if gender is not None:
+			self.queryset = self.queryset.filter(last_name=gender)
+		return self.queryset
 
 def sendEmail(request):
-	subject = request.POST.get('subject', '')
-	randnum = request.POST.get('name', '')
+	# subject = request.POST.get('subject', '')
+	name = request.POST.get('name', '')
+	phone = request.POST.get('phone', '')
 	message = request.POST.get('message', '')
-	from_email = request.POST.get('message', 'mudassir.creative@gmail.com')
+	subject = 'subject'
+	from_email = request.POST.get('email', 'mudassir.creative@gmail.com')
 	if subject and message and from_email:
 		me = send_mail(subject, message, from_email, ['mudassir_mir_25@hotmail.com'])
 		return JsonResponse(me, safe=False)
 	else:
 		return JsonResponse('Make sure all fields are entered and valid.', safe=False)
-		
-	# def get_queryset(self):
-	#     """
-	#     Optionally restricts the returned purchases to a given user,
-	#     by filtering against a `username` query parameter in the URL.
-	#     """
-	#     last_name = self.request.query_params.get('last_name', None)
-	#     if last_name is not None:
-	#         self.queryset = self.queryset.filter(last_name=last_name)
-	#     return self.queryset
