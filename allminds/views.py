@@ -48,7 +48,7 @@ class PersonViewSet(viewsets.ModelViewSet):
 		by filtering against a `username` query parameter in the URL.
 		"""
 		gender = self.request.query_params.get('gender', None)
-		print(gender.specialties)
+		print(gender)
 		if gender is not None:
 			self.queryset = self.queryset.filter(last_name=gender)
 		return self.queryset
