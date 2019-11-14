@@ -97,7 +97,7 @@ DATABASES = {
         # 'ENGINE': 'django.db.backends.sqlite3',
         # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'aa1pjcnx603sbjm',
+        'NAME': 'ebdb',
         'USER': 'postgres',
         'PASSWORD': 'allminds%123',
         'HOST': 'aa1pjcnx603sbjm.cqvoxsrxcwj1.us-west-2.rds.amazonaws.com',
