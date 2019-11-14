@@ -28,6 +28,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
     path('', views.index),
+    #path('admin/allminds/person/import/', views.simple_upload),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('sendEmail', views.sendEmail)
 ]
