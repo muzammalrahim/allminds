@@ -20,13 +20,11 @@ export default class Rates extends Component {
     this.isCurrent = this.isCurrent.bind(this);
   }
   
-  async isCurrent(key, event) {
+  async isCurrent(event) {
 
     let dat=null;
-    if(event!=null){
-      this.state.filter[key].push(event);
-    }
-    dat = await get("therapist/?min="+JSON.stringify(this.state.filter.min)+"&max"+JSON.stringify(this.state.filter.max));
+    
+    dat = await get("therapist/?"+event);
     let therapists = dat.data.results;
     this.setState({
       therapists, 
@@ -70,7 +68,7 @@ export default class Rates extends Component {
                   <div className="field">
                     <label className="label">Min</label>
                     <p className="control has-icons-left">
-                      <input id="min-value" className="input" type="text" placeholder={10} defaultValue={10} onChange={()=>this.isCurrent("min",document.getElementById("min-value").value)} />
+                      <input id="min-value" className="input" type="text" placeholder={10} defaultValue={10}/>
                       <span className="icon is-small is-left">
                         <strong>$</strong>
                       </span>
@@ -82,7 +80,7 @@ export default class Rates extends Component {
                   <div className="field">
                     <label className="label">Max</label>
                     <p className="control has-icons-left">
-                      <input id="max-value" className="input" type="text" placeholder={200} defaultValue={200} onChange={()=>this.isCurrent("max",document.getElementById("max-value").value)} />
+                      <input id="max-value" className="input" type="text" placeholder={200} defaultValue={200}/>
                       <span className="icon is-small is-left">
                         <strong>$</strong>
                       </span>
@@ -91,6 +89,9 @@ export default class Rates extends Component {
                 </div>
               </div>
             </nav>
+            <div>
+                 <button id="Spanish" className="button is-primary" onClick={()=>this.isCurrent(("min="+JSON.stringify(document.getElementById("min-value").value))+"max="+JSON.stringify(document.getElementById("max-value").value))}>Search</button>
+            </div>
           </div></section>
       </div>
         )

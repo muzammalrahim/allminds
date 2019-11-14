@@ -159,9 +159,9 @@ export default class Background extends Component {
               </nav>
               <br />
               <p><strong>Years in practice</strong></p>
-              <button id="less than 5 years" className="button is-outlined" onClick={()=>this.isCurrent("yearsInPractice","less than 5 years")}>less than 5 years</button>
-              <button id="5 - 15 years" className="button is-outlined" onClick={()=>this.isCurrent("yearsInPractice","5 - 15 years")}>5 - 15 years</button>
-              <button id="Over 15 years" className="button is-outlined" onClick={()=>this.isCurrent("yearsInPractice","Over 15 years")}>Over 15 years</button>
+              <button id="<5" className="button is-outlined" onClick={()=>this.isCurrent("yearsInPractice","<5")}>less than 5 years</button>
+              <button id="5-15" className="button is-outlined" onClick={()=>this.isCurrent("yearsInPractice","5-15")}>5 - 15 years</button>
+              <button id="15>" className="button is-outlined" onClick={()=>this.isCurrent("yearsInPractice","15>")}>Over 15 years</button>
               <br />
               <p><strong>Languages</strong></p>
               <button id="Spanish" className="button is-outlined" onClick={()=>this.isCurrent("languages","Spanish")}>Spanish</button>
