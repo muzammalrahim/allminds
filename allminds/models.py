@@ -33,9 +33,9 @@ class Person(models.Model):
 	modality = models.CharField(max_length=100, null=True)
 	video_skype = models.CharField(max_length=100, null=True)
 	url = models.CharField(max_length=200, null=True)
-	cost_per_session_min = models.CharField(max_length=200, null=True)
-	cost_per_session_max = models.CharField(max_length=200, null=True)
-	years_in_practice_total = models.CharField(max_length=100, null=True)
+	cost_per_session_min = models.IntegerField(default=0)
+	cost_per_session_max = models.IntegerField(default=0)
+	years_in_practice_total = models.IntegerField(default=0)
 
 	def __str__(self):
 		return '{} {}'.format(self.first_name,self.last_name)

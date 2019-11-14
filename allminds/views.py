@@ -51,9 +51,9 @@ class PersonViewSet(viewsets.ModelViewSet):
 		by filtering against a `username` query parameter in the URL.
 		"""
 		gender = self.request.query_params.get('gender', None)
-		if gender is not None:
-			gender = json.loads(gender)
-			self.queryset = self.queryset.filter(gender__in=gender)
+		# if gender is not None:
+		# 	gender = json.loads(gender)
+		# 	self.queryset = self.queryset.filter(gender__in=json.loads(gender))
 
 		title = self.request.query_params.get('title', None)
 		if title is not None:
@@ -63,17 +63,19 @@ class PersonViewSet(viewsets.ModelViewSet):
 
 		years_in_practice = self.request.query_params.get('yearsInPractice', None)
 		if years_in_practice is not None:
-			if('<' in years_in_practice):
-				years_in_practice = years_in_practice.replace("<","")
-				self.queryset = self.queryset.filter(years_in_practice__lte=years_in_practice)
+			years_in_practiceArray = json.loads(years_in_practice)
+			for years_in_practice in years_in_practiceArray:
+				if('<' in years_in_practice):
+					years_in_practice = years_in_practice.replace("<","")
+					self.queryset = self.queryset.filter(years_in_practice_total__lt=years_in_practice)
 
-			if('-' in years_in_practice):
-				years_in_practiceArray = years_in_practice.split('-')
-				self.queryset = self.queryset.filter(years_in_practice__gte=years_in_practiceArray[0], years_in_practice__lte=years_in_practiceArray[1])
+				if('-' in years_in_practice):
+					years_in_practiceArray = years_in_practice.split('-')
+					self.queryset = self.queryset.filter(years_in_practice_total__gt=years_in_practiceArray[0], years_in_practice_total__lt=years_in_practiceArray[1])
 
-			if('>' in years_in_practice):
-				years_in_practice = years_in_practice.replace(">","")
-				self.queryset = self.queryset.filter(years_in_practice__gte=years_in_practice)
+				if('>' in years_in_practice):
+					years_in_practice = years_in_practice.replace(">","")
+					self.queryset = self.queryset.filter(years_in_practice_total__gt=years_in_practice)
 
 
 		i_also_speak = self.request.query_params.get('languages', None)
@@ -112,14 +114,12 @@ class PersonViewSet(viewsets.ModelViewSet):
 		cost_per_session_min = self.request.query_params.get('min', None)
 		if cost_per_session_min is not None:
 			cost_per_session_minArray = json.loads(cost_per_session_min)
-			print(cost_per_session_minArray[0])
-			self.queryset = self.queryset.filter(cost_per_session_min__gte=cost_per_session_minArray[0])
+			self.queryset = self.queryset.filter(cost_per_session_min__gte=cost_per_session_minArray)
 
 		cost_per_session_max = self.request.query_params.get('max', None)
 		if cost_per_session_max is not None:
 			cost_per_session_maxArray = json.loads(cost_per_session_max)
-			print(cost_per_session_maxArray[0])
-			self.queryset = self.queryset.filter(cost_per_session_max__lte=cost_per_session_maxArray[0])
+			self.queryset = self.queryset.filter(cost_per_session_max__lte=cost_per_session_maxArray)
 
 		return self.queryset
 

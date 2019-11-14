@@ -11,6 +11,7 @@ export default class Availability extends Component {
       filter:{
         availability:[],
       },
+      count: null,
       
      
     };
@@ -35,9 +36,10 @@ export default class Availability extends Component {
 
     dat = await get("therapist/?availability="+JSON.stringify(this.state.filter.availability));
     let therapists = dat.data.results;
+    let count = dat.data.count;
     
       this.setState({
-        therapists, 
+        therapists, count,
          });
 }
     render() {
@@ -65,7 +67,7 @@ export default class Availability extends Component {
             <div className="navbar-start">
               <div className="navbar-item">
                 <a className="button is-primary is-medium is-fullwidth" href="index.html">
-                  Show 23 Therapists
+                Show {this.state.count} Therapists
                 </a>
               </div>
             </div>
