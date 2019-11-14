@@ -12,6 +12,7 @@ export default class ClientFocus extends Component {
       filter:{
         gender:[], ageGroup:[], communities:[]
       },
+      count: null,
       
      
     };
@@ -37,8 +38,10 @@ export default class ClientFocus extends Component {
     let filters=this.state.filter;
     dat = await get("therapist/?gender="+JSON.stringify(filters.gender)+"&ageGroup="+JSON.stringify(filters.ageGroup)+"&communities="+JSON.stringify(filters.communities));
     let therapists = dat.data.results;
+    let count = dat.data.count;
+
     this.setState({
-        therapists, 
+        therapists, count,
          });
 }
     render() {
@@ -66,7 +69,7 @@ export default class ClientFocus extends Component {
             <div className="navbar-start">
               <div className="navbar-item">
                 <a className="button is-primary is-medium is-fullwidth" href="index.html">
-                Show {this.state.therapists.count} Therapists
+                Show {this.state.count} Therapists
                 </a>
               </div>
             </div>

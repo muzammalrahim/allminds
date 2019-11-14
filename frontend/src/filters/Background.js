@@ -12,6 +12,7 @@ export default class Background extends Component {
       filter:{
         gender:[], title:[], yearsInPractice:[], languages:[],
       },
+      count: null,
       
      
     };
@@ -36,10 +37,11 @@ export default class Background extends Component {
     
     let filters=this.state.filter;
     dat = await get("therapist/?gender="+JSON.stringify(filters.gender)+"&title="+JSON.stringify(filters.title)+"&yearsInPractice="+JSON.stringify(filters.yearsInPractice)+"&languages="+JSON.stringify(filters.languages));
+    let count = dat.data.count;
 
     let therapists = dat.data.results;
     this.setState({
-        therapists, 
+        therapists, count,
          });
 }
     render() {
@@ -67,7 +69,7 @@ export default class Background extends Component {
             <div className="navbar-start">
               <div className="navbar-item">
                 <a className="button is-primary is-medium is-fullwidth" href="index.html">
-                  Show {this.state.therapists.count} Therapists
+                  Show {this.state.count} Therapists
                 </a>
               </div>
             </div>

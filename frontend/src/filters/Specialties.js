@@ -11,6 +11,7 @@ export default class Specialties extends Component {
       filter:{
         specialties:[],
       },
+      count: null,
       
      
     };
@@ -36,9 +37,11 @@ export default class Specialties extends Component {
     
     dat = await get("therapist/?specialties="+JSON.stringify(this.state.filter.specialties));
     let therapists = dat.data.results;
+    let count = dat.data.count;
+
     // let count = dat.data.count;
       this.setState({
-        therapists, 
+        therapists, count,
          });
 }
     render() {
@@ -66,7 +69,7 @@ export default class Specialties extends Component {
                 <div className="navbar-start">
                   <div className="navbar-item">
                     <a className="button is-primary is-medium is-fullwidth" href="index.html">
-                    Show {this.state.therapists.count} Therapists
+                    Show {this.state.count} Therapists
                     {console.log(this.state.therapists.count)}
                     </a>
                   </div>

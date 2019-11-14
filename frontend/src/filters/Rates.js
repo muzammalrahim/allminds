@@ -13,6 +13,7 @@ export default class Rates extends Component {
       filter:{
         min:[], max:[],
       },
+      count: null,
       
      
     };
@@ -26,8 +27,10 @@ export default class Rates extends Component {
     
     dat = await get("therapist/?"+event);
     let therapists = dat.data.results;
+    let count = dat.data.count;
+
     this.setState({
-      therapists, 
+      therapists, count,
     });
 }
 
@@ -50,7 +53,7 @@ export default class Rates extends Component {
             <div className="navbar-start">
               <div className="navbar-item">
                 <a className="button is-primary is-medium is-fullwidth" href="index.html">
-                Show {this.state.therapists.count} Therapists
+                Show {this.state.count} Therapists
                 </a>
               </div>
             </div>
@@ -90,7 +93,7 @@ export default class Rates extends Component {
               </div>
             </nav>
             <div>
-                 <button id="Spanish" className="button is-primary" onClick={()=>this.isCurrent(("min="+JSON.stringify(document.getElementById("min-value").value))+"max="+JSON.stringify(document.getElementById("max-value").value))}>Search</button>
+                 <button id="Spanish" className="button is-primary" onClick={()=>this.isCurrent(("min="+JSON.stringify(document.getElementById("min-value").value))+"&max="+JSON.stringify(document.getElementById("max-value").value))}>Search</button>
             </div>
           </div></section>
       </div>

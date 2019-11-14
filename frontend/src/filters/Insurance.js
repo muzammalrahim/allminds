@@ -11,6 +11,7 @@ export default class Insurance extends Component {
       filter:{
         insurance:[],
       },
+      count: null,
       
      
     };
@@ -35,9 +36,11 @@ export default class Insurance extends Component {
     
     dat = await get("therapist/?insurance="+JSON.stringify(this.state.filter.insurance));
     let therapists = dat.data.results;
+    let count = dat.data.count;
+
     // let count = dat.data.count;
       this.setState({
-        therapists, 
+        therapists, count, 
          });
 }
     render() {
@@ -65,7 +68,7 @@ export default class Insurance extends Component {
             <div className="navbar-start">
               <div className="navbar-item">
                 <a className="button is-primary is-medium is-fullwidth" href="index.html">
-                Show {this.state.therapists.count} Therapists
+                Show {this.state.count} Therapists
                 </a>
               </div>
             </div>
