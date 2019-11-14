@@ -66,7 +66,7 @@ export default class ClientFocus extends Component {
             <div className="navbar-start">
               <div className="navbar-item">
                 <a className="button is-primary is-medium is-fullwidth" href="index.html">
-                  Show 23 Therapists
+                Show {this.state.therapists.count} Therapists
                 </a>
               </div>
             </div>
