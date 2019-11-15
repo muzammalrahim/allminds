@@ -87,11 +87,11 @@ export default class ClientFocus extends Component {
               <button id="Male" className="button is-outlined" onClick={()=>this.isCurrent("gender","Male")}>Men</button>
               <button id="Non-binary" className="button is-outlined" onClick={()=>this.isCurrent("gender","Non-binary")}>Non-binary</button>
               <br />
-              <p><strong>Age group</strong></p>
+              {/* <p><strong>Age group</strong></p>
               <button id="Adults" className="button is-outlined" onClick={()=>this.isCurrent("ageGroup","Adults")}>Adults</button>
               <button id="Elders" className="button is-outlined" onClick={()=>this.isCurrent("ageGroup","Elders")}>Elders</button>
               <button id="Teens" className="button is-outlined" onClick={()=>this.isCurrent("ageGroup","Teens")}>Teens</button>
-              <br />
+              <br /> */}
               <p><strong>Communities</strong></p>
               <button id="Ethnic minorites" className="button is-outlined" onClick={()=>this.isCurrent("communities","Ethnic minorites")}>Ethnic minorites</button>
               <button id="LGBQT" className="button is-outlined" onClick={()=>this.isCurrent("communities","LGBQT")}>LGBQT</button>
