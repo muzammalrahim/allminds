@@ -62,7 +62,12 @@ class PersonViewSet(viewsets.ModelViewSet):
 			titleArray = json.loads(title)
 			if len(titleArray) > 0:
 				for title in titleArray:
-					self.queryset = self.queryset.filter(title__contains=title)
+					if title == 'Licensed therapist':
+						self.queryset = self.queryset.filter(Q(title__contains='Clinical Social Work/Therapist') | Q(title__contains='Marriage & Family Therapist'))
+					elif title == 'Associate Therapist':
+						self.queryset = self.queryset.filter(Q(title__contains='Marriage & Family Therapist Associate'))
+					elif title == 'Psychologist':
+						self.queryset = self.queryset.filter(Q(title__contains='Psychologist'))
 
 		years_in_practice = self.request.query_params.get('yearsInPractice', None)
 		if years_in_practice is not None:
@@ -94,7 +99,30 @@ class PersonViewSet(viewsets.ModelViewSet):
 			specialtiesArray = json.loads(specialties)
 			if len(specialtiesArray) > 0:
 				for specialties in specialtiesArray:
-					self.queryset = self.queryset.filter(specialties__contains=specialties)
+					if specialties == 'Addiction':
+						self.queryset = self.queryset.filter(Q(specialties__contains='Addiction') | Q(specialties__contains='Alcohol Abuse') | Q(specialties__contains='Drug Abuse') | Q(specialties__contains='Gambling') | Q(specialties__contains='Internet Addiction') | Q(specialties__contains='Sexual Addiction') | Q(specialties__contains='Substance Abuse') | Q(specialties__contains='Video Game Addiction'))
+					elif specialties == 'ADHD or attention issues':
+						self.queryset = self.queryset.filter(Q(specialties__contains='ADHD'))
+					elif specialties == 'Anxiety or panic attacks':
+						self.queryset = self.queryset.filter(Q(specialties__contains='Anxiety'))
+					elif specialties == 'Depression':
+						self.queryset = self.queryset.filter(Q(specialties__contains='Depression') | Q(specialties__contains='Bipolar Disorder') | Q(specialties__contains='Self-Harming') | Q(specialties__contains='Self Esteem') | Q(specialties__contains='Suicidal Ideation'))
+					elif specialties == 'Eating and food issues':
+						self.queryset = self.queryset.filter(Q(specialties__contains='Eating Disorders'))
+					elif specialties == 'Family Issues':
+						self.queryset = self.queryset.filter(Q(specialties__contains='Adoption') | Q(specialties__contains='Behavioral Issues') | Q(specialties__contains='Child or Adolescent') | Q(specialties__contains='Family Conflict') | Q(specialties__contains='Oppositional Defiance') | Q(specialties__contains='Parenting'))
+					elif specialties == 'Grief':
+						self.queryset = self.queryset.filter(Q(specialties__contains='Grief'))
+					elif specialties == 'Health Issues':
+						self.queryset = self.queryset.filter(Q(specialties__contains="Alzheimer's") | Q(specialties__contains="Asperger's Syndrome") | Q(specialties__contains='Autism') | Q(specialties__contains='Chronic Ilness') | Q(specialties__contains='Chronic Pain') | Q(specialties__contains='Infertility') | Q(specialties__contains='Obesity') | Q(specialties__contains='Traumatic Brain Injury') | Q(specialties__contains='Weight Loss') | Q(specialties__contains='HIV / AIDS Allied'))
+					elif specialties == 'Relationship issues':
+						self.queryset = self.queryset.filter(Q(specialties__contains='Codependency') | Q(specialties__contains='Divorce') | Q(specialties__contains='Infidelity') | Q(specialties__contains='Marital and Premarital') | Q(specialties__contains='Relationship Issues'))
+					elif specialties == 'Life transitions':
+						self.queryset = self.queryset.filter(Q(specialties__contains='Life Transitions') | Q(specialties__contains='Pregnancy, Prenatal, Postpartum'))
+					elif specialties == 'Sex and sexuality':
+						self.queryset = self.queryset.filter(Q(specialties__contains='Sexual Identity') | Q(specialties__contains='Sex Therapy') | Q(specialties__contains='Open Relationships Non-Monogamy') | Q(specialties__contains='Sex-Positive, Kink Allied'))
+					elif specialties == 'Trauma or abuse':
+						self.queryset = self.queryset.filter(Q(specialties__contains='Domestic Abuse') | Q(specialties__contains='Domestic Violence') | Q(specialties__contains='Sexual Abuse') | Q(specialties__contains='Trauma and PTSD'))
 
 		age = self.request.query_params.get('ageGroup', None)
 		if age is not None:
@@ -120,7 +148,10 @@ class PersonViewSet(viewsets.ModelViewSet):
 			accepted_insurance_plansArray = json.loads(accepted_insurance_plans)
 			if len(accepted_insurance_plansArray) > 0:
 				for accepted_insurance_plans in accepted_insurance_plansArray:
-					self.queryset = self.queryset.filter(accepted_insurance_plans__contains=accepted_insurance_plans)
+					if accepted_insurance_plans == 'Out-of-network' or accepted_insurance_plans == 'Any insurance':
+						self.queryset = self.queryset.filter(accepted_insurance_plans__contains='Out of network')
+					else:
+						self.queryset = self.queryset.filter(accepted_insurance_plans__contains=accepted_insurance_plans)
 
 		cost_per_session_min = self.request.query_params.get('min', None)
 		if cost_per_session_min is not None:
