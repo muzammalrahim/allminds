@@ -10,7 +10,7 @@ export default class ClientFocus extends Component {
     this.state = {
       therapists: [],
       filter:{
-        gender:[], ageGroup:[], communities:[]
+        genderFocus:[], ageGroup:[], communities:[]
       },
       count: null,
       
@@ -36,7 +36,7 @@ export default class ClientFocus extends Component {
       
     
     let filters=this.state.filter;
-    dat = await get("therapist/?gender="+JSON.stringify(filters.gender)+"&ageGroup="+JSON.stringify(filters.ageGroup)+"&communities="+JSON.stringify(filters.communities));
+    dat = await get("therapist/?genderFocus="+JSON.stringify(filters.genderFocus)+"&ageGroup="+JSON.stringify(filters.ageGroup)+"&communities="+JSON.stringify(filters.communities));
     let therapists = dat.data.results;
     let count = dat.data.count;
 
@@ -83,9 +83,9 @@ export default class ClientFocus extends Component {
             <br />
             <div className="filter-list">
               <p><strong>Gender</strong></p>
-              <button id="Female" className="button is-outlined" onClick={()=>this.isCurrent("gender","Female")}>Women</button>
-              <button id="Male" className="button is-outlined" onClick={()=>this.isCurrent("gender","Male")}>Men</button>
-              <button id="Non-binary" className="button is-outlined" onClick={()=>this.isCurrent("gender","Non-binary")}>Non-binary</button>
+              <button id="Female" className="button is-outlined" onClick={()=>this.isCurrent("genderFocus","Female")}>Women</button>
+              <button id="Male" className="button is-outlined" onClick={()=>this.isCurrent("genderFocus","Male")}>Men</button>
+              <button id="Non-binary" className="button is-outlined" onClick={()=>this.isCurrent("genderFocus","Non-binary")}>Non-binary</button>
               <br />
               <p><strong>Age group</strong></p>
               <button id="Adults" className="button is-outlined" onClick={()=>this.isCurrent("ageGroup","Adults")}>Adults</button>
