@@ -155,15 +155,15 @@ class PersonViewSet(viewsets.ModelViewSet):
 
 		cost_per_session_min = self.request.query_params.get('min', None)
 		if cost_per_session_min is not None:
-			cost_per_session_minArray = json.loads(cost_per_session_min)
-			if len(cost_per_session_minArray) > 0:
-				self.queryset = self.queryset.filter(cost_per_session_min__gte=cost_per_session_minArray[0])
+			cost_per_session_min = int(json.loads(cost_per_session_min))
+			if cost_per_session_min > 0:
+				self.queryset = self.queryset.filter(cost_per_session_min__gte=cost_per_session_min)
 
 		cost_per_session_max = self.request.query_params.get('max', None)
 		if cost_per_session_max is not None:
-			cost_per_session_maxArray = json.loads(cost_per_session_max)
-			if len(cost_per_session_maxArray) > 0:
-				self.queryset = self.queryset.filter(cost_per_session_max__lte=cost_per_session_maxArray[0])
+			cost_per_session_max = int(json.loads(cost_per_session_max))
+			if cost_per_session_max > 0:
+				self.queryset = self.queryset.filter(cost_per_session_max__lte=cost_per_session_max)
 
 		return self.queryset
 

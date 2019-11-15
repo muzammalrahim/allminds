@@ -26,8 +26,8 @@ SECRET_KEY = '1z)nuq7dk*j%%y)x*@*qq6184z5$9a(7po$y522#am3ao82)_9'
 DEBUG = False
 
 
-# ALLOWED_HOSTS = ['allminds.us-west-2.elasticbeanstalk.com']
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['allminds.us-west-2.elasticbeanstalk.com']
+# ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -89,7 +89,7 @@ DATABASES = {
     #     'ENGINE': 'django.db.backends.postgresql',
     #     'NAME': 'allminds',
     #     'USER': 'postgres',
-    #     'PASSWORD': '    ',
+    #     'PASSWORD': 'postgres',
     #     'HOST': 'localhost',
     #     'PORT': '5432',
     # }
@@ -103,7 +103,7 @@ DATABASES = {
         'HOST': 'aa1pjcnx603sbjm.cqvoxsrxcwj1.us-west-2.rds.amazonaws.com',
         'PORT': '5432',
     }
-    
+
 }
 
 # Password validation
