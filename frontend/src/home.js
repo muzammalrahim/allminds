@@ -169,7 +169,7 @@ export default class home extends Component {
                 </div>
               </nav>
             </div>
-            <p style={{textAlign:"left"}}>1-10 of 300+ Therapists</p>
+            <p style={{textAlign:"left"}}>1-10 of {this.state.count}+ Therapists</p>
             <div className="columns is-multiline">
               {this.state.therapists.map(function(therapist, i){
                 return  <div key={i} className="column is-half is-one-third-fullhd">
