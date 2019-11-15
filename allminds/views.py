@@ -12,6 +12,7 @@ from django.shortcuts import render
 import json
 from rest_framework.parsers import JSONParser
 from .resources import PersonResource
+from django.db.models import Q
 # from rest_framework import filters
 
 def index(request):
@@ -53,73 +54,85 @@ class PersonViewSet(viewsets.ModelViewSet):
 		gender = self.request.query_params.get('gender', None)
 		if gender is not None:
 			gender = json.loads(gender)
-			self.queryset = self.queryset.filter(gender__in=gender)
+			if len(gender) > 0:
+				self.queryset = self.queryset.filter(gender__in=gender)
 
 		title = self.request.query_params.get('title', None)
 		if title is not None:
 			titleArray = json.loads(title)
-			for title in titleArray:
-				self.queryset = self.queryset.filter(title__contains=title)
+			if len(titleArray) > 0:
+				for title in titleArray:
+					self.queryset = self.queryset.filter(title__contains=title)
 
 		years_in_practice = self.request.query_params.get('yearsInPractice', None)
 		if years_in_practice is not None:
-			if('<' in years_in_practice):
-				years_in_practice = years_in_practice.replace("<","")
-				self.queryset = self.queryset.filter(years_in_practice__lte=years_in_practice)
+			years_in_practiceArray = json.loads(years_in_practice)
+			if len(years_in_practiceArray) > 0:
+				for years_in_practice in years_in_practiceArray:
+					if('<' in years_in_practice):
+						years_in_practice = years_in_practice.replace("<","")
+						self.queryset = self.queryset.filter(years_in_practice__lte=years_in_practice)
 
-			if('-' in years_in_practice):
-				years_in_practiceArray = years_in_practice.split('-')
-				self.queryset = self.queryset.filter(years_in_practice__gte=years_in_practiceArray[0], years_in_practice__lte=years_in_practiceArray[1])
+					if('-' in years_in_practice):
+						years_in_practiceArray = years_in_practice.split('-')
+						self.queryset = self.queryset.filter(years_in_practice_total__gte=5, years_in_practice_total__lte=15)
 
-			if('>' in years_in_practice):
-				years_in_practice = years_in_practice.replace(">","")
-				self.queryset = self.queryset.filter(years_in_practice__gte=years_in_practice)
+					if('>' in years_in_practice):
+						years_in_practice = years_in_practice.replace(">","")
+						self.queryset = self.queryset.filter(years_in_practice__gte=years_in_practice)
 
 
 		i_also_speak = self.request.query_params.get('languages', None)
 		if i_also_speak is not None:
 			i_also_speakArray = json.loads(i_also_speak)
-			for i_also_speak in i_also_speakArray:
-				self.queryset = self.queryset.filter(i_also_speak__contains=i_also_speak)
+			if len(i_also_speakArray) > 0:
+				for i_also_speak in i_also_speakArray:
+					self.queryset = self.queryset.filter(i_also_speak__contains=i_also_speak)
 
 		specialties = self.request.query_params.get('specialties', None)
 		if specialties is not None:
 			specialtiesArray = json.loads(specialties)
-			for specialties in specialtiesArray:
-				self.queryset = self.queryset.filter(specialties__contains=specialties)
+			if len(specialtiesArray) > 0:
+				for specialties in specialtiesArray:
+					self.queryset = self.queryset.filter(specialties__contains=specialties)
 
 		age = self.request.query_params.get('ageGroup', None)
 		if age is not None:
-			if age == 'Teens':
-				self.queryset = self.queryset.filter(Q(age__contains='teens'),Q(age__contains='teen'))
-			if age == 'Adults':
-				self.queryset = self.queryset.filter(age__contains='Adults')
-			if age == 'Elders':
-				self.queryset = self.queryset.filter(age__contains='Elders')
+			ageArray = json.loads(age)
+			if len(ageArray) > 0:
+				for age in ageArray:
+					if age == 'Teens':
+						self.queryset = self.queryset.filter(Q(age__contains='teen') | Q(age__contains='Toddlers') | Q(age__contains='Children'))
+					if age == 'Adults':
+						self.queryset = self.queryset.filter(age__contains='Adults')
+					if age == 'Elders':
+						self.queryset = self.queryset.filter(age__contains='Elders')
 
 		communities = self.request.query_params.get('communities', None)
 		if communities is not None:
 			communitiesArray = json.loads(communities)
-			for communities in communitiesArray:
-				self.queryset = self.queryset.filter(communities__contains=communities)
+			if len(communitiesArray) > 0:
+				for communities in communitiesArray:
+					self.queryset = self.queryset.filter(communities__contains=communities)
 
 		accepted_insurance_plans = self.request.query_params.get('insurance', None)
 		if accepted_insurance_plans is not None:
 			accepted_insurance_plansArray = json.loads(accepted_insurance_plans)
-			for accepted_insurance_plans in accepted_insurance_plansArray:
-				self.queryset = self.queryset.filter(accepted_insurance_plans__contains=accepted_insurance_plans)
+			if len(accepted_insurance_plansArray) > 0:
+				for accepted_insurance_plans in accepted_insurance_plansArray:
+					self.queryset = self.queryset.filter(accepted_insurance_plans__contains=accepted_insurance_plans)
 
 		cost_per_session_min = self.request.query_params.get('min', None)
 		if cost_per_session_min is not None:
 			cost_per_session_minArray = json.loads(cost_per_session_min)
-			print(cost_per_session_minArray[0])
-			self.queryset = self.queryset.filter(cost_per_session_min__gte=cost_per_session_minArray[0])
+			if len(cost_per_session_minArray) > 0:
+				self.queryset = self.queryset.filter(cost_per_session_min__gte=cost_per_session_minArray[0])
 
 		cost_per_session_max = self.request.query_params.get('max', None)
 		if cost_per_session_max is not None:
 			cost_per_session_maxArray = json.loads(cost_per_session_max)
-			print(cost_per_session_maxArray[0])
-			self.queryset = self.queryset.filter(cost_per_session_max__lte=cost_per_session_maxArray[0])
+			if len(cost_per_session_maxArray) > 0:
+				self.queryset = self.queryset.filter(cost_per_session_max__lte=cost_per_session_maxArray[0])
 
 		return self.queryset
 
