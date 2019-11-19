@@ -2281,6 +2281,10 @@
     .image.is-128x128 {
       height: 128px;
       width: 128px; }
+    .image.is-128x160 {
+      height: 160px;
+      width: 128px; }
+
   
   .notification {
     background-color: whitesmoke;
@@ -7103,7 +7107,7 @@
     margin-bottom: 24px; }
   
   .section {
-    padding: 24px; }
+    padding: 24px; padding-bottom: 120px;}
   
   .star-rating {
     font-size: 0.75em; }

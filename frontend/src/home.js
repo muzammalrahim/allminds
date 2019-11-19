@@ -6,77 +6,125 @@ export default class home extends Component {
 
     constructor(props) {
     super(props);
-    
     this.state = {
       therapists: [],
       count: null,
       currentPage: 1,
-      todosPerPage: 15,
+      todosPerPage: 3,
       perPage:1,
-     
-     
+      filter: this.props.location.filter ? this.props.location.filter : [],
+      totalPages: 1,
     };
     this.handleClick = this.handleClick.bind(this);
     this.isCurrent = this.isCurrent.bind(this);
   }
   componentDidMount() {
-    
-    this.isCurrent();
+      this.isCurrent();
+    /*else {
+      let therapists = this.props.location.data.results;
+      let perPage = this.state.perPage;
+      let count = this.props.location.data.count;
+      this.setState({
+        therapists, count, perPage,
+         });
+    }*/
          
   }
   
   handleClick(event) {
-  document.getElementById(this.state.perPage).className = 'pagination-link';
-  let perPage=((event.target.id-1)*15+1); 
+/*  document.getElementById(this.state.perPage).className = 'pagination-link';
+  let perPage=((event.target.id-1)*3+1); */
+  document.getElementById(this.state.currentPage).className = 'pagination-link';
   this.setState({
-    currentPage: Number(event.target.id), perPage,
+    currentPage: Number(event.target.id),
       });
+  this.isCurrent(this.state.currentPage);
       
   }
 
   async isCurrent(event) {
     let dat=null;
+    let url = 'therapist/?';
     var perPage = this.state.perPage;
     if(event==null)
-    { 
-      dat = await get("therapist/");
-      document.getElementById(perPage).className += ' is-current';
+    { console.log(perPage);
+      document.getElementById(1).className += ' is-current';
     }
     else if(event!=null)
-    {
-    dat = await get("therapist/?page="+event);
-    document.getElementById(perPage).className = 'pagination-link';
-    perPage = event;
+    { 
+      document.getElementById(this.state.currentPage).className = 'pagination-link';
+      perPage = event;
+      this.state.currentPage = event;
+      url += "page="+event+'&';
     }
+    // let filters = ['specialties', ''];
+    console.log(this.state.filter);
+    if('specialties' in this.state.filter)
+      url += 'specialties='+JSON.stringify(this.state.filter.specialties)+'&';
+    if('availability' in this.state.filter)
+      url += 'availability='+JSON.stringify(this.state.filter.availability)+'&';
+    if('insurance' in this.state.filter)
+      url += 'insurance='+JSON.stringify(this.state.filter.insurance)+'&';
+    if('genderFocus' in this.state.filter)
+      url += 'genderFocus='+JSON.stringify(this.state.filter.genderFocus)+'&';
+    if('ageGroup' in this.state.filter)
+      url += 'ageGroup='+JSON.stringify(this.state.filter.ageGroup)+'&';
+    if('communities' in this.state.filter)
+      url += 'communities='+JSON.stringify(this.state.filter.communities)+'&';
+    if('gender' in this.state.filter)
+      url += 'gender='+JSON.stringify(this.state.filter.gender)+'&';
+    if('title' in this.state.filter)
+      url += 'title='+JSON.stringify(this.state.filter.title)+'&';
+    if('yearsInPractice' in this.state.filter)
+      url += 'yearsInPractice='+JSON.stringify(this.state.filter.yearsInPractice)+'&';
+    if('languages' in this.state.filter)
+      url += 'languages='+JSON.stringify(this.state.filter.languages)+'&';
+    if('min' in this.state.filter)
+      url += 'min='+this.state.filter.min+'&';
+    if('max' in this.state.filter)
+      url += 'max='+this.state.filter.max+'&';
+
+    dat = await get(url);
     
-    document.getElementById(perPage).className += ' is-current';
+    document.getElementById(this.state.currentPage).className += ' is-current';
     let therapists = dat.data.results;
     let count = dat.data.count;
     
+
+    if(window.total_therapist == undefined) {
+      window.total_therapist = count;
+    }
+    let total = window.total_therapist;
+
       this.setState({
-        therapists, count, perPage,
+        therapists, count, perPage, total 
          });
+
 }
+
     render() {
       const {currentPage, todosPerPage } = this.state;
       let totalPages = pageCount(this.state.count);
+      this.state.totalPages = totalPages;
       let lastPage = rightCount(totalPages);
       function pageCount(val){
         let value = 1;
-        if(value%10==0){
-          value = val/10;
+        if(val%9==0){
+          value = val/9;
+          if(value == 0) 
+            value = 1;
         }
         else{
-          value = val/10+1;
+          value = val/9+1;
         }
         return value | 0;
       }
       function rightCount(val){
-        if(val%15==0){
-          return val/15 |0;
+        if(val%9==0){
+          return val/9 |0;
         }
         else{
-          return val/15+1 | 0;
+          return val/9+1 | 0;
         }
       }
       let isLeft = 'pagination-previous';
@@ -84,7 +132,7 @@ export default class home extends Component {
       if (currentPage<2) {
         isLeft += ' is-first-page';
       }
-      if (currentPage>=lastPage) {
+      if (currentPage>=totalPages) {
         isRight += ' is-first-page';
       }
     
@@ -92,15 +140,25 @@ export default class home extends Component {
         for(let i=0; i<totalPages; i++){
           pages.push(i+1);
         }
-      const indexOfLastTodo = currentPage * todosPerPage;
+     /* const indexOfLastTodo = currentPage * todosPerPage;
       const indexOfFirstTodo = indexOfLastTodo - todosPerPage;
-      const currentTodos = pages.slice(indexOfFirstTodo, indexOfLastTodo);
+      const currentTodos = pages.slice(indexOfFirstTodo, indexOfLastTodo);*/
+      const currentTodos = pages;
 
 
       const renderTodos = currentTodos.map((page, i) => {
-        return <li key={i}>
+        console.log(currentPage);
+
+        if((page == totalPages || (page >= currentPage -1 && page <= currentPage + 1)) || (currentPage == totalPages && page == 1)) {
+          return <li key={i}>
                   <a name={"therapist/?page="+page} id={page} className={'pagination-link'} onClick={()=>this.isCurrent(page)} aria-label={"Page "+page} aria-current="page">{page}</a>
                 </li> 
+        }
+        else if((currentPage + 2 == page && page < totalPages ) || (currentPage == totalPages && page - 1 == 1)) {
+          return <li key={i}>
+                  <a className={'pagination-link'} aria-current="page">...</a>
+                </li> 
+        } 
         
       });
       const pageNumbers = [];
@@ -131,7 +189,7 @@ export default class home extends Component {
               <span className="icon is-medium">
                 <i className="far fa-grin fa-2x" />
               </span>
-              <p>Over 300 online therapists available to talk with you from the comfort of your home. Find the one that fits your needs and we'll help you reach them.</p>
+              <p>Over {this.state.total} online therapists available to talk with you from the comfort of your home. Find the one that fits your needs and we'll help you reach them.</p>
             </div>
             <div className="search-filters">
               <div className="buttons">
@@ -160,7 +218,7 @@ export default class home extends Component {
                 <div className="level-left">
                   <div className="level-item">
                     <span className="icon is-medium">
-                      <img alt='' src="./images/lamp.svg" />
+                      <img alt='' src="/static/images/lamp.svg" />
                     </span>
                   </div>
                   <div className="level-item">
@@ -169,14 +227,14 @@ export default class home extends Component {
                 </div>
               </nav>
             </div>
-            <p style={{textAlign:"left"}}>1-10 of {this.state.count}+ Therapists</p>
+            <p style={{textAlign:"left"}}>1-9 of {this.state.count}+ Therapists</p>
             <div className="columns is-multiline">
               {this.state.therapists.map(function(therapist, i){
                 return  <div key={i} className="column is-half is-one-third-fullhd">
                           <Link to={"/profile/"+therapist.id} className="box therapist-card">
                             <article className="media">
                               <figure className="media-left">
-                                <p className="image is-128x128">
+                                <p className="image is-128x160">
                                   <img alt='' src={therapist.profile_image_url} />
                                 </p>
                               </figure>
@@ -197,8 +255,8 @@ export default class home extends Component {
               <a className={isLeft}><span className="icon"><i className="fas fa-chevron-left" id={currentPage-1} onClick={this.handleClick}/></span></a>
               <ul className="pagination-list">
              {renderTodos}
-                               
               </ul>
+
               <a className={isRight}><span className="icon"><i className="fas fa-chevron-right" id={currentPage+1} onClick={this.handleClick}/></span></a>
             </nav>
           </div>
