@@ -12,9 +12,7 @@ export default class Availability extends Component {
         availability:[],
       },
       count: null,
-      
-     
-    };
+     };
     
     this.isCurrent = this.isCurrent.bind(this);
   }
@@ -32,13 +30,13 @@ export default class Availability extends Component {
               if (index !== -1) this.state.filter[key].splice(index, 1);
               }
       }
-      
+
 
     dat = await get("therapist/?availability="+JSON.stringify(this.state.filter.availability));
     let therapists = dat.data.results;
     let count = dat.data.count;
     let filter = this.state.filter;
-    
+
       this.setState({
         therapists, count, filter
          });
@@ -48,7 +46,7 @@ export default class Availability extends Component {
             <div>
         <nav className="navbar is-fixed-top" role="navigation" aria-label="main navigation">
           <div className="navbar-brand">
-            <Link to="/" className="navbar-item">
+            <Link to={{pathname: "/", filter: this.state.filter }} className="navbar-item">
               <span className="icon is-medium"><i className="fas fa-times fa-2x" /></span>
               {/* <a class="delete is-large"></a> */}
             </Link>

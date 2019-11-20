@@ -26,13 +26,17 @@ export default class Background extends Component {
     if(event!=null){
       if(document.getElementById(event).className === 'button is-outlined'){
         document.getElementById(event).className = 'button is-light';
-        this.state.filter[key].push(event);}
+        if(key=='languages'){
+        this.state.filter[key].push(event);
+        }
+        else{this.state.filter[key][0]=event;}
+      }
       else if(document.getElementById(event).className === 'button is-light'){
               document.getElementById(event).className= 'button is-outlined';
               var index = this.state.filter[key].indexOf(event);
-              if (index !== -1) this.state.filter[key].splice(index, 1);
-              }
+              if (index !== -1){ this.state.filter[key].splice(index, 1); }
       }
+    }
       
     
     let filters=this.state.filter;
@@ -50,7 +54,7 @@ export default class Background extends Component {
             <div>
         <nav className="navbar is-fixed-top" role="navigation" aria-label="main navigation">
           <div className="navbar-brand">
-            <Link to="/" className="navbar-item">
+            <Link to={{pathname: "/", filter: this.state.filter }} className="navbar-item">
               <span className="icon is-medium"><i className="fas fa-times fa-2x" /></span>
               {/* <a class="delete is-large"></a> */}
             </Link>

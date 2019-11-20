@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {get} from './api';
 import {Link} from 'react-router-dom';
 
+
 export default class home extends Component {
 
     constructor(props) {
@@ -59,30 +60,54 @@ export default class home extends Component {
     }
     // let filters = ['specialties', ''];
     console.log(this.state.filter);
-    if('specialties' in this.state.filter)
+    if('specialties' in this.state.filter && this.state.filter.specialties.length>0){
+      document.getElementById("Specialties").className = 'button is-light';
       url += 'specialties='+JSON.stringify(this.state.filter.specialties)+'&';
-    if('availability' in this.state.filter)
+    }
+    if('availability' in this.state.filter && this.state.filter.availability.length>0){
+      document.getElementById("Availability").className = 'button is-light';
       url += 'availability='+JSON.stringify(this.state.filter.availability)+'&';
-    if('insurance' in this.state.filter)
+    }
+    if('insurance' in this.state.filter && this.state.filter.insurance.length>0){
+      document.getElementById("Insurance").className = 'button is-light';
       url += 'insurance='+JSON.stringify(this.state.filter.insurance)+'&';
-    if('genderFocus' in this.state.filter)
+    }
+    if('genderFocus' in this.state.filter && this.state.filter.genderFocus.length>0){
+      document.getElementById("Client Focus").className = 'button is-light';
       url += 'genderFocus='+JSON.stringify(this.state.filter.genderFocus)+'&';
-    if('ageGroup' in this.state.filter)
+    }
+    if('ageGroup' in this.state.filter && this.state.filter.ageGroup.length>0){
+      document.getElementById("Client Focus").className = 'button is-light';
       url += 'ageGroup='+JSON.stringify(this.state.filter.ageGroup)+'&';
-    if('communities' in this.state.filter)
+    }
+    if('communities' in this.state.filter && this.state.filter.communities.length>0){
+      document.getElementById("Client Focus").className = 'button is-light';
       url += 'communities='+JSON.stringify(this.state.filter.communities)+'&';
-    if('gender' in this.state.filter)
+    }
+    if('gender' in this.state.filter && this.state.filter.gender.length>0){
+      document.getElementById("Background").className = 'button is-light';
       url += 'gender='+JSON.stringify(this.state.filter.gender)+'&';
-    if('title' in this.state.filter)
+    }
+    if('title' in this.state.filter && this.state.filter.title.length>0){
+      document.getElementById("Background").className = 'button is-light';
       url += 'title='+JSON.stringify(this.state.filter.title)+'&';
-    if('yearsInPractice' in this.state.filter)
+    }
+    if('yearsInPractice' in this.state.filter && this.state.filter.yearsInPractice.length>0){
+      document.getElementById("Background").className = 'button is-light';
       url += 'yearsInPractice='+JSON.stringify(this.state.filter.yearsInPractice)+'&';
-    if('languages' in this.state.filter)
+    }
+    if('languages' in this.state.filter && this.state.filter.languages.length>0){
+      document.getElementById("Background").className = 'button is-light';
       url += 'languages='+JSON.stringify(this.state.filter.languages)+'&';
-    if('min' in this.state.filter)
+    }
+    if('min' in this.state.filter && this.state.filter.min.length>0){
+      document.getElementById("Rates").className = 'button is-light';
       url += 'min='+this.state.filter.min+'&';
-    if('max' in this.state.filter)
+    }
+    if('max' in this.state.filter && this.state.filter.max.length>0){
+      document.getElementById("Rates").className = 'button is-light';
       url += 'max='+this.state.filter.max+'&';
+    }
 
     dat = await get(url);
     
@@ -193,22 +218,22 @@ export default class home extends Component {
             </div>
             <div className="search-filters">
               <div className="buttons">
-                <Link to="/specialties" className="button is-outlined" >
+                <Link to="/specialties" className="button is-outlined" id="Specialties" >
                   Specialties
                 </Link>
-                <Link to="/clientFocus" className="button is-outlined">
+                <Link to="/clientFocus" className="button is-outlined" id="Client Focus">
                   Client Focus
                 </Link>
-                <Link to="/background" className="button is-outlined">
+                <Link to="/background" className="button is-outlined" id="Background">
                   Background
                 </Link>
-                <Link to="/insurance" className="button is-outlined">
+                <Link to="/insurance" className="button is-outlined" id="Insurance">
                   Insurance
                 </Link>
-                <Link to="/availability" className="button is-outlined">
+                <Link to="/availability" className="button is-outlined" id="Availability">
                   Availability
                 </Link>
-                <Link to="/rates" className="button is-outlined">
+                <Link to="/rates" className="button is-outlined" id="Rates">
                   Rates
                 </Link>
               </div>
