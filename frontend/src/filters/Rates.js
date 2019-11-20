@@ -11,7 +11,7 @@ export default class Rates extends Component {
     this.state = {
       therapists: [],
       filter:{
-        min:[], max:[],
+        min:0, max:0,
       },
       count: null,
       
@@ -21,16 +21,21 @@ export default class Rates extends Component {
     this.isCurrent = this.isCurrent.bind(this);
   }
   
-  async isCurrent(event) {
+  async isCurrent() {
 
     let dat=null;
+    let min = document.getElementById("min-value").value;
+    let max = document.getElementById("max-value").value;
+    this.state.filter.min = min;
+    this.state.filter.max = max;
     
-    dat = await get("therapist/?"+event);
+    dat = await get("therapist/?min="+min+'&max='+max);
     let therapists = dat.data.results;
     let count = dat.data.count;
+    let filter = this.state.filter;
 
     this.setState({
-      therapists, count,
+        therapists, count, filter
     });
 }
 
@@ -52,9 +57,13 @@ export default class Rates extends Component {
           <div className="navbar-menu is-active">
             <div className="navbar-start">
               <div className="navbar-item">
-                <a className="button is-primary is-medium is-fullwidth" href="index.html">
-                Show {this.state.count} Therapists
-                </a>
+               
+                <Link to={{pathname: "/",filter: this.state.filter }} className="navbar-item" >
+                    <span className="button is-primary is-medium is-fullwidth">
+                    Show {this.state.count} Therapists
+                    {console.log(this.state.therapists.count)}
+                    </span>
+                    </Link>
               </div>
             </div>
           </div>
@@ -93,7 +102,7 @@ export default class Rates extends Component {
               </div>
             </nav>
             <div>
-                 <button id="Spanish" className="button is-primary" onClick={()=>this.isCurrent(("min="+JSON.stringify(document.getElementById("min-value").value))+"&max="+JSON.stringify(document.getElementById("max-value").value))}>Search</button>
+                 <button id="Spanish" className="button is-primary" onClick={()=>this.isCurrent()}>Search</button>
             </div>
           </div></section>
       </div>
