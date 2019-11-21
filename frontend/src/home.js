@@ -15,6 +15,8 @@ export default class home extends Component {
       perPage:1,
       filter: this.props.location.filter ? this.props.location.filter : [],
       totalPages: 1,
+      fromTherapist:1,
+      toTherapist:1,
     };
     this.handleClick = this.handleClick.bind(this);
     this.isCurrent = this.isCurrent.bind(this);
@@ -33,17 +35,21 @@ export default class home extends Component {
   }
   
   handleClick(event) {
-/*  document.getElementById(this.state.perPage).className = 'pagination-link';
-  let perPage=((event.target.id-1)*3+1); */
-  document.getElementById(this.state.currentPage).className = 'pagination-link';
-  this.setState({
-    currentPage: Number(event.target.id),
-      });
-  this.isCurrent(this.state.currentPage);
+    /*  document.getElementById(this.state.perPage).className = 'pagination-link';
+    let perPage=((event.target.id-1)*3+1); */
+    document.getElementById(this.state.currentPage).className = 'pagination-link';
+    /* this.setState({
+      currentPage: Number(event.target.id),
+        }); */
+    this.state.currentPage = Number(event.target.id);
+    console.log(event.target.id);
+    this.isCurrent(this.state.currentPage);
       
   }
 
   async isCurrent(event) {
+    console.log('here ');
+    document.getElementById('loadingSpinner').classList.remove('hide');
     let dat=null;
     let url = 'therapist/?';
     var perPage = this.state.perPage;
@@ -115,15 +121,22 @@ export default class home extends Component {
     let therapists = dat.data.results;
     let count = dat.data.count;
     
-
+    this.state.fromTherapist = this.state.currentPage * 9 - 8;
+    if(this.state.currentPage * 9 < count){
+      this.state.toTherapist = this.state.currentPage * 9;
+    }
+    else{
+      this.state.toTherapist = count;
+    }
     if(window.total_therapist == undefined) {
       window.total_therapist = count;
     }
     let total = window.total_therapist;
 
-      this.setState({
-        therapists, count, perPage, total 
-         });
+    this.setState({
+      therapists, count, perPage, total 
+    });
+    document.getElementById('loadingSpinner').classList.add('hide');
 
 }
 
@@ -172,20 +185,58 @@ export default class home extends Component {
 
 
       const renderTodos = currentTodos.map((page, i) => {
+       /*  console.log('Pages');
         console.log(currentPage);
+        console.log(page);
+        console.log(totalPages); */
 
-        if((page == totalPages || (page >= currentPage -1 && page <= currentPage + 1)) || (currentPage == totalPages && page == 1)) {
+        if((page == totalPages || (page >= currentPage -1 && page <= currentPage + 1)) || (page == 1)) {
           return <li key={i}>
                   <a name={"therapist/?page="+page} id={page} className={'pagination-link'} onClick={()=>this.isCurrent(page)} aria-label={"Page "+page} aria-current="page">{page}</a>
                 </li> 
         }
-        else if((currentPage + 2 == page && page < totalPages ) || (currentPage == totalPages && page - 1 == 1)) {
+        else if((currentPage + 2 == page) || (currentPage - 2 == page)) {
           return <li key={i}>
                   <a className={'pagination-link'} aria-current="page">...</a>
                 </li> 
         } 
         
       });
+
+      const therapistTitleF = this.state.therapists.map((therapist, i) => {
+        var therapistTitle = therapist.title;
+        if(therapistTitle.search('Clinical Social Work/Therapist')  || therapistTitle.search('Marriage & Family Therapist')){
+          therapistTitle = 'Licensed therapist';
+        }
+        else if(therapistTitle.search('Marriage & Family Therapist Associate')){
+          therapistTitle = 'Associate Therapist';
+        }
+        else if(therapistTitle.search('Psychologist')){
+          therapistTitle = 'Psychologist';
+        }
+        else{
+          return false;
+        }
+        return  <div key={i} className="column is-half is-one-third-fullhd">
+                  <Link to={"/profile/"+therapist.id} className="box therapist-card">
+                    <article className="media">
+                      <figure className="media-left">
+                        <p className="image is-128x160">
+                          <img alt='' src={therapist.profile_image_url} />
+                        </p>
+                      </figure>
+                      <div className="media-content">
+                        <div className="content">
+                          <div className="therapist-title">{therapistTitle}</div>
+                          <h4 className="title is-4">{therapist.first_name+" "+therapist.last_name}</h4>
+                          <small><strong>{therapist.cost_per_session}</strong>/session</small>
+                        </div>
+                      </div>
+                    </article>
+                  </Link>
+                </div>
+      });
+
       const pageNumbers = [];
       for (let i = 1; i <= Math.ceil(pages.length / todosPerPage); i++) {
         pageNumbers.push(i);
@@ -252,40 +303,21 @@ export default class home extends Component {
                 </div>
               </nav>
             </div>
-            <p style={{textAlign:"left"}}>1-9 of {this.state.count}+ Therapists</p>
-            <div className="columns is-multiline">
-              {this.state.therapists.map(function(therapist, i){
-                return  <div key={i} className="column is-half is-one-third-fullhd">
-                          <Link to={"/profile/"+therapist.id} className="box therapist-card">
-                            <article className="media">
-                              <figure className="media-left">
-                                <p className="image is-128x160">
-                                  <img alt='' src={therapist.profile_image_url} />
-                                </p>
-                              </figure>
-                              <div className="media-content">
-                                <div className="content">
-                                  <div className="therapist-title">{therapist.title}</div>
-                                  <h4 className="title is-4">{therapist.first_name+" "+therapist.last_name}</h4>
-                                  <small><strong>{therapist.cost_per_session}</strong>/session</small>
-                                </div>
-                              </div>
-                            </article>
-                          </Link>
-                        </div>
-              })}
-           </div>
+        <p style={{textAlign:"left"}}>{this.state.fromTherapist}-{this.state.toTherapist} of {this.state.count}+ Therapists</p>
+              <div className="columns is-multiline">
+                {therapistTitleF}
+              </div>
               
               <nav className={"pagination is-rounded is-centered"} role="navigation" aria-label="pagination">
-              <a className={isLeft}><span className="icon"><i className="fas fa-chevron-left" id={currentPage-1} onClick={this.handleClick}/></span></a>
-              <ul className="pagination-list">
-             {renderTodos}
-              </ul>
-
-              <a className={isRight}><span className="icon"><i className="fas fa-chevron-right" id={currentPage+1} onClick={this.handleClick}/></span></a>
+                <a className={isLeft}><span className="icon"><i className="fas fa-chevron-left" id={currentPage-1} onClick={this.handleClick}/></span></a>
+                <ul className="pagination-list">
+                  {renderTodos}
+                </ul>
+                <a className={isRight}><span className="icon"><i className="fas fa-chevron-right" id={currentPage+1} onClick={this.handleClick}/></span></a>
             </nav>
           </div>
         </section>
+        <div id="loadingSpinner" className="loading hide">Loading&#8230;</div>
       </div>
     
             

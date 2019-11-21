@@ -198,7 +198,7 @@ class PersonViewSet(viewsets.ModelViewSet):
 				self.queryset = self.queryset.filter(cost_per_session_max__lte=cost_per_session_max)
 
 		# exclude therapist without rates
-		self.queryset = self.queryset.exclude(cost_per_session_max=None, cost_per_session_min=None).exclude(profile_image_url="N/A")
+		self.queryset = self.queryset.exclude(cost_per_session_max=None, cost_per_session_min=None).exclude(profile_image_url="N/A").exclude(cost_per_session="N/A")
 		return self.queryset
 
 def sendEmail(request):

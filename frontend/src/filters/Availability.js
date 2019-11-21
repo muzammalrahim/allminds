@@ -60,6 +60,9 @@ export default class Availability extends Component {
             <div className="navbar-start">
             </div>
           </div>
+          <Link to={{pathname: "/"}} className="navbar-item">
+            <span className="icon is-medium pull-right"><b>Clear</b></span>
+          </Link>
         </nav>
         <nav className="navbar is-fixed-bottom" role="navigation" aria-label="main navigation">
           <div className="navbar-menu is-active">
