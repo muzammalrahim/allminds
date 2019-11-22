@@ -106,13 +106,17 @@ export default class home extends Component {
     document.getElementById(this.state.currentPage).className += ' is-current';
     let therapists = dat.data.results;
     let count = dat.data.count;
-    
-    this.state.fromTherapist = this.state.currentPage * 9 - 8;
-    if(this.state.currentPage * 9 < count){
-      this.state.toTherapist = this.state.currentPage * 9;
+    if(count > 0){
+      this.state.fromTherapist = this.state.currentPage * 9 - 8;
+      if(this.state.currentPage * 9 < count){
+        this.state.toTherapist = this.state.currentPage * 9;
+      }
+      else{
+        this.state.toTherapist = count;
+      }
     }
     else{
-      this.state.toTherapist = count;
+      this.state.fromTherapist = 0;
     }
     if(window.total_therapist == undefined) {
       window.total_therapist = count;
