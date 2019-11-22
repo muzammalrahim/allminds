@@ -154,12 +154,17 @@ REST_FRAMEWORK = {
     # 'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend', 'django_filters.rest_framework.SearchFilter']
 }
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'mail.smtp2go.com'
-EMAIL_USE_TLS = True
-EMAIL_PORT = 2525
-EMAIL_HOST_USER = 'mudassirmir25@gmail.com'
-EMAIL_HOST_PASSWORD = 'djJnZmppaGFqMjgw'
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'mail.smtp2go.com'
+# EMAIL_USE_TLS = True
+# EMAIL_PORT = 2525
+# EMAIL_HOST_USER = 'mudassirmir25@gmail.com'
+# EMAIL_HOST_PASSWORD = 'djJnZmppaGFqMjgw'
+
+EMAIL_HOST = 'smtp.mailtrap.io'
+EMAIL_HOST_USER = '6b471e37086079'
+EMAIL_HOST_PASSWORD = '84fcb78ed68681'
+EMAIL_PORT = '2525'
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'frontend/build'),

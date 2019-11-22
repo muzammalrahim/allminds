@@ -13,7 +13,10 @@ export default class home extends Component {
       currentPage: 1,
       todosPerPage: 3,
       perPage:1,
-      filter: this.props.location.filter ? this.props.location.filter : [],
+      // specialties: this.props.specialties,
+      filter: this.props.location.filter ? this.props.location.filter : {
+        specialties:[], genderFocus:[], ageGroup:[], communities:[], gender:[], title:[], yearsInPractice:[], languages:[], insurance:[], availability:[], min:0, max:0,
+      },
       totalPages: 1,
       fromTherapist:1,
       toTherapist:1,
@@ -23,49 +26,32 @@ export default class home extends Component {
   }
   componentDidMount() {
       this.isCurrent();
-    /*else {
-      let therapists = this.props.location.data.results;
-      let perPage = this.state.perPage;
-      let count = this.props.location.data.count;
-      this.setState({
-        therapists, count, perPage,
-         });
-    }*/
-         
   }
-  
   handleClick(event) {
-    /*  document.getElementById(this.state.perPage).className = 'pagination-link';
-    let perPage=((event.target.id-1)*3+1); */
     document.getElementById(this.state.currentPage).className = 'pagination-link';
-    /* this.setState({
-      currentPage: Number(event.target.id),
-        }); */
-    this.state.currentPage = Number(event.target.id);
-    console.log(event.target.id);
+    let numb=event.target.id.split('-')
+    this.state.currentPage = Number(numb[1]);
+    console.log("idid",this.state.currentPage);
     this.isCurrent(this.state.currentPage);
-      
   }
-
   async isCurrent(event) {
-    console.log('here ');
     document.getElementById('loadingSpinner').classList.remove('hide');
     let dat=null;
     let url = 'therapist/?';
     var perPage = this.state.perPage;
     if(event==null)
-    { console.log(perPage);
+    { 
       document.getElementById(1).className += ' is-current';
     }
     else if(event!=null)
     { 
+     
       document.getElementById(this.state.currentPage).className = 'pagination-link';
+      
       perPage = event;
       this.state.currentPage = event;
       url += "page="+event+'&';
     }
-    // let filters = ['specialties', ''];
-    console.log(this.state.filter);
     if('specialties' in this.state.filter && this.state.filter.specialties.length>0){
       document.getElementById("Specialties").className = 'button is-light';
       url += 'specialties='+JSON.stringify(this.state.filter.specialties)+'&';
@@ -141,6 +127,11 @@ export default class home extends Component {
 }
 
     render() {
+      let spec=[];
+    if(this.props.location.specialities){
+      spec =this.props.location.specialities.specialities;
+    }
+    console.log(spec,"spec00");
       const {currentPage, todosPerPage } = this.state;
       let totalPages = pageCount(this.state.count);
       this.state.totalPages = totalPages;
@@ -241,7 +232,7 @@ export default class home extends Component {
       for (let i = 1; i <= Math.ceil(pages.length / todosPerPage); i++) {
         pageNumbers.push(i);
       }
-      
+      console.log(this.props,"spec");
 
         return (
             <div>
@@ -269,22 +260,22 @@ export default class home extends Component {
             </div>
             <div className="search-filters">
               <div className="buttons">
-                <Link to="/specialties" className="button is-outlined" id="Specialties" >
+                <Link to={{pathname: "/specialties", filter: this.state.filter }} className="button is-outlined" id="Specialties" >
                   Specialties
                 </Link>
-                <Link to="/clientFocus" className="button is-outlined" id="Client Focus">
+                <Link to={{pathname: "/clientFocus", filter: this.state.filter }} className="button is-outlined" id="Client Focus">
                   Client Focus
                 </Link>
-                <Link to="/background" className="button is-outlined" id="Background">
+                <Link to={{pathname: "/background", filter: this.state.filter }} className="button is-outlined" id="Background">
                   Background
                 </Link>
-                <Link to="/insurance" className="button is-outlined" id="Insurance">
+                <Link to={{pathname: "/insurance", filter: this.state.filter }} className="button is-outlined" id="Insurance">
                   Insurance
                 </Link>
-                <Link to="/availability" className="button is-outlined" id="Availability">
+                <Link to={{pathname: "/availability", filter: this.state.filter }} className="button is-outlined" id="Availability">
                   Availability
                 </Link>
-                <Link to="/rates" className="button is-outlined" id="Rates">
+                <Link to={{pathname: "/rates", filter: this.state.filter }}className="button is-outlined" id="Rates">
                   Rates
                 </Link>
               </div>
@@ -298,7 +289,7 @@ export default class home extends Component {
                     </span>
                   </div>
                   <div className="level-item">
-                    <p>Want more filters? <a href="feedbackForm.html">Let us know</a></p>
+                    <p>Want more filters? <Link to="/feedback" >Let us know</Link></p>
                   </div> 
                 </div>
               </nav>
@@ -309,11 +300,11 @@ export default class home extends Component {
               </div>
               
               <nav className={"pagination is-rounded is-centered"} role="navigation" aria-label="pagination">
-                <a className={isLeft}><span className="icon"><i className="fas fa-chevron-left" id={currentPage-1} onClick={this.handleClick}/></span></a>
+                <a className={isLeft}><span className="icon"><i className="fas fa-chevron-left" id={"page-"+(currentPage-1)} onClick={this.handleClick}/></span></a>
                 <ul className="pagination-list">
                   {renderTodos}
                 </ul>
-                <a className={isRight}><span className="icon"><i className="fas fa-chevron-right" id={currentPage+1} onClick={this.handleClick}/></span></a>
+                <a className={isRight}><span className="icon"><i className="fas fa-chevron-right" id={"page-"+(currentPage+1)} onClick={this.handleClick}/></span></a>
             </nav>
           </div>
         </section>

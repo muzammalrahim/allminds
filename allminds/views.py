@@ -202,14 +202,29 @@ class PersonViewSet(viewsets.ModelViewSet):
 		return self.queryset
 
 def sendEmail(request):
-	# subject = request.POST.get('subject', '')
-	name = request.POST.get('name', '')
-	phone = request.POST.get('phone', '')
-	message = request.POST.get('message', '')
-	subject = 'subject'
-	from_email = request.POST.get('email', 'mudassir.creative@gmail.com')
+	body_unicode = request.body.decode('utf-8')
+	body = json.loads(body_unicode)
+	print('request')
+	print(body.get('name', ''))
+	name = body.get('name', '')
+	phoneNumber = body.get('phoneNumber', '')
+	message = body.get('message', '')
+	subject = 'Contact Therapist'
+	from_email = body.get('email', '')
 	if subject and message and from_email:
-		me = send_mail(subject, message, from_email, ['mudassir_mir_25@hotmail.com'])
+		me = send_mail(subject, message, from_email, ['juan@allminds.io', 'gmac@allminds.io'])
+		return JsonResponse(me, safe=False)
+	else:
+		return JsonResponse('Make sure all fields are entered and valid.', safe=False)
+
+def feedback(request):
+	body_unicode = request.body.decode('utf-8')
+	body = json.loads(body_unicode)
+	message = body.get('message', '')
+	subject = 'Feedback'
+	from_email = body.get('email', 'mudassir.creative@gmail.com')
+	if subject and message and from_email:
+		me = send_mail(subject, message, from_email, ['juan@allminds.io', 'gmac@allminds.io'])
 		return JsonResponse(me, safe=False)
 	else:
 		return JsonResponse('Make sure all fields are entered and valid.', safe=False)
