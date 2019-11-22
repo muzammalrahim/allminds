@@ -185,7 +185,7 @@ export default class home extends Component {
         console.log(page);
         console.log(totalPages); */
 
-        if((page == totalPages || (page >= currentPage -1 && page <= currentPage + 1)) || (page == 1)) {
+        if((page == totalPages || (page >= currentPage -1 && page <= currentPage + 1)) || (page == 1 && this.state.count > 0)) {
           return <li key={i}>
                   <a name={"therapist/?page="+page} id={page} className={'pagination-link'} onClick={()=>this.isCurrent(page)} aria-label={"Page "+page} aria-current="page">{page}</a>
                 </li> 
