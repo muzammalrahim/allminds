@@ -23,11 +23,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '1z)nuq7dk*j%%y)x*@*qq6184z5$9a(7po$y522#am3ao82)_9'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 
-# ALLOWED_HOSTS = ['allminds.us-west-2.elasticbeanstalk.com']
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['allminds.us-west-2.elasticbeanstalk.com']
+# ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -85,24 +85,24 @@ WSGI_APPLICATION = 'import.wsgi.application'
 
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'allminds',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
     # 'default': {
-    #     # 'ENGINE': 'django.db.backends.sqlite3',
-    #     # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     #     'ENGINE': 'django.db.backends.postgresql',
-    #     'NAME': 'ebdb',
+    #     'NAME': 'allminds',
     #     'USER': 'postgres',
-    #     'PASSWORD': 'allminds%123',
-    #     'HOST': 'aa1pjcnx603sbjm.cqvoxsrxcwj1.us-west-2.rds.amazonaws.com',
+    #     'PASSWORD': 'postgres',
+    #     'HOST': 'localhost',
     #     'PORT': '5432',
     # }
+    'default': {
+        # 'ENGINE': 'django.db.backends.sqlite3',
+        # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'ebdb',
+        'USER': 'postgres',
+        'PASSWORD': 'allminds%123',
+        'HOST': 'aa1pjcnx603sbjm.cqvoxsrxcwj1.us-west-2.rds.amazonaws.com',
+        'PORT': '5432',
+    }
 
 }
 
@@ -149,7 +149,7 @@ IMPORT_EXPORT_USE_TRANSACTIONS = True
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 9,
+    'PAGE_SIZE': 10,
     # 'DEFAULT_PARSER_CLASSES': ['rest_framework.parsers.JSONParser'],
     # 'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend', 'django_filters.rest_framework.SearchFilter']
 }
@@ -161,10 +161,10 @@ REST_FRAMEWORK = {
 # EMAIL_HOST_USER = 'mudassirmir25@gmail.com'
 # EMAIL_HOST_PASSWORD = 'djJnZmppaGFqMjgw'
 
-EMAIL_HOST = 'smtp.mailtrap.io'
-EMAIL_HOST_USER = '6b471e37086079'
-EMAIL_HOST_PASSWORD = '84fcb78ed68681'
-EMAIL_PORT = '2525'
+# EMAIL_HOST = 'smtp.mailtrap.io'
+# EMAIL_HOST_USER = '6b471e37086079'
+# EMAIL_HOST_PASSWORD = '84fcb78ed68681'
+# EMAIL_PORT = '2525'
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'frontend/build'),
@@ -180,9 +180,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 # EMAIL_HOST_USER = 'mudassir.creative@gmail.com'
 # EMAIL_HOST_PASSWORD = 'lxtrRPojpSrI'
 
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST = 'mail.smtp2go.com'
-# EMAIL_USE_TLS = True
-# EMAIL_PORT = 2525
-# EMAIL_HOST_USER = 'hamidraza715@gmail.com'
-# EMAIL_HOST_PASSWORD = 'NzJmbDU5bTV1ZzQw'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'mail.smtp2go.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 2525
+EMAIL_HOST_USER = 'hamidraza715@gmail.com'
+EMAIL_HOST_PASSWORD = 'NzJmbDU5bTV1ZzQw'
