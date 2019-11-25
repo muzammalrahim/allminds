@@ -2208,7 +2208,8 @@
     .image img {
       display: block;
       height: auto;
-      width: 100%; }
+      width: 100%;
+      max-height: 100%; }
       .image img.is-rounded {
         border-radius: 290486px; }
     .image.is-square img,
@@ -2281,6 +2282,10 @@
     .image.is-128x128 {
       height: 128px;
       width: 128px; }
+    .image.is-128x160 {
+      height: 160px;
+      width: 128px; }
+
   
   .notification {
     background-color: whitesmoke;
@@ -7103,7 +7108,7 @@
     margin-bottom: 24px; }
   
   .section {
-    padding: 24px; }
+    padding: 24px; padding-bottom: 120px;}
   
   .star-rating {
     font-size: 0.75em; }

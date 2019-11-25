@@ -9,6 +9,7 @@ import Insurance from './filters/Insurance';
 import Availability from './filters/Availability';
 import Rates from './filters/Rates';
 import ContactForm from './ContactForm';
+import FeedBack from './FeedBackForm';
 import {
   BrowserRouter as Router,
   Switch,
@@ -29,6 +30,7 @@ function App() {
        <Route path="/availability" component={Availability}/>
        <Route path="/rates" component={Rates}/>
        <Route path="/contactForm/:id" component={ContactForm}/>
+       <Route path="/feedback" component={FeedBack}/>
        </Switch>
    </Router>
     

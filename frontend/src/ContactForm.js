@@ -36,7 +36,7 @@ export default class ContactForm extends Component {
         phoneNumber:document.getElementById('mail-phoneNumber').value,
       };
     
-      await post("contact", contactData);
+      await post("sendEmail", contactData);
       window.alert("Thank You! I Got Your Message, I Will Contact You Soon");
 
     }

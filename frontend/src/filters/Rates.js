@@ -11,35 +11,96 @@ export default class Rates extends Component {
     this.state = {
       therapists: [],
       filter:{
-        min:[], max:[],
+        min:0, max:0,
       },
       count: null,
       
      
     };
-    
+   
+    if(this.props.location.filter){
+      for(var filtersss in this.props.location.filter){
+        this.state.filter[filtersss] = this.props.location.filter[filtersss];
+      }
+    }
     this.isCurrent = this.isCurrent.bind(this);
   }
   
-  async isCurrent(event) {
+  componentDidMount() {
+    for(var item in this.state.filter.specialties){
+      console.log(item);
+      document.getElementById(this.state.filter.specialties[item]).className= 'button is-light';
+    }
+    this.getData();
+  }
 
-    let dat=null;
+  async isCurrent() {
+
+    let min = document.getElementById("min-value").value;
+    let max = document.getElementById("max-value").value;
+    this.state.filter.min = min;
+    this.state.filter.max = max;
     
-    dat = await get("therapist/?"+event);
+    this.getData();
+  }
+
+  async getData(){
+
+    let url = 'therapist/?';
+    if('specialties' in this.state.filter && this.state.filter.specialties.length>0){
+      url += 'specialties='+JSON.stringify(this.state.filter.specialties)+'&';
+    }
+    if('availability' in this.state.filter && this.state.filter.availability.length>0){
+      url += 'availability='+JSON.stringify(this.state.filter.availability)+'&';
+    }
+    if('insurance' in this.state.filter && this.state.filter.insurance.length>0){
+      url += 'insurance='+JSON.stringify(this.state.filter.insurance)+'&';
+    }
+    if('genderFocus' in this.state.filter && this.state.filter.genderFocus.length>0){
+      url += 'genderFocus='+JSON.stringify(this.state.filter.genderFocus)+'&';
+    }
+    if('ageGroup' in this.state.filter && this.state.filter.ageGroup.length>0){
+      url += 'ageGroup='+JSON.stringify(this.state.filter.ageGroup)+'&';
+    }
+    if('communities' in this.state.filter && this.state.filter.communities.length>0){
+      url += 'communities='+JSON.stringify(this.state.filter.communities)+'&';
+    }
+    if('gender' in this.state.filter && this.state.filter.gender.length>0){
+      url += 'gender='+JSON.stringify(this.state.filter.gender)+'&';
+    }
+    if('title' in this.state.filter && this.state.filter.title.length>0){
+      url += 'title='+JSON.stringify(this.state.filter.title)+'&';
+    }
+    if('yearsInPractice' in this.state.filter && this.state.filter.yearsInPractice.length>0){
+      url += 'yearsInPractice='+JSON.stringify(this.state.filter.yearsInPractice)+'&';
+    }
+    if('languages' in this.state.filter && this.state.filter.languages.length>0){
+      url += 'languages='+JSON.stringify(this.state.filter.languages)+'&';
+    }
+    if('min' in this.state.filter && this.state.filter.min.length>0){
+      url += 'min='+this.state.filter.min+'&';
+    }
+    if('max' in this.state.filter && this.state.filter.max.length>0){
+      url += 'max='+this.state.filter.max+'&';
+    }
+
+    let dat = await get(url);
+    //let dat = await get("therapist/?min="+this.state.filter.min+'&max='+this.state.filter.max);
     let therapists = dat.data.results;
     let count = dat.data.count;
+    let filter = this.state.filter;
 
     this.setState({
-      therapists, count,
+      therapists, count, filter
     });
-}
 
+  }
     render() {
         return (
             <div>
         <nav className="navbar is-fixed-top" role="navigation" aria-label="main navigation">
           <div className="navbar-brand">
-            <Link to="/" className="navbar-item">
+            <Link to={{pathname: "/", filter: this.state.filter }} className="navbar-item">
               <span className="icon is-medium"><i className="fas fa-times fa-2x" /></span>
             </Link>
           </div>
@@ -47,14 +108,21 @@ export default class Rates extends Component {
             <div className="navbar-start">
             </div>
           </div>
+          <Link to={{pathname: "/"}} className="navbar-item">
+            <span className="icon is-medium pull-right"><b>Clear</b></span>
+          </Link>
         </nav>
         <nav className="navbar is-fixed-bottom" role="navigation" aria-label="main navigation">
           <div className="navbar-menu is-active">
             <div className="navbar-start">
               <div className="navbar-item">
-                <a className="button is-primary is-medium is-fullwidth" href="index.html">
-                Show {this.state.count} Therapists
-                </a>
+               
+                <Link to={{pathname: "/", filter: this.state.filter }} className="navbar-item" >
+                    <span className="button is-primary is-medium is-fullwidth">
+                    Show {this.state.count} Therapists
+                    {console.log(this.state.therapists.count)}
+                    </span>
+                    </Link>
               </div>
             </div>
           </div>
@@ -71,7 +139,7 @@ export default class Rates extends Component {
                   <div className="field">
                     <label className="label">Min</label>
                     <p className="control has-icons-left">
-                      <input id="min-value" className="input" type="text" placeholder={10} defaultValue={10}/>
+                      <input id="min-value" className="input" type="text" placeholder={10} defaultValue={10}  onChange={()=>this.isCurrent()}/>
                       <span className="icon is-small is-left">
                         <strong>$</strong>
                       </span>
@@ -83,7 +151,7 @@ export default class Rates extends Component {
                   <div className="field">
                     <label className="label">Max</label>
                     <p className="control has-icons-left">
-                      <input id="max-value" className="input" type="text" placeholder={200} defaultValue={200}/>
+                      <input id="max-value" className="input" type="text" placeholder={200} defaultValue={200} onChange={()=>this.isCurrent()}/>
                       <span className="icon is-small is-left">
                         <strong>$</strong>
                       </span>
@@ -93,7 +161,7 @@ export default class Rates extends Component {
               </div>
             </nav>
             <div>
-                 <button id="Spanish" className="button is-primary" onClick={()=>this.isCurrent(("min="+JSON.stringify(document.getElementById("min-value").value))+"&max="+JSON.stringify(document.getElementById("max-value").value))}>Search</button>
+                 <button id="Spanish" className="button is-primary" onClick={()=>this.isCurrent()}>Search</button>
             </div>
           </div></section>
       </div>

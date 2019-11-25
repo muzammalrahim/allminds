@@ -3,6 +3,10 @@ import axios from "axios";
 export const API_URL = "http://localhost:8000/api/"
 
 // export const API_URL = "http://allminds.us-west-2.elasticbeanstalk.com/api/";
+<<<<<<< HEAD
+=======
+export const API_URL = "http://localhost:8000/api/";
+>>>>>>> origin/master
 export function get(url, params) {
     const config = { params: params };
     return axios.get(API_URL + url, config);

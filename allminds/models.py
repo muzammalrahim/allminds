@@ -32,10 +32,11 @@ class Person(models.Model):
 	types_of_therapy = models.TextField(null=True)
 	modality = models.CharField(max_length=100, null=True)
 	video_skype = models.CharField(max_length=100, null=True)
+	accepting_new_clients = models.IntegerField(default=0, null=True)
 	url = models.CharField(max_length=200, null=True)
-	cost_per_session_min = models.IntegerField(default=0)
-	cost_per_session_max = models.IntegerField(default=0)
-	years_in_practice_total = models.IntegerField(default=0)
+	cost_per_session_min = models.IntegerField(default=0, null=True)
+	cost_per_session_max = models.IntegerField(default=0, null=True)
+	years_in_practice_total = models.IntegerField(default=0, null=True)
 
 	def __str__(self):
 		return '{} {}'.format(self.first_name,self.last_name)
