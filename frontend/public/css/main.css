@@ -7150,3 +7150,6 @@
     pointer-events: none !important;
     background-color:#c2c4c0 !important;
   }
+  li.dat-class + li.dat-nlast, li.dat-class + li + li + li.dat-nlast{
+    display: none;
+}

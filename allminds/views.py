@@ -120,7 +120,7 @@ class PersonViewSet(viewsets.ModelViewSet):
 					elif communities == 'Cancer Survivors':
 						self.queryset = self.queryset.filter(Q(communities__contains='Cancer'))
 					elif communities == 'Religion & Spirituality':
-						self.queryset = self.queryset.filter(Q(faith__contains='Buddhist') | Q(faith__contains='Christian') | Q(faith__contains='Hindu') | Q(faith__contains='Islam') | Q(faith__contains='Jewish') | Q(faith__contains='Mormon') | Q(faith__contains='Other Spiritual or Religious Affiliations'))
+						self.queryset = self.queryset.filter(Q(specialties__contains='Spirituality') | Q(faith__contains='Buddhist') | Q(faith__contains='Christian') | Q(faith__contains='Hindu') | Q(faith__contains='Islam') | Q(faith__contains='Jewish') | Q(faith__contains='Mormon') | Q(faith__contains='Other Spiritual or Religious Affiliations'))
 
 		gender = self.request.query_params.get('gender', None)
 		if gender is not None:

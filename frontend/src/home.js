@@ -178,12 +178,20 @@ export default class home extends Component {
       const renderTodos = currentTodos.map((page, i) => {
 
         if((page == totalPages || (page >= currentPage -1 && page <= currentPage + 1)) || (page == 1 && this.state.count > 0)) {
-          return <li key={i}>
+          var currClassname = 'dat-nlast';
+          if(page == totalPages || page + 1 == totalPages ) {
+            currClassname = '';
+          }
+          return <li className={currClassname} key={i}>
                   <a name={"therapist/?page="+page} id={page} className={'pagination-link'} onClick={()=>this.isCurrent(page)} aria-label={"Page "+page} aria-current="page">{page}</a>
                 </li> 
         }
         else if((currentPage + 2 == page) || (currentPage - 2 == page)) {
-          return <li key={i}>
+          var currClassname = '';
+          if(currentPage - 2 == page && currentPage + 2 != totalPages) {
+            currClassname = 'dat-class';
+          }
+          return <li className={currClassname} key={i}>
                   <a className={'pagination-link'} aria-current="page">...</a>
                 </li> 
         } 
