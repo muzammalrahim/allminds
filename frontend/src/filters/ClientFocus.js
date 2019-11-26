@@ -167,10 +167,10 @@ export default class ClientFocus extends Component {
               <br />
               <p><strong>Communities</strong></p>
               <button id="Ethnic minorites" className="button is-outlined" onClick={()=>this.isCurrent("communities","Ethnic minorites")}>Ethnic minorites</button>
-              <button id="LGBQT" className="button is-outlined" onClick={()=>this.isCurrent("communities","LGBQT")}>LGBQT</button>
+              <button id="LGBTQ" className="button is-outlined" onClick={()=>this.isCurrent("communities","LGBTQ")}>LGBTQ</button>
               <button id="Veterans" className="button is-outlined" onClick={()=>this.isCurrent("communities","Veterans")}>Veterans</button>
-              <button id="Cancer survivors" className="button is-outlined" onClick={()=>this.isCurrent("communities","Cancer survivors")}>Cancer survivors</button>
-              <button id="Religious / Spiritual" className="button is-outlined" onClick={()=>this.isCurrent("communities","Religious / Spiritual")}>Religious / Spiritual</button>
+              <button id="Cancer survivors" className="button is-outlined" onClick={()=>this.isCurrent("communities","Cancer survivors")}>Cancer Survivors</button>
+              <button id="Religious & Spiritual" className="button is-outlined" onClick={()=>this.isCurrent("communities","Religious & Spiritual")}>Religious & Spiritual</button>
             </div>
           </div>
         </section>
