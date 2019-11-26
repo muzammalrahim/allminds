@@ -18,6 +18,7 @@ export default class Specialties extends Component {
       }
     }
     this.isCurrent = this.isCurrent.bind(this);
+    this.clear = this.clear.bind(this);
    
   }
 
@@ -46,7 +47,19 @@ export default class Specialties extends Component {
     this.getData();
     
   }
-
+  clear(){
+    var newClearArray = ['specialties'];
+    for(var key in newClearArray){
+      key = newClearArray[key];
+      for(var index in this.state.filter[key]){
+        var currID = this.state.filter[key][index];
+        document.getElementById(currID).className = 'button is-outlined';
+      }
+      this.state.filter[key]=[];
+    }
+  
+    this.getData();
+  }
   async getData() {
 
     let url = 'therapist/?';
@@ -103,19 +116,13 @@ export default class Specialties extends Component {
               <div className="navbar-brand">
                 <Link to={{pathname: "/", filter: this.state.filter }} className="navbar-item" >
                   <span className="icon is-medium"><i className="fas fa-times fa-2x" /></span>
-                  {/* <a class="delete is-large"></a> */}
                 </Link>
-                {/* <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-              <span aria-hidden="true"></span>
-              <span aria-hidden="true"></span>
-              <span aria-hidden="true"></span>
-            </a> */}
               </div>
               <div className="navbar-menu is-active">
                 <div className="navbar-start">
                 </div>
               </div>
-              <Link to={{pathname: "/"}} className="navbar-item">
+              <Link to={{pathname: "/specialties", filter: this.state.filter }} onClick = {this.clear} className="navbar-item">
                 <span className="icon is-medium pull-right"><b>Clear</b></span>
               </Link>
             </nav>

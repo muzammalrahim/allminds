@@ -6,8 +6,6 @@ import {get} from '../api';
 export default class ClientFocus extends Component {
   constructor(props) {
     super(props);
-    
-    // this.state.filters = this.props.location.filter;
     this.state = {
       therapists: [],
       filter: {
@@ -24,6 +22,7 @@ export default class ClientFocus extends Component {
       }
     }
     this.isCurrent = this.isCurrent.bind(this);
+    this.clear = this.clear.bind(this);
   }
 
   componentDidMount() {
@@ -55,7 +54,19 @@ export default class ClientFocus extends Component {
     }
     this.getData();
   }
-
+  clear(){
+    var newClearArray = ['genderFocus','ageGroup','communities'];
+    for(var key in newClearArray){
+      key = newClearArray[key];
+      for(var index in this.state.filter[key]){
+        var currID = this.state.filter[key][index];
+        document.getElementById(currID).className = 'button is-outlined';
+      }
+      this.state.filter[key]=[];
+    }
+  
+    this.getData();
+  }
   async getData(){
 
     let url = 'therapist/?';
@@ -98,7 +109,6 @@ export default class ClientFocus extends Component {
 
     let dat = await get(url);
     let filters=this.state.filter;
-    //let dat = await get("therapist/?genderFocus="+JSON.stringify(filters.genderFocus)+"&ageGroup="+JSON.stringify(filters.ageGroup)+"&communities="+JSON.stringify(filters.communities));
     let therapists = dat.data.results;
     let count = dat.data.count;
     let filter = this.state.filter;
@@ -114,19 +124,13 @@ export default class ClientFocus extends Component {
           <div className="navbar-brand">
             <Link to={{pathname: "/", filter: this.state.filter }} className="navbar-item">
               <span className="icon is-medium"><i className="fas fa-times fa-2x" /></span>
-              {/* <a class="delete is-large"></a> */}
             </Link>
-            {/* <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-        </a> */}
           </div>
           <div className="navbar-menu is-active">
             <div className="navbar-start">
             </div>
           </div>
-          <Link to={{pathname: "/"}} className="navbar-item">
+          <Link to={{pathname: "/clientFocus", filter: this.state.filter }} onClick = {this.clear} className="navbar-item">
             <span className="icon is-medium pull-right"><b>Clear</b></span>
           </Link>
         </nav>

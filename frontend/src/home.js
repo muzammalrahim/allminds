@@ -13,7 +13,6 @@ export default class home extends Component {
       currentPage: 1,
       todosPerPage: 3,
       perPage:1,
-      // specialties: this.props.specialties,
       filter: this.props.location.filter ? this.props.location.filter : {
         specialties:[], genderFocus:[], ageGroup:[], communities:[], gender:[], title:[], yearsInPractice:[], languages:[], insurance:[], availability:[], min:0, max:0,
       },
@@ -31,7 +30,6 @@ export default class home extends Component {
     document.getElementById(this.state.currentPage).className = 'pagination-link';
     let numb=event.target.id.split('-')
     this.state.currentPage = Number(numb[1]);
-    console.log("idid",this.state.currentPage);
     this.isCurrent(this.state.currentPage);
   }
   async isCurrent(event) {
@@ -130,6 +128,7 @@ export default class home extends Component {
 
 }
 
+
     render() {
       let spec=[];
     if(this.props.location.specialities){
@@ -173,17 +172,10 @@ export default class home extends Component {
         for(let i=0; i<totalPages; i++){
           pages.push(i+1);
         }
-     /* const indexOfLastTodo = currentPage * todosPerPage;
-      const indexOfFirstTodo = indexOfLastTodo - todosPerPage;
-      const currentTodos = pages.slice(indexOfFirstTodo, indexOfLastTodo);*/
       const currentTodos = pages;
 
 
       const renderTodos = currentTodos.map((page, i) => {
-       /*  console.log('Pages');
-        console.log(currentPage);
-        console.log(page);
-        console.log(totalPages); */
 
         if((page == totalPages || (page >= currentPage -1 && page <= currentPage + 1)) || (page == 1 && this.state.count > 0)) {
           return <li key={i}>
@@ -279,7 +271,7 @@ export default class home extends Component {
                 <Link to={{pathname: "/availability", filter: this.state.filter }} className="button is-outlined" id="Availability">
                   Availability
                 </Link>
-                <Link to={{pathname: "/rates", filter: this.state.filter }}className="button is-outlined" id="Rates">
+                <Link to={{pathname: "/rates", filter: this.state.filter }} className="button is-outlined" id="Rates">
                   Rates
                 </Link>
               </div>

@@ -13,9 +13,6 @@ export default class home extends Component {
           communitie:[],
           insurance:[],
           id:null,
-          
-         
-         
         };
         
       }
@@ -131,11 +128,11 @@ export default class home extends Component {
                 <div className="buttons therapist-tags">
                   {specialities}
                 </div>
-                <h5 className="title is-5">Communities</h5>
+                <h5 className="title is-5">Client Focus</h5>
                 <div className="buttons therapist-tags">
                 {communities}
                  </div>
-                <h5 className="title is-5">Bio</h5>
+                <h5 className="title is-5">Background</h5>
                 <div className="buttons therapist-tags">
                   <button className="button is-outlined">
                     {this.state.therapist.gender}
