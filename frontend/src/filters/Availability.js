@@ -19,6 +19,7 @@ export default class Availability extends Component {
       }
     }
     this.isCurrent = this.isCurrent.bind(this);
+    this.clear = this.clear.bind(this);
   }
   
   componentDidMount() {
@@ -42,6 +43,19 @@ export default class Availability extends Component {
         if (index !== -1) this.state.filter[key].splice(index, 1);
       }
     }
+    this.getData();
+  }
+  clear(){
+    var newClearArray = ['availability'];
+    for(var key in newClearArray){
+      key = newClearArray[key];
+      for(var index in this.state.filter[key]){
+        var currID = this.state.filter[key][index];
+        document.getElementById(currID).className = 'button is-outlined';
+      }
+      this.state.filter[key]=[];
+    }
+
     this.getData();
   }
 
@@ -115,7 +129,7 @@ export default class Availability extends Component {
             <div className="navbar-start">
             </div>
           </div>
-          <Link to={{pathname: "/"}} className="navbar-item">
+          <Link to={{pathname: "/availability", filter: this.state.filter }} onClick = {this.clear} className="navbar-item">
             <span className="icon is-medium pull-right"><b>Clear</b></span>
           </Link>
         </nav>

@@ -24,6 +24,7 @@ export default class Rates extends Component {
       }
     }
     this.isCurrent = this.isCurrent.bind(this);
+    this.clear = this.clear.bind(this);
   }
   
   componentDidMount() {
@@ -42,6 +43,11 @@ export default class Rates extends Component {
     this.state.filter.max = max;
     
     this.getData();
+  }
+  clear(){
+    document.getElementById("min-value").value = null;
+    document.getElementById("max-value").value = null; 
+    this.isCurrent();
   }
 
   async getData(){
@@ -108,7 +114,7 @@ export default class Rates extends Component {
             <div className="navbar-start">
             </div>
           </div>
-          <Link to={{pathname: "/"}} className="navbar-item">
+          <Link to={{pathname: "/rates", filter: this.state.filter }} onClick = {this.clear} className="navbar-item">
             <span className="icon is-medium pull-right"><b>Clear</b></span>
           </Link>
         </nav>
@@ -139,7 +145,7 @@ export default class Rates extends Component {
                   <div className="field">
                     <label className="label">Min</label>
                     <p className="control has-icons-left">
-                      <input id="min-value" className="input" type="text" placeholder={10} defaultValue={10}  onChange={()=>this.isCurrent()}/>
+                      <input id="min-value" className="input" type="text" placeholder={10} onChange={()=>this.isCurrent()}/>
                       <span className="icon is-small is-left">
                         <strong>$</strong>
                       </span>
@@ -151,7 +157,7 @@ export default class Rates extends Component {
                   <div className="field">
                     <label className="label">Max</label>
                     <p className="control has-icons-left">
-                      <input id="max-value" className="input" type="text" placeholder={200} defaultValue={200} onChange={()=>this.isCurrent()}/>
+                      <input id="max-value" className="input" type="text" placeholder={200} onChange={()=>this.isCurrent()}/>
                       <span className="icon is-small is-left">
                         <strong>$</strong>
                       </span>
