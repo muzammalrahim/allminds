@@ -8,12 +8,29 @@ export default class home extends Component {
         super(props);
         
         this.state = {
+          currentPage:1,
           therapist: [],
           special:[],
           communitie:[],
-          insurance:[],
           id:null,
+          insurance:[],
+          i_also_speak:[],
+          gender:[],
+          title:[],
+          filter:[],
         };
+        console.log(this.props.location, 'this.props.location');
+        if(this.props.location.filter){
+          for(var filtersss in this.props.location.filter){
+            this.state.filter[filtersss] = this.props.location.filter[filtersss];
+          }
+        }
+        if(this.props.location.search_filter){
+          this.state.search_filter = this.props.location.search_filter;
+        }
+        if(this.props.location.currentPage){
+          this.state.currentPage = this.props.location.currentPage;
+        }
         
       }
     
@@ -21,10 +38,14 @@ export default class home extends Component {
           const id=this.props.match.params.id;
         
         let dat = await get("therapist/"+id);
+        console.log(this.state, 'this.state');
          let therapist = dat.data;
          let special = therapist.specialties.split(',');
          let communitie = therapist.communities.split(',');
          let insurance = therapist.accepted_insurance_plans.split(',');
+         let i_also_speak = therapist.i_also_speak.split(',');
+         let gender = therapist.gender.split(',');
+         let title = therapist.title.split(',');
         
           this.setState({
             therapist,
@@ -32,34 +53,175 @@ export default class home extends Component {
             communitie,
             insurance,
             id,
-             });
+            i_also_speak,
+            gender,
+            title,
+          });
              
     }
 
     render() {
+      const gender = this.state.gender.map((gend, index) => {
+        if(gend == 'N/A' || gend == ''){
+          return gend = '';
+        }
+        var commClass='';
+        if(this.state.filter['communities'] && this.state.filter['communities'].some(item => gend === item)){
+          commClass='is-light';
+        }
+        return <button key={index} className={"button "+commClass}>
+                      {gend}
+                  </button>
+          
+        });
+        var specArray = [];
         const specialities = this.state.special.map((spec, index) => {
-            return <button key={index} className="button is-light">
+          var specl = '';
+          var specClass='';
+          if(spec == 'N/A' || spec == ''){
+            specl = 'N/A';
+          }
+          else if(!specArray.some(item => 'Addiction' === item) && (spec == 'Addiction' || spec == 'Alcohol Abuse' || spec == 'Drug Abuse' || spec == 'Gambling' || spec == 'Internet Addiction' || spec == 'Sexual Addiction' || spec == 'Substance Abuse' || spec == 'Video Game Addiction')){
+            specl = 'Addiction';
+            if(this.state.filter['specialties'] && this.state.filter['specialties'].some(item => specl === item)){
+              specClass='is-light';
+            }
+            specArray.push('Addiction');
+          }
+					else if(!specArray.some(item => 'ADHD or attention issues' === item) && spec == 'ADHD'){
+            specl = 'ADHD or attention issues';
+            if(this.state.filter['specialties'] && this.state.filter['specialties'].some(item => specl === item)){
+              specClass='is-light';
+            }
+            specArray.push('ADHD or attention issues');
+          }
+					else if(!specArray.some(item => 'Anxiety or panic attacks' === item) && spec == 'Anxiety'){
+            specl = 'Anxiety or panic attacks';
+            if(this.state.filter['specialties'] && this.state.filter['specialties'].some(item => specl === item)){
+              specClass='is-light';
+            }
+            specArray.push('Anxiety or panic attacks');
+          }
+          else if(!specArray.some(item => 'Depression' === item) && (spec == 'Depression' || spec == 'Bipolar Disorder' || spec == 'Self-Harming' || spec == 'Self Esteem' || spec == 'Suicidal Ideation')){
+            specl = 'Depression';
+            if(this.state.filter['specialties'] && this.state.filter['specialties'].some(item => specl === item)){
+              specClass='is-light';
+            }
+            specArray.push('Depression');
+          }
+					else if(!specArray.some(item => 'Eating and food issues' === item) && spec == 'Eating Disorders'){
+            specl = 'Eating and food issues';
+            if(this.state.filter['specialties'] && this.state.filter['specialties'].some(item => specl === item)){
+              specClass='is-light';
+            }
+            specArray.push('Eating and food issues');
+          }
+          else if(!specArray.some(item => 'Family Issues' === item) && (spec == 'Adoption' || spec == 'Behavioral Issues' || spec == 'Child or Adolescent' || spec == 'Family Conflict' || spec == 'Oppositional Defiance' || spec == 'Parenting')){
+            specl = 'Family Issues';
+            if(this.state.filter['specialties'] && this.state.filter['specialties'].some(item => specl === item)){
+              specClass='is-light';
+            }
+            specArray.push('Family Issues');
+          }
+					else if(!specArray.some(item => 'Grief' === item) && spec == 'Grief'){
+            specl = 'Grief';
+            if(this.state.filter['specialties'] && this.state.filter['specialties'].some(item => specl === item)){
+              specClass='is-light';
+            }
+            specArray.push('Grief');
+          }
+          else if(!specArray.some(item => 'Health Issues' === item) && (spec == "Alzheimer's" || spec == "Asperger's Syndrome" || spec == 'Autism' || spec == 'Chronic Ilness' || spec == 'Chronic Pain' || spec == 'Infertility' || spec == 'Obesity' || spec == 'Traumatic Brain Injury' || spec == 'Weight Loss')){
+            specl = 'Health Issues';
+            if(this.state.filter['specialties'] && this.state.filter['specialties'].some(item => specl === item)){
+              specClass='is-light';
+            }
+            specArray.push('Health Issues');
+          }
+          else if(!specArray.some(item => 'Relationship issues' === item) && (spec == 'Codependency' || spec == 'Divorce' || spec == 'Infidelity' || spec == 'Marital and Premarital' || spec == 'Relationship Issues')){
+            specl = 'Relationship issues';
+            if(this.state.filter['specialties'] && this.state.filter['specialties'].some(item => specl === item)){
+              specClass='is-light';
+            }
+            specArray.push('Relationship issues');
+          }
+					else if(!specArray.some(item => 'Life transitions' === item) && (spec == 'Life Transitions' || spec == 'Pregnancy, Prenatal, Postpartum')){
+            specl = 'Life transitions';
+            if(this.state.filter['specialties'] && this.state.filter['specialties'].some(item => specl === item)){
+              specClass='is-light';
+            }
+            specArray.push('Life transitions');
+          }
+          else if(!specArray.some(item => 'Sex and sexuality' === item) && (spec == 'Sexual Identity' || spec == 'Sex Therapy' || spec == 'Open Relationships Non-Monogamy' || spec == 'Sex-Positive, Kink Allied')){
+            specl = 'Sex and sexuality';
+            if(this.state.filter['specialties'] && this.state.filter['specialties'].some(item => specl === item)){
+              specClass='is-light';
+            }
+            specArray.push('Sex and sexuality');
+          }
+          else if(!specArray.some(item => 'Trauma or abuse' === item) && (spec == 'Domestic Abuse' || spec == 'Domestic Violence' || spec == 'Sexual Abuse' || spec == 'Trauma and PTSD')){
+            specl = 'Trauma or abuse';
+            if(this.state.filter['specialties'] && this.state.filter['specialties'].some(item => specl === item)){
+              specClass='is-light';
+            }
+            specArray.push('Trauma or abuse');
+          }
+          if(specl == ''){
+            return false;
+          }
+          return <button key={index} className={"button "+specClass}>
                         {spec}
                     </button>
             
           });
           const communities = this.state.communitie.map((comm, index) => {
-            return <button key={index} className="button is-light">
+            var commClass='';
+            if(this.state.filter['communities'] && this.state.filter['communities'].some(item => comm === item)){
+              commClass='is-light';
+            }
+            return <button key={index} className={"button "+commClass}>
                         {comm}
                     </button>
             
           });
           const insurance = this.state.insurance.map((insur, index) => {
+            if(insur == 'N/A' || insur == ''){
+              insur = 'Private pay';
+            }
             return <button key={index} className="button is-light">
                     {insur}
                   </button>
             
           });
+          const language = this.state.i_also_speak.map((lang, index) => {
+            if(lang == 'N/A' || lang == ''){
+              return lang = '';
+            }
+            return <button key={index} className="button is-light">
+                    {lang}
+                  </button>
+            
+          });
+          const Title = this.state.title.map((title, i) => {
+            var therapistTitle = title.trim();
+            if(therapistTitle == 'Marriage & Family Therapist Associate'){
+              therapistTitle = 'Associate therapist';
+            }
+            else if(therapistTitle == 'Psychologist'){
+              therapistTitle = 'Psychologist';
+            }
+            else if(therapistTitle == 'Clinical Social Work/Therapist' || therapistTitle == 'Marriage & Family Therapist'){
+              therapistTitle = 'Licensed therapist';
+            }
+            else{
+              return false;
+            }
+            return therapistTitle;
+          });
         return (
 <div style={{textAlign:"left"}}>
         <nav className="navbar" role="navigation" aria-label="main navigation">
           <div className="navbar-brand">
-            <Link className="navbar-item" to="/">
+            <Link className="navbar-item" to={{pathname: "/", filter: this.state.filter, search_filter: this.state.search_filter, currentPage: this.state.currentPage }}>
               <h1 className="title is-5">allminds</h1>
             </Link>
             {/* <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
@@ -82,7 +244,7 @@ export default class home extends Component {
                   <div className="media-content">
                     <div className="content">       
                       <h1 className="title is-3">Hi, I'm {this.state.therapist.first_name}</h1>
-                      {this.state.therapist.title}
+                      {Title}
                       <br />
                       <strong>{this.state.therapist.cost_per_session}</strong> / session
                       {/* Ratings summary for future release */}
@@ -134,15 +296,14 @@ export default class home extends Component {
                  </div>
                 <h5 className="title is-5">Background</h5>
                 <div className="buttons therapist-tags">
+                    {gender}
                   <button className="button is-outlined">
-                    {this.state.therapist.gender}
+                    {Title}
                   </button>
                   <button className="button is-outlined">
-                    Licensed therapist
+                    {this.state.therapist.years_in_practice}
                   </button>
-                  <button className="button is-outlined">
-                  {this.state.therapist.years_in_practice}
-                  </button>
+                    {language}
                 </div>
                 <h5 className="title is-5">Insurance</h5>
                 <div className="buttons therapist-tags">
