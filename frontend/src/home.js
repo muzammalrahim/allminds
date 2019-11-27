@@ -16,12 +16,14 @@ export default class home extends Component {
       filter: this.props.location.filter ? this.props.location.filter : {
         specialties:[], genderFocus:[], ageGroup:[], communities:[], gender:[], title:[], yearsInPractice:[], languages:[], insurance:[], availability:[], min:0, max:0,
       },
+      search_filter: null,
       totalPages: 1,
       fromTherapist:1,
       toTherapist:1,
     };
     this.handleClick = this.handleClick.bind(this);
     this.isCurrent = this.isCurrent.bind(this);
+    this.search_filter = this.search_filter.bind(this);
   }
   componentDidMount() {
       this.isCurrent();
@@ -32,6 +34,26 @@ export default class home extends Component {
     this.state.currentPage = Number(numb[1]);
     this.isCurrent(this.state.currentPage);
   }
+
+  async search_filter(){
+    this.state.search_filter=document.getElementById('search_bar').value;
+    console.log(this.state.search_filter);
+    let url = 'therapist/?';
+    if(this.state.search_filter && this.state.search_filter != null){
+      url += 'search='+this.state.search_filter;
+    }
+    let dat = await get(url);
+    //let dat = await get("therapist/?availability="+JSON.stringify(this.state.filter.availability));
+    let therapists = dat.data.results;
+    let count = dat.data.count;
+    let filter = this.state.filter;
+    let search_filter = this.state.search_filter;
+
+    this.setState({
+      therapists, count, filter, search_filter
+    });
+  }
+
   async isCurrent(event) {
     document.getElementById('loadingSpinner').classList.remove('hide');
     let dat=null;
@@ -45,7 +67,7 @@ export default class home extends Component {
     { 
      
       document.getElementById(this.state.currentPage).className = 'pagination-link';
-      
+      console.log(event, 'event');
       perPage = event;
       this.state.currentPage = event;
       url += "page="+event+'&';
@@ -97,6 +119,10 @@ export default class home extends Component {
     if('max' in this.state.filter && this.state.filter.max.length>0){
       document.getElementById("Rates").className = 'button is-light';
       url += 'max='+this.state.filter.max+'&';
+    }
+    if(this.state.search_filter && this.state.search_filter != null){
+      document.getElementById("search_bar").className = 'button is-light';
+      url += 'search='+this.state.search_filter+'&';
     }
 
     dat = await get(url);
@@ -251,7 +277,7 @@ export default class home extends Component {
           <div className="navbar-menu is-active">
             <div className="navbar-start navbar-search">
               <div className="navbar-item">
-                <input className="input" type="text" placeholder="Look for a specific therapist" />
+                <input className="input" type="text" id="search_bar" value={this.state.search_filter} placeholder="Look for a specific therapist" onChange={this.search_filter}/>
               </div>
             </div>
           </div>
