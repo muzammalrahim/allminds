@@ -208,8 +208,7 @@ class PersonViewSet(viewsets.ModelViewSet):
 def sendEmail(request):
 	body_unicode = request.body.decode('utf-8')
 	body = json.loads(body_unicode)
-	print('request')
-	print(body.get('name', ''))
+	# print(body.get('name', ''))
 	name = body.get('name', '')
 	email = body.get('email', '')
 	phoneNumber = body.get('phoneNumber', '')
