@@ -16,7 +16,7 @@ export default class home extends Component {
       filter: this.props.location.filter ? this.props.location.filter : {
         specialties:[], genderFocus:[], ageGroup:[], communities:[], gender:[], title:[], yearsInPractice:[], languages:[], insurance:[], availability:[], min:0, max:0,
       },
-      search_filter: null,
+      search_filter: this.props.location.search_filter ? this.props.location.search_filter : null,
       totalPages: 1,
       fromTherapist:1,
       toTherapist:1,
@@ -39,11 +39,46 @@ export default class home extends Component {
     this.state.search_filter=document.getElementById('search_bar').value;
     console.log(this.state.search_filter);
     let url = 'therapist/?';
+    if('specialties' in this.state.filter && this.state.filter.specialties.length>0){
+      url += 'specialties='+JSON.stringify(this.state.filter.specialties)+'&';
+    }
+    if('availability' in this.state.filter && this.state.filter.availability.length>0){
+      url += 'availability='+JSON.stringify(this.state.filter.availability)+'&';
+    }
+    if('insurance' in this.state.filter && this.state.filter.insurance.length>0){
+      url += 'insurance='+JSON.stringify(this.state.filter.insurance)+'&';
+    }
+    if('genderFocus' in this.state.filter && this.state.filter.genderFocus.length>0){
+      url += 'genderFocus='+JSON.stringify(this.state.filter.genderFocus)+'&';
+    }
+    if('ageGroup' in this.state.filter && this.state.filter.ageGroup.length>0){
+      url += 'ageGroup='+JSON.stringify(this.state.filter.ageGroup)+'&';
+    }
+    if('communities' in this.state.filter && this.state.filter.communities.length>0){
+      url += 'communities='+JSON.stringify(this.state.filter.communities)+'&';
+    }
+    if('gender' in this.state.filter && this.state.filter.gender.length>0){
+      url += 'gender='+JSON.stringify(this.state.filter.gender)+'&';
+    }
+    if('title' in this.state.filter && this.state.filter.title.length>0){
+      url += 'title='+JSON.stringify(this.state.filter.title)+'&';
+    }
+    if('yearsInPractice' in this.state.filter && this.state.filter.yearsInPractice.length>0){
+      url += 'yearsInPractice='+JSON.stringify(this.state.filter.yearsInPractice)+'&';
+    }
+    if('languages' in this.state.filter && this.state.filter.languages.length>0){
+      url += 'languages='+JSON.stringify(this.state.filter.languages)+'&';
+    }
+    if('min' in this.state.filter && this.state.filter.min.length>0){
+      url += 'min='+this.state.filter.min+'&';
+    }
+    if('max' in this.state.filter && this.state.filter.max.length>0){
+      url += 'max='+this.state.filter.max+'&';
+    }
     if(this.state.search_filter && this.state.search_filter != null){
       url += 'search='+this.state.search_filter;
     }
     let dat = await get(url);
-    //let dat = await get("therapist/?availability="+JSON.stringify(this.state.filter.availability));
     let therapists = dat.data.results;
     let count = dat.data.count;
     let filter = this.state.filter;
@@ -121,7 +156,6 @@ export default class home extends Component {
       url += 'max='+this.state.filter.max+'&';
     }
     if(this.state.search_filter && this.state.search_filter != null){
-      document.getElementById("search_bar").className = 'button is-light';
       url += 'search='+this.state.search_filter+'&';
     }
 
@@ -292,22 +326,22 @@ export default class home extends Component {
             </div>
             <div className="search-filters">
               <div className="buttons">
-                <Link to={{pathname: "/specialties", filter: this.state.filter }} className="button is-outlined" id="Specialties" >
+                <Link to={{pathname: "/specialties", filter: this.state.filter, search_filter: this.state.search_filter }} className="button is-outlined" id="Specialties" >
                   Specialties
                 </Link>
-                <Link to={{pathname: "/clientFocus", filter: this.state.filter }} className="button is-outlined" id="Client Focus">
+                <Link to={{pathname: "/clientFocus", filter: this.state.filter, search_filter: this.state.search_filter }} className="button is-outlined" id="Client Focus">
                   Client Focus
                 </Link>
-                <Link to={{pathname: "/background", filter: this.state.filter }} className="button is-outlined" id="Background">
+                <Link to={{pathname: "/background", filter: this.state.filter, search_filter: this.state.search_filter }} className="button is-outlined" id="Background">
                   Background
                 </Link>
-                <Link to={{pathname: "/insurance", filter: this.state.filter }} className="button is-outlined" id="Insurance">
+                <Link to={{pathname: "/insurance", filter: this.state.filter, search_filter: this.state.search_filter }} className="button is-outlined" id="Insurance">
                   Insurance
                 </Link>
-                <Link to={{pathname: "/availability", filter: this.state.filter }} className="button is-outlined" id="Availability">
+                <Link to={{pathname: "/availability", filter: this.state.filter, search_filter: this.state.search_filter }} className="button is-outlined" id="Availability">
                   Availability
                 </Link>
-                <Link to={{pathname: "/rates", filter: this.state.filter }} className="button is-outlined" id="Rates">
+                <Link to={{pathname: "/rates", filter: this.state.filter, search_filter: this.state.search_filter }} className="button is-outlined" id="Rates">
                   Rates
                 </Link>
               </div>

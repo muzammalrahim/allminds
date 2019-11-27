@@ -18,12 +18,15 @@ export default class Availability extends Component {
         this.state.filter[filtersss] = this.props.location.filter[filtersss];
       }
     }
+    if(this.props.location.search_filter){
+      this.state.search_filter = this.props.location.search_filter;
+    }
     this.isCurrent = this.isCurrent.bind(this);
     this.clear = this.clear.bind(this);
   }
   
   componentDidMount() {
-    
+    console.log(this.props);
     for(var item in this.state.filter.availability){
       document.getElementById(this.state.filter.availability[item]).className= 'button is-light';
     }
@@ -33,6 +36,7 @@ export default class Availability extends Component {
   async isCurrent(key, event) {
 
     if(event!=null){
+      console.log(event, 'event');
       if(document.getElementById(event).className === 'button is-outlined'){
         document.getElementById(event).className = 'button is-light';
         this.state.filter[key].push(event);
@@ -98,6 +102,9 @@ export default class Availability extends Component {
     if('max' in this.state.filter && this.state.filter.max.length>0){
       url += 'max='+this.state.filter.max+'&';
     }
+    if(this.state.search_filter && this.state.search_filter != null){
+      url += 'search='+this.state.search_filter;
+    }
 
     let dat = await get(url);
     //let dat = await get("therapist/?availability="+JSON.stringify(this.state.filter.availability));
@@ -115,7 +122,7 @@ export default class Availability extends Component {
             <div>
         <nav className="navbar is-fixed-top" role="navigation" aria-label="main navigation">
           <div className="navbar-brand">
-            <Link to={{pathname: "/", filter: this.state.filter }} className="navbar-item">
+            <Link to={{pathname: "/", filter: this.state.filter, search_filter: this.state.search_filter }} className="navbar-item">
               <span className="icon is-medium"><i className="fas fa-times fa-2x" /></span>
               {/* <a class="delete is-large"></a> */}
             </Link>
@@ -129,7 +136,7 @@ export default class Availability extends Component {
             <div className="navbar-start">
             </div>
           </div>
-          <Link to={{pathname: "/availability", filter: this.state.filter }} onClick = {this.clear} className="navbar-item">
+          <Link to={{pathname: "/availability", filter: this.state.filter, search_filter: this.state.search_filter }} onClick = {this.clear} className="navbar-item">
             <span className="icon is-medium pull-right"><b>Clear</b></span>
           </Link>
         </nav>
@@ -138,7 +145,7 @@ export default class Availability extends Component {
             <div className="navbar-start">
               <div className="navbar-item">
              
-                <Link to={{pathname: "/", filter: this.state.filter }} className="navbar-item" >
+                <Link to={{pathname: "/", filter: this.state.filter, search_filter: this.state.search_filter }} className="navbar-item" >
                     <span className="button is-primary is-medium is-fullwidth">
                     Show {this.state.count} Therapists
                     {console.log(this.state.therapists.count)}
