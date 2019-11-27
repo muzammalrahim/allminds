@@ -17,6 +17,9 @@ export default class Specialties extends Component {
         this.state.filter[filtersss] = this.props.location.filter[filtersss];
       }
     }
+    if(this.props.location.search_filter){
+      this.state.search_filter = this.props.location.search_filter;
+    }
     this.isCurrent = this.isCurrent.bind(this);
     this.clear = this.clear.bind(this);
    
@@ -99,6 +102,9 @@ export default class Specialties extends Component {
     if('max' in this.state.filter && this.state.filter.max.length>0){
       url += 'max='+this.state.filter.max+'&';
     }
+    if(this.state.search_filter && this.state.search_filter != null){
+      url += 'search='+this.state.search_filter;
+    }
 
     let dat = await get(url);
     let therapists = dat.data.results;
@@ -122,7 +128,7 @@ export default class Specialties extends Component {
                 <div className="navbar-start">
                 </div>
               </div>
-              <Link to={{pathname: "/specialties", filter: this.state.filter }} onClick = {this.clear} className="navbar-item">
+              <Link to={{pathname: "/specialties", filter: this.state.filter, search_filter: this.state.search_filter }} onClick = {this.clear} className="navbar-item">
                 <span className="icon is-medium pull-right"><b>Clear</b></span>
               </Link>
             </nav>
@@ -130,7 +136,7 @@ export default class Specialties extends Component {
               <div className="navbar-menu is-active">
                 <div className="navbar-start">
                   <div className="navbar-item">
-                    <Link to={{pathname: "/", filter: this.state.filter }} className="navbar-item" >
+                    <Link to={{pathname: "/", filter: this.state.filter, search_filter: this.state.search_filter }} className="navbar-item" >
                     <span className="button is-primary is-medium is-fullwidth">
                     Show {this.state.count} Therapists
                     {console.log(this.state.therapists.count)}
