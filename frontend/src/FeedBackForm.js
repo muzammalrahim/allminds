@@ -13,13 +13,21 @@ export default class FeedBackForm extends Component {
     }
     
     async onSubmit() {
+
+      const contactData = {
+
         
-            await post("feedback", document.getElementById('feed-back').value);
-            window.alert("Thank You! We Got Your Feedback");
+        name:document.getElementById('feedback-name').value,
+        email:document.getElementById('feedback-email').value,
+        message:document.getElementById('feedback-message').value,
+      };
+    
+      await post("feedback", contactData);
+      window.alert("Thank You! We Got Your Feedback");
     }
     buttonChecked(){
         let mailClass="";
-        if(document.getElementById("feed-back").value)
+        if(document.getElementById("feedback-message").value)
         {
         mailClass="button is-primary is-medium is-fullwidth"
         }
@@ -61,9 +69,25 @@ export default class FeedBackForm extends Component {
                   <p>How did we do in helping you find the right therapist for you? What is missing? All feedback and requests are welcome.  Thank you!</p>
                 </div>
                 <div className="form">
+                <div className="field">
+                <div className="control has-icons-left">
+                  <input id="feedback-name" className="input" type="text" placeholder="Your name" />
+                  <span className="icon is-small is-left">
+                    <i className="fas fa-user" />
+                  </span>
+                </div>
+              </div>
+              <div className="field">
+                <div className="control has-icons-left">
+                  <input id="feedback-email" className="input" type="email" placeholder="Your email" />
+                  <span className="icon is-small is-left">
+                    <i className="fas fa-envelope" />
+                  </span>
+                </div>
+              </div>
                   <div className="field">
                     <div className="control">
-                      <textarea id="feed-back" onChange={this.buttonChecked} className="textarea" placeholder="Your message" defaultValue={""} />
+                      <textarea id="feedback-message" onChange={this.buttonChecked} className="textarea" placeholder="Your message" defaultValue={""} />
                     </div>
                   </div>
                 </div>
