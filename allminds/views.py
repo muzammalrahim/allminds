@@ -211,10 +211,11 @@ def sendEmail(request):
 	print('request')
 	print(body.get('name', ''))
 	name = body.get('name', '')
+	email = body.get('email', '')
 	phoneNumber = body.get('phoneNumber', '')
 	message = body.get('message', '')
 	subject = 'Contact Therapist'
-	from_email = body.get('email', '')
+	from_email = name + ' <' + email + '>'
 	if subject and message and from_email:
 		me = send_mail(subject, message, from_email, ['juan@allminds.io', 'gmac@allminds.io'])
 		return JsonResponse(me, safe=False)
@@ -224,9 +225,12 @@ def sendEmail(request):
 def feedback(request):
 	body_unicode = request.body.decode('utf-8')
 	body = json.loads(body_unicode)
+	name = body.get('name', '')
+	email = body.get('email', '')
+	from_email = name + ' <' + email + '>'
+	# from_email = body.get('email', 'mudassir.creative@gmail.com')
 	message = body.get('message', '')
 	subject = 'Feedback'
-	from_email = body.get('email', 'mudassir.creative@gmail.com')
 	if subject and message and from_email:
 		me = send_mail(subject, message, from_email, ['juan@allminds.io', 'gmac@allminds.io'])
 		return JsonResponse(me, safe=False)
