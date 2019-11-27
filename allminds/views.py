@@ -198,6 +198,9 @@ class PersonViewSet(viewsets.ModelViewSet):
 			if cost_per_session_max > 0:
 				self.queryset = self.queryset.filter(cost_per_session_max__lte=cost_per_session_max)
 
+		search = self.request.query_params.get('search', None)
+		if search is not None:
+			self.queryset = self.queryset.filter(Q(first_name__contains=search) | Q(last_name__contains=search))
 		# exclude therapist without rates
 		self.queryset = self.queryset.exclude(cost_per_session_max=None, cost_per_session_min=None).exclude(profile_image_url="N/A").exclude(cost_per_session="N/A")
 		return self.queryset

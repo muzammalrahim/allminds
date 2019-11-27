@@ -200,15 +200,13 @@ export default class home extends Component {
 
       const therapistTitleF = this.state.therapists.map((therapist, i) => {
         var therapistTitle = therapist.title;
-        console.log(therapistTitle);
-        if(therapistTitle.search('Marriage & Family Therapist Associate')){
+        if(therapistTitle.search('Marriage & Family Therapist Associate') == 1){
           therapistTitle = 'Associate therapist';
         }
-        else if(therapistTitle.search('Psychologist')){
-          console.log('therapistTitle');
+        else if(therapistTitle.search('Psychologist') == 1){
           therapistTitle = 'Psychologist';
         }
-        else if(therapistTitle.search('Clinical Social Work/Therapist') || therapistTitle.search('Marriage & Family Therapist')){
+        else if(therapistTitle.search('Clinical Social Work/Therapist') == 1 || therapistTitle.search('Marriage & Family Therapist') == 1){
           therapistTitle = 'Licensed therapist';
         }
         else{
