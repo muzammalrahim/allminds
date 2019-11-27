@@ -145,7 +145,7 @@ export default class Rates extends Component {
                   <div className="field">
                     <label className="label">Min</label>
                     <p className="control has-icons-left">
-                      <input id="min-value" className="input" type="text" placeholder={10} onChange={()=>this.isCurrent()}/>
+                      <input id="min-value" className="input" type="text" value={this.state.filter.min > 0 ? this.state.filter.min : ''} placeholder={10} onChange={()=>this.isCurrent()}/>
                       <span className="icon is-small is-left">
                         <strong>$</strong>
                       </span>
@@ -157,7 +157,7 @@ export default class Rates extends Component {
                   <div className="field">
                     <label className="label">Max</label>
                     <p className="control has-icons-left">
-                      <input id="max-value" className="input" type="text" placeholder={200} onChange={()=>this.isCurrent()}/>
+                      <input id="max-value" className="input" type="text" value={this.state.filter.max > 0 ? this.state.filter.max : ''} placeholder={200} onChange={()=>this.isCurrent()}/>
                       <span className="icon is-small is-left">
                         <strong>$</strong>
                       </span>
@@ -166,9 +166,9 @@ export default class Rates extends Component {
                 </div>
               </div>
             </nav>
-            <div>
+            {/* <div>
                  <button id="Spanish" className="button is-primary" onClick={()=>this.isCurrent()}>Search</button>
-            </div>
+            </div> */}
           </div></section>
       </div>
         )

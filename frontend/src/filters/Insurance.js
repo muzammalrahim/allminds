@@ -151,27 +151,44 @@ export default class Insurance extends Component {
             </p>
             <br />
             <div className="filter-list">
-           <button id="Out-of-network" className="button is-outlined" onClick={()=>this.isCurrent("insurance","Out-of-network")}>Out-of-network</button>
-              <button id="Any insurance" className="button is-outlined" onClick={()=>this.isCurrent("insurance","Any insurance")}>Any insurance</button>
+              <button id="Out-of-network" className="button is-outlined" onClick={()=>this.isCurrent("insurance","Out-of-network")}>Any insurance (out of network) </button>
+              {/* <button id="Any insurance" className="button is-outlined" onClick={()=>this.isCurrent("insurance","Any insurance")}>Any insurance</button> */}
+              <button id="ACI Specialty Benefits" className="button is-outlined" onClick={()=>this.isCurrent("insurance","ACI Specialty Benefits")}>ACI Specialty Benefits</button>
+              <button id="APS Healthcare" className="button is-outlined" onClick={()=>this.isCurrent("insurance","APS Healthcare")}>APS Healthcare</button>
               <button id="Aetna" className="button is-outlined" onClick={()=>this.isCurrent("insurance","Aetna")}>Aetna</button>
               <button id="Alliance" className="button is-outlined" onClick={()=>this.isCurrent("insurance","Alliance")}>Alliance</button>
+              <button id="AmeriHealth" className="button is-outlined" onClick={()=>this.isCurrent("insurance","AmeriHealth")}>AmeriHealth</button>
+              <button id="American Behavioral" className="button is-outlined" onClick={()=>this.isCurrent("insurance","American Behavioral")}>American Behavioral</button>
               <button id="Anthem" className="button is-outlined" onClick={()=>this.isCurrent("insurance","Anthem")}>Anthem</button>
               <button id="Beacon" className="button is-outlined" onClick={()=>this.isCurrent("insurance","Beacon")}>Beacon</button>
+              <button id="Beech Street" className="button is-outlined" onClick={()=>this.isCurrent("insurance","Beech Street")}>Beech Street</button>
               <button id="Behavioral Health Systems" className="button is-outlined" onClick={()=>this.isCurrent("insurance","Behavioral Health Systems")}>Behavioral Health Systems</button>
+              <button id="Blue Care Network" className="button is-outlined" onClick={()=>this.isCurrent("insurance","Blue Care Network")}>Blue Care Network</button>
               <button id="Blue Cross" className="button is-outlined" onClick={()=>this.isCurrent("insurance","Blue Cross")}>Blue Cross</button>
               <button id="Blue Shield" className="button is-outlined" onClick={()=>this.isCurrent("insurance","Blue Shield")}>Blue Shield</button>
+              <button id="BlueCross and BlueShield" className="button is-outlined" onClick={()=>this.isCurrent("insurance","BlueCross and BlueShield")}>BlueCross and BlueShield</button>
+              <button id="Ceridian" className="button is-outlined" onClick={()=>this.isCurrent("insurance","Ceridian")}>Ceridian</button>
+              <button id="ChoiceCare" className="button is-outlined" onClick={()=>this.isCurrent("insurance","ChoiceCare")}>ChoiceCare</button>
               <button id="Cigna" className="button is-outlined" onClick={()=>this.isCurrent("insurance","Cigna")}>Cigna</button>
-              <button id="HMC Healthworks" className="button is-outlined" onClick={()=>this.isCurrent("insurance","HMC Healthworks")}>HMC Healthworks</button>
+              <button id="Great-West Life" className="button is-outlined" onClick={()=>this.isCurrent("insurance","Great-West Life")}>Great-West Life</button>
+              <button id="Hawaii Medical Services Association" className="button is-outlined" onClick={()=>this.isCurrent("insurance","Hawaii Medical Services Association")}>Hawaii Medical Services Association</button>
               <button id="Health Net" className="button is-outlined" onClick={()=>this.isCurrent("insurance","Health Net")}>Health Net</button>
               <button id="Humana" className="button is-outlined" onClick={()=>this.isCurrent("insurance","Humana")}>Humana</button>
-              <button id="Kaiser" className="button is-outlined" onClick={()=>this.isCurrent("insurance","Kaiser")}>Kaiser</button>
-              <button id="MHN" className="button is-outlined" onClick={()=>this.isCurrent("insurance","MHN")}>MHN</button>
-              <button id="MHNet Behavioral Health" className="button is-outlined" onClick={()=>this.isCurrent("insurance","MHNet Behavioral Health")}>MHNet Behavioral Health</button>
-              <button id="Magellan" className="button is-outlined" onClick={()=>this.isCurrent("insurance","Magellan")}>Magellan</button>
+              <button id="Medicaid" className="button is-outlined" onClick={()=>this.isCurrent("insurance","Medicaid")}>Medicaid</button>
+              <button id="Medicare" className="button is-outlined" onClick={()=>this.isCurrent("insurance","Medicare")}>Medicare</button>
+              <button id="Military OneSource" className="button is-outlined" onClick={()=>this.isCurrent("insurance","Military OneSource")}>Military OneSource</button>
+              <button id="Molina" className="button is-outlined" onClick={()=>this.isCurrent("insurance","Molina")}>Molina</button>
+              <button id="MultiPlan" className="button is-outlined" onClick={()=>this.isCurrent("insurance","MultiPlan")}>MultiPlan</button>
               <button id="Network Health" className="button is-outlined" onClick={()=>this.isCurrent("insurance","Network Health")}>Network Health</button>
+              <button id="New Directions" className="button is-outlined" onClick={()=>this.isCurrent("insurance","New Directions")}>New Directions</button>
               <button id="Optum" className="button is-outlined" onClick={()=>this.isCurrent("insurance","Optum")}>Optum</button>
-              <button id="United Healthcare" className="button is-outlined" onClick={()=>this.isCurrent("insurance","United Healthcare")}>United Healthcare</button>
-              <button id="WellCare" className="button is-outlined" onClick={()=>this.isCurrent("insurance","WellCare")}>WellCare</button>
+              <button id="PHCS" className="button is-outlined" onClick={()=>this.isCurrent("insurance","PHCS")}>PHCS</button>
+              <button id="PreferredOne" className="button is-outlined" onClick={()=>this.isCurrent("insurance","PreferredOne")}>PreferredOne</button>
+              <button id="Premera" className="button is-outlined" onClick={()=>this.isCurrent("insurance","Premera")}>Premera</button>
+              <button id="TRICARE" className="button is-outlined" onClick={()=>this.isCurrent("insurance","TRICARE")}>TRICARE</button>
+              <button id="TriWest" className="button is-outlined" onClick={()=>this.isCurrent("insurance","TriWest")}>TriWest</button>
+              <button id="UMR" className="button is-outlined" onClick={()=>this.isCurrent("insurance","UMR")}>UMR</button>
+              <button id="UnitedHealthcare" className="button is-outlined" onClick={()=>this.isCurrent("insurance","UnitedHealthcare")}>UnitedHealthcare</button>
             </div>
           </div>
         </section>

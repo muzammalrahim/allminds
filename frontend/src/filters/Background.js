@@ -13,7 +13,7 @@ export default class Background extends Component {
         gender:[], title:[], yearsInPractice:[], languages:[],
       },
       count: null,
-      gender:['Male', 'Female', 'Non-binary'], 
+      gender:['Male', 'Female', 'Non-Binary'], 
       title:['Licensed therapist', 'Associate therapist', 'Psychologist'], 
       yearsInPractice:['<5', '5-15', '15>']
      
@@ -183,7 +183,7 @@ async getData() {
               <p><strong>Gender</strong></p>
               <button id="Female" className="button is-outlined" onClick={()=>this.isCurrent("gender","Female")}>Women</button>
               <button id="Male" className="button is-outlined" onClick={()=>this.isCurrent("gender","Male")}>Men</button>
-              <button id="Non-binary" className="button is-outlined" onClick={()=>this.isCurrent("gender","Non-binary")}>Non-binary</button>
+              <button id="Non-Binary" className="button is-outlined" onClick={()=>this.isCurrent("gender","Non-Binary")}>Non-binary</button>
               <br />
               <p><strong>Title</strong></p>
               <nav className="level is-mobile">

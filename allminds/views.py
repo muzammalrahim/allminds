@@ -117,9 +117,9 @@ class PersonViewSet(viewsets.ModelViewSet):
 						self.queryset = self.queryset.filter(Q(specialties__contains='Transgender') | Q(specialties__contains='Gay') | Q(specialties__contains='Lesbian') | Q(specialties__contains='Bisexual') | Q(communities__contains='Bisexual Allied') | Q(communities__contains='Gay Allied') | Q(communities__contains='HIV / AIDS Allied') | Q(communities__contains='Intersex Allied') | Q(communities__contains='Lesbian Allied') | Q(communities__contains='Transgender Allied') | Q(communities__contains='Non-Binary Allied') | Q(communities__contains='Queer Allied'))
 					elif communities == 'Veterans':
 						self.queryset = self.queryset.filter(Q(communities__contains='Veterans'))
-					elif communities == 'Cancer Survivors':
+					elif communities == 'Cancer survivors':
 						self.queryset = self.queryset.filter(Q(communities__contains='Cancer'))
-					elif communities == 'Religion & Spirituality':
+					elif communities == 'Religious / Spiritual':
 						self.queryset = self.queryset.filter(Q(specialties__contains='Spirituality') | Q(faith__contains='Buddhist') | Q(faith__contains='Christian') | Q(faith__contains='Hindu') | Q(faith__contains='Islam') | Q(faith__contains='Jewish') | Q(faith__contains='Mormon') | Q(faith__contains='Other Spiritual or Religious Affiliations'))
 
 		gender = self.request.query_params.get('gender', None)
@@ -135,7 +135,7 @@ class PersonViewSet(viewsets.ModelViewSet):
 				for title in titleArray:
 					if title == 'Licensed therapist':
 						self.queryset = self.queryset.filter(Q(title__contains='Clinical Social Work/Therapist') | Q(title__contains='Marriage & Family Therapist'))
-					elif title == 'Associate Therapist':
+					elif title == 'Associate therapist':
 						self.queryset = self.queryset.filter(Q(title__contains='Marriage & Family Therapist Associate'))
 					elif title == 'Psychologist':
 						self.queryset = self.queryset.filter(Q(title__contains='Psychologist'))
@@ -147,7 +147,7 @@ class PersonViewSet(viewsets.ModelViewSet):
 				for years_in_practice in years_in_practiceArray:
 					if('<' in years_in_practice):
 						years_in_practice = years_in_practice.replace("<","")
-						self.queryset = self.queryset.filter(years_in_practice__lte=years_in_practice)
+						self.queryset = self.queryset.filter(years_in_practice_total__lte=years_in_practice)
 
 					if('-' in years_in_practice):
 						years_in_practiceArray = years_in_practice.split('-')
@@ -155,7 +155,7 @@ class PersonViewSet(viewsets.ModelViewSet):
 
 					if('>' in years_in_practice):
 						years_in_practice = years_in_practice.replace(">","")
-						self.queryset = self.queryset.filter(years_in_practice__gte=years_in_practice)
+						self.queryset = self.queryset.filter(years_in_practice_total__gte=years_in_practice)
 
 
 		i_also_speak = self.request.query_params.get('languages', None)
@@ -171,16 +171,17 @@ class PersonViewSet(viewsets.ModelViewSet):
 			if len(availabilityArray) > 0:
 				for availability in availabilityArray:
 					if availability == 'Evenings':
-						self.queryset = self.queryset.filter(about__contains='evening')
+						self.queryset = self.queryset.filter(Q(about__contains='evening') | Q(about__contains='Evening'))
 					elif availability == 'Weekends':
-						self.queryset = self.queryset.filter(about__contains='weekend')
+						self.queryset = self.queryset.filter(Q(about__contains='weekend') | Q(about__contains='Weekend'))
 
 		accepted_insurance_plans = self.request.query_params.get('insurance', None)
 		if accepted_insurance_plans is not None:
 			accepted_insurance_plansArray = json.loads(accepted_insurance_plans)
 			if len(accepted_insurance_plansArray) > 0:
 				for accepted_insurance_plans in accepted_insurance_plansArray:
-					if accepted_insurance_plans == 'Out-of-network' or accepted_insurance_plans == 'Any insurance':
+					# if accepted_insurance_plans == 'Out-of-network' or accepted_insurance_plans == 'Any insurance':
+					if accepted_insurance_plans == 'Out-of-network':
 						self.queryset = self.queryset.filter(accepted_insurance_plans__contains='Out of network')
 					else:
 						self.queryset = self.queryset.filter(accepted_insurance_plans__contains=accepted_insurance_plans)
