@@ -18,6 +18,8 @@ export default class home extends Component {
           gender:[],
           title:[],
           filter:[],
+          therapistTitle:'',
+          availabilityAbout:['Evening','Weekend'],
         };
         console.log(this.props.location, 'this.props.location');
         if(this.props.location.filter){
@@ -39,8 +41,9 @@ export default class home extends Component {
         
         let dat = await get("therapist/"+id);
         console.log(this.state, 'this.state');
+        console.log(dat, 'dat');
          let therapist = dat.data;
-         let special = therapist.specialties.split(',');
+         let special = therapist.specialties ? therapist.specialties.split(','): ['N/A'];
          let communitie = therapist.communities.split(',');
          let insurance = therapist.accepted_insurance_plans.split(',');
          let i_also_speak = therapist.i_also_speak.split(',');
@@ -66,7 +69,7 @@ export default class home extends Component {
           return gend = '';
         }
         var commClass='';
-        if(this.state.filter['communities'] && this.state.filter['communities'].some(item => gend === item)){
+        if(this.state.filter['gender'] && this.state.filter['gender'].some(item => gend === item)){
           commClass='is-light';
         }
         return <button key={index} className={"button "+commClass}>
@@ -187,21 +190,47 @@ export default class home extends Component {
             if(insur == 'N/A' || insur == ''){
               insur = 'Private pay';
             }
-            return <button key={index} className="button is-light">
+            var commClass='';
+            if(this.state.filter['insurance'] && this.state.filter['insurance'].some(item => insur === item)){
+              commClass='is-light';
+            }
+            return <button key={index} className={"button "+commClass}>
                     {insur}
                   </button>
             
           });
           const language = this.state.i_also_speak.map((lang, index) => {
+            lang = lang.trim();
             if(lang == 'N/A' || lang == ''){
               return lang = '';
             }
-            return <button key={index} className="button is-light">
+            var commClass='';
+            if(this.state.filter['languages'] && this.state.filter['languages'].some(item => lang === item)){
+              commClass='is-light';
+            }
+            return <button key={index} className={"button "+commClass}>
                     {lang}
                   </button>
             
           });
-          const Title = this.state.title.map((title, i) => {
+          const availability = this.state.availabilityAbout.map((avail, index) => {
+            console.log(avail.toLowerCase(),'avail');
+            console.log(this.state.therapist.about,'this.state.therapist.about');
+            if(this.state.therapist.about && (this.state.therapist.about.includes(avail) || this.state.therapist.about.includes(avail.toLowerCase())) == 1){
+              var commClass = '';
+              if(this.state.filter['availability'] && this.state.filter['availability'].some(item => avail+'s' === item)){
+                commClass = "is-light";
+              } 
+              return  <button key={index} className={"button "+commClass}>
+                        {avail+'s'}
+                      </button>
+
+            }
+            else{
+              return false
+            }
+          });
+          const Title = this.state.title.map((title, index) => {
             var therapistTitle = title.trim();
             if(therapistTitle == 'Marriage & Family Therapist Associate'){
               therapistTitle = 'Associate therapist';
@@ -215,7 +244,14 @@ export default class home extends Component {
             else{
               return false;
             }
-            return therapistTitle;
+            this.state.therapistTitle = therapistTitle;
+            var commClass='';
+            if(this.state.filter['title'] && this.state.filter['title'].some(item => therapistTitle === item)){
+              commClass='is-light';
+            }
+            return <button key={index} className={"button "+commClass}>
+                    {therapistTitle}
+                  </button>;
           });
         return (
 <div style={{textAlign:"left"}}>
@@ -244,7 +280,7 @@ export default class home extends Component {
                   <div className="media-content">
                     <div className="content">       
                       <h1 className="title is-3">Hi, I'm {this.state.therapist.first_name}</h1>
-                      {Title}
+                      {this.state.therapistTitle}
                       <br />
                       <strong>{this.state.therapist.cost_per_session}</strong> / session
                       {/* Ratings summary for future release */}
@@ -297,10 +333,8 @@ export default class home extends Component {
                 <h5 className="title is-5">Background</h5>
                 <div className="buttons therapist-tags">
                     {gender}
-                  <button className="button is-outlined">
                     {Title}
-                  </button>
-                  <button className="button is-outlined">
+                  <button className={this.state.filter['yearsInPractice'] && this.state.filter['yearsInPractice'].length>0 ? "button is-light" : "button"} >
                     {this.state.therapist.years_in_practice}
                   </button>
                     {language}
@@ -311,12 +345,7 @@ export default class home extends Component {
                 </div>
                 <h5 className="title is-5">Availability:</h5>
                 <div className="buttons therapist-tags">
-                  <button className="button is-outlined">
-                    Evenings
-                  </button>
-                  <button className="button is-outlined">
-                    Weekend
-                  </button>
+                  {availability}
                 </div>
               </div>
             </div>

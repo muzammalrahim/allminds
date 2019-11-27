@@ -34,6 +34,7 @@ export default class home extends Component {
       this.isCurrent(this.state.currentPage);
   }
   componentDidUpdate(){
+    window.scrollTo(0, 0)
     if(document.getElementById(this.state.currentPage))
       document.getElementById(this.state.currentPage).className = 'pagination-link';
     if(document.getElementById(this.state.currentPage))
