@@ -198,6 +198,9 @@ class PersonViewSet(viewsets.ModelViewSet):
 			if cost_per_session_max > 0:
 				self.queryset = self.queryset.filter(cost_per_session_max__lte=cost_per_session_max)
 
+		search = self.request.query_params.get('search', None)
+		if search is not None:
+			self.queryset = self.queryset.filter(Q(first_name__contains=search) | Q(last_name__contains=search))
 		# exclude therapist without rates
 		self.queryset = self.queryset.exclude(cost_per_session_max=None, cost_per_session_min=None).exclude(profile_image_url="N/A").exclude(cost_per_session="N/A")
 		return self.queryset
@@ -208,10 +211,11 @@ def sendEmail(request):
 	print('request')
 	print(body.get('name', ''))
 	name = body.get('name', '')
+	email = body.get('email', '')
 	phoneNumber = body.get('phoneNumber', '')
 	message = body.get('message', '')
 	subject = 'Contact Therapist'
-	from_email = body.get('email', '')
+	from_email = name + ' <' + email + '>'
 	if subject and message and from_email:
 		me = send_mail(subject, message, from_email, ['juan@allminds.io', 'gmac@allminds.io'])
 		return JsonResponse(me, safe=False)
@@ -221,9 +225,12 @@ def sendEmail(request):
 def feedback(request):
 	body_unicode = request.body.decode('utf-8')
 	body = json.loads(body_unicode)
+	name = body.get('name', '')
+	email = body.get('email', '')
+	from_email = name + ' <' + email + '>'
+	# from_email = body.get('email', 'mudassir.creative@gmail.com')
 	message = body.get('message', '')
 	subject = 'Feedback'
-	from_email = body.get('email', 'mudassir.creative@gmail.com')
 	if subject and message and from_email:
 		me = send_mail(subject, message, from_email, ['juan@allminds.io', 'gmac@allminds.io'])
 		return JsonResponse(me, safe=False)
