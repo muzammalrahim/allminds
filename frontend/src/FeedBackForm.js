@@ -28,10 +28,12 @@ export default class FeedBackForm extends Component {
         message:document.getElementById('feedback-message').value,
       };
       const recaptchaValue = this.state.recaptchaRef.current.getValue();
-      console.log(recaptchaValue);
-      //this.props.onSubmit(recaptchaValue);
-      //await post("feedback", contactData);
-      window.alert("Thank You! We Got Your Feedback");
+      console.log('recaptchaValue', recaptchaValue);
+      if(recaptchaValue != ''){
+        //this.props.onSubmit(recaptchaValue);
+        //await post("feedback", contactData);
+        //window.alert("Thank You! We Got Your Feedback");
+      }
     }
     buttonChecked(){
       let mailClass="";
