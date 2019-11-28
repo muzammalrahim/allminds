@@ -8,11 +8,12 @@ export default class FeedBackForm extends Component {
         super(props);
         this.state = {
             mailClass:"button is-primary is-medium is-fullwidth mail-isChecked",
+            recaptchaRef: React.createRef(),
         };
         this.onSubmit = this.onSubmit.bind(this);  
         this.onChange = this.onChange.bind(this);  
         this.buttonChecked = this.buttonChecked.bind(this);   
-        const recaptchaRef = React.createRef();
+        
     }
     async onChange(value) {
       console.log("Captcha value:", value);
@@ -26,7 +27,7 @@ export default class FeedBackForm extends Component {
         email:document.getElementById('feedback-email').value,
         message:document.getElementById('feedback-message').value,
       };
-      const recaptchaValue = recaptchaRef.current.getValue();
+      const recaptchaValue = this.state.recaptchaRef.current.getValue();
       console.log(recaptchaValue);
       //this.props.onSubmit(recaptchaValue);
       //await post("feedback", contactData);
@@ -100,7 +101,7 @@ export default class FeedBackForm extends Component {
                   <div className="field">
                     <div className="control">
                       <ReCAPTCHA
-                        ref={recaptchaRef}
+                        ref={this.state.recaptchaRef}
                         sitekey="6LcACcUUAAAAAA1uxR-z-BZF9oUcXrDmk9pSbUHA"
                         onChange={this.onChange}
                       />
