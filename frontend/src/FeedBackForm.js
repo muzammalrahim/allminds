@@ -27,7 +27,7 @@ export default class FeedBackForm extends Component {
         console.log('success', document.getElementById("messagewrap"));
         document.getElementById("messagewrap").classList.add("success-msg").classList.remove("error-msg");
       }else if(type == "error"){
-        console.log('error', document.getElementById("message-wrap"));
+        console.log('error', document.getElementById("messagewrap"));
         document.getElementById("messagewrap").classList.remove("success-msg").classList.add("error-msg");
       }
       ReactDOM.render(message, document.getElementById('messagewrap'));
@@ -50,7 +50,7 @@ export default class FeedBackForm extends Component {
       const recaptchaValue = this.state.recaptchaRef.current.getValue();
       console.log('recaptchaValue', recaptchaValue);
       if(recaptchaValue != ''){
-        this.showHideMsg("Form Submitted!","success");
+        //this.showHideMsg("Form Submitted!","success");
         //this.props.onSubmit(recaptchaValue);
         await post("feedback", contactData);
         window.alert("Thank You! We Got Your Feedback");
@@ -58,7 +58,8 @@ export default class FeedBackForm extends Component {
       }
       else{
         //this.state.recaptchaRef.reset();
-        this.showHideMsg("Please verify reCAPTCHA","error");
+        //this.showHideMsg("Please verify reCAPTCHA","error");
+        window.alert("Error: Please verify reCAPTCHA");
         return false;
       }
     }
