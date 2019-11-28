@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Link} from "react-router-dom";
 import { post, get } from "./api";
+import ReCAPTCHA from "react-google-recaptcha";
 
 export default class FeedBackForm extends Component {
     constructor(props) {
@@ -9,9 +10,12 @@ export default class FeedBackForm extends Component {
             mailClass:"button is-primary is-medium is-fullwidth mail-isChecked",
         };
         this.onSubmit = this.onSubmit.bind(this);  
+        this.onChange = this.onChange.bind(this);  
         this.buttonChecked = this.buttonChecked.bind(this);   
     }
-    
+    async onChange(value) {
+      console.log("Captcha value:", value);
+    }
     async onSubmit() {
 
       const contactData = {
@@ -69,26 +73,34 @@ export default class FeedBackForm extends Component {
                   <p>How did we do in helping you find the right therapist for you? What is missing? All feedback and requests are welcome.  Thank you!</p>
                 </div>
                 <div className="form">
-                <div className="field">
-                <div className="control has-icons-left">
-                  <input id="feedback-name" className="input" type="text" placeholder="Your name" />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-user" />
-                  </span>
+                  <div className="field">
+                    <div className="control has-icons-left">
+                      <input id="feedback-name" className="input" type="text" placeholder="Your name" />
+                      <span className="icon is-small is-left">
+                        <i className="fas fa-user" />
+                      </span>
+                    </div>
                 </div>
-              </div>
-              <div className="field">
-                <div className="control has-icons-left">
-                  <input id="feedback-email" className="input" type="email" placeholder="Your email" />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-envelope" />
-                  </span>
-                </div>
-              </div>
+                  <div className="field">
+                    <div className="control has-icons-left">
+                      <input id="feedback-email" className="input" type="email" placeholder="Your email" />
+                      <span className="icon is-small is-left">
+                        <i className="fas fa-envelope" />
+                      </span>
+                    </div>
+                  </div>
                   <div className="field">
                     <div className="control">
                       <textarea id="feedback-message" onChange={this.buttonChecked} className="textarea" placeholder="Your message" defaultValue={""} />
                     </div>
+                  </div>
+                  <div className="field">
+                    <div className="control">
+                      <ReCAPTCHA
+                        sitekey="6LcACcUUAAAAAA1uxR-z-BZF9oUcXrDmk9pSbUHA"
+                        onChange={this.onChange}
+                      />
+                      </div>
                   </div>
                 </div>
               </div>
