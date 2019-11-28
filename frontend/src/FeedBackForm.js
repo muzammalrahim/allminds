@@ -4,6 +4,7 @@ import { Redirect } from 'react-router';
 import { post, get } from "./api";
 import ReCAPTCHA from "react-google-recaptcha";
 import ReactDOM from 'react-dom'
+import PropTypes from 'prop-types'
 
 export default class FeedBackForm extends Component {
     constructor(props) {
@@ -11,6 +12,7 @@ export default class FeedBackForm extends Component {
         this.state = {
             mailClass:"button is-primary is-medium is-fullwidth mail-isChecked",
             recaptchaRef: React.createRef(),
+            router: PropTypes.object,
         };
         this.onSubmit = this.onSubmit.bind(this);  
         this.onChange = this.onChange.bind(this);  
@@ -54,7 +56,7 @@ export default class FeedBackForm extends Component {
         //this.props.onSubmit(recaptchaValue);
         await post("feedback", contactData);
         window.alert("Thank You! We Got Your Feedback");
-        return this.context.router.history.push(`/`);
+        return this.state.router.history.push(`/`);
       }
       else{
         //this.state.recaptchaRef.reset();
