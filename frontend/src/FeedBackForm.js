@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import {Link} from "react-router-dom";
+import { Redirect } from 'react-router';
 import { post, get } from "./api";
 import ReCAPTCHA from "react-google-recaptcha";
+import ReactDOM from 'react-dom'
 
 export default class FeedBackForm extends Component {
     constructor(props) {
@@ -22,16 +24,17 @@ export default class FeedBackForm extends Component {
      //Show/Hide Message
      async showHideMsg(message,type){
       if(type == "success"){
-        document.getElementById("message-wrap").addClass("success-msg").removeClass("error-msg");
+        document.getElementById("message-wrap").classList.add("success-msg").classList.remove("error-msg");
       }else if(type == "error"){
-        document.getElementById("message-wrap").removeClass("success-msg").addClass("error-msg");
+        document.getElementById("message-wrap").classList.remove("success-msg").classList.add("error-msg");
       }
+      ReactDOM.render(message, document.getElementById('message-wrap'));
 
-      document.getElementById("message-wrap").stop()
+      /* document.getElementById("message-wrap").stop()
       .slideDown()
       .html(message)
       .delay(1500)
-      .slideUp();
+      .slideUp(); */
     }
     async onSubmit() {
 
@@ -49,6 +52,7 @@ export default class FeedBackForm extends Component {
         //this.props.onSubmit(recaptchaValue);
         await post("feedback", contactData);
         window.alert("Thank You! We Got Your Feedback");
+        return <Redirect to='/' />
       }
       else{
         //this.state.recaptchaRef.reset();
@@ -86,9 +90,9 @@ export default class FeedBackForm extends Component {
               <div className="navbar-menu is-active">
                 <div className="navbar-start">
                   <div className="navbar-item">
-                    <Link to="/" className={this.state.mailClass} onClick={this.onSubmit}>
+                    <button className={this.state.mailClass} onClick={this.onSubmit}>
                       Submit Feedback 
-                    </Link>
+                    </button>
                   </div>
                 </div>
               </div>
