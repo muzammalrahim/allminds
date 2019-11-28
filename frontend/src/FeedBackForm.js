@@ -12,11 +12,26 @@ export default class FeedBackForm extends Component {
         };
         this.onSubmit = this.onSubmit.bind(this);  
         this.onChange = this.onChange.bind(this);  
+        this.showHideMsg = this.showHideMsg.bind(this);  
         this.buttonChecked = this.buttonChecked.bind(this);   
         
     }
     async onChange(value) {
       console.log("Captcha value:", value);
+    }
+     //Show/Hide Message
+     async showHideMsg(message,type){
+      if(type == "success"){
+        document.getElementById("message-wrap").addClass("success-msg").removeClass("error-msg");
+      }else if(type == "error"){
+        document.getElementById("message-wrap").removeClass("success-msg").addClass("error-msg");
+      }
+
+      document.getElementById("message-wrap").stop()
+      .slideDown()
+      .html(message)
+      .delay(1500)
+      .slideUp();
     }
     async onSubmit() {
 
@@ -30,9 +45,15 @@ export default class FeedBackForm extends Component {
       const recaptchaValue = this.state.recaptchaRef.current.getValue();
       console.log('recaptchaValue', recaptchaValue);
       if(recaptchaValue != ''){
+        this.showHideMsg("Form Submitted!","success");
         //this.props.onSubmit(recaptchaValue);
-        //await post("feedback", contactData);
-        //window.alert("Thank You! We Got Your Feedback");
+        await post("feedback", contactData);
+        window.alert("Thank You! We Got Your Feedback");
+      }
+      else{
+        //this.state.recaptchaRef.reset();
+        this.showHideMsg("Please verify reCAPTCHA","error");
+        return false;
       }
     }
     buttonChecked(){
@@ -102,6 +123,9 @@ export default class FeedBackForm extends Component {
                   </div>
                   <div className="field">
                     <div className="control">
+                      <div id="message-wrap">
+                        <span></span>
+                      </div>
                       <ReCAPTCHA
                         ref={this.state.recaptchaRef}
                         sitekey="6LcACcUUAAAAAA1uxR-z-BZF9oUcXrDmk9pSbUHA"
