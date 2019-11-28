@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
 import { post, get } from "./api";
+import ReCAPTCHA from "react-google-recaptcha";
 
 export default class ContactForm extends Component {
     constructor(props) {
@@ -9,6 +10,7 @@ export default class ContactForm extends Component {
         this.state = {
             id:null,
             mailClass:"button is-primary is-medium is-fullwidth mail-isChecked",
+            recaptchaRef: React.createRef(),
             therapist: [],
 
         };
@@ -35,9 +37,16 @@ export default class ContactForm extends Component {
         email:document.getElementById('mail-email').value,
         phoneNumber:document.getElementById('mail-phoneNumber').value,
       };
-    
-      await post("sendEmail", contactData);
-      window.alert("Thank You! I Got Your Message, I Will Contact You Soon");
+      const recaptchaValue = this.state.recaptchaRef.current.getValue();
+      if(recaptchaValue != ''){
+        await post("sendEmail", contactData);
+        window.alert("Thank You! I Got Your Message, I Will Contact You Soon");
+        this.props.history.push('/');
+      }
+      else{
+        window.alert("Error: Please verify reCAPTCHA");
+        return false;
+      }
 
     }
 

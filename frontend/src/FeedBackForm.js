@@ -53,7 +53,7 @@ export default class FeedBackForm extends Component {
         //this.props.onSubmit(recaptchaValue);
         await post("feedback", contactData);
         console.log("Thank You! We Got Your Feedback");
-        // window.alert("Thank You! We Got Your Feedback");
+        window.alert("Thank You! We Got Your Feedback");
         // return this.state.router.history.push(`/`);
         this.props.history.push('/');
       }
