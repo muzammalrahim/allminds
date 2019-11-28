@@ -24,13 +24,13 @@ export default class FeedBackForm extends Component {
      //Show/Hide Message
      async showHideMsg(message,type){
       if(type == "success"){
-        console.log('success', document.getElementById("message-wrap"));
-        document.getElementById("message-wrap").classList.add("success-msg").classList.remove("error-msg");
+        console.log('success', document.getElementById("messagewrap"));
+        document.getElementById("messagewrap").classList.add("success-msg").classList.remove("error-msg");
       }else if(type == "error"){
         console.log('error', document.getElementById("message-wrap"));
-        document.getElementById("message-wrap").classList.remove("success-msg").classList.add("error-msg");
+        document.getElementById("messagewrap").classList.remove("success-msg").classList.add("error-msg");
       }
-      ReactDOM.render(message, document.getElementById('message-wrap'));
+      ReactDOM.render(message, document.getElementById('messagewrap'));
 
       /* document.getElementById("message-wrap").stop()
       .slideDown()
@@ -129,7 +129,7 @@ export default class FeedBackForm extends Component {
                   </div>
                   <div className="field">
                     <div className="control">
-                      <div id="message-wrap">
+                      <div id="messagewrap" className="">
                         <span></span>
                       </div>
                       <ReCAPTCHA
