@@ -120,7 +120,7 @@ export default class Specialties extends Component {
             <div>
             <nav className="navbar is-fixed-top" role="navigation" aria-label="main navigation">
               <div className="navbar-brand">
-                <Link to={{pathname: "/", filter: this.state.filter }} className="navbar-item" >
+                <Link to={{pathname: "/", filter: this.state.filter, search_filter: this.state.search_filter }} className="navbar-item" >
                   <span className="icon is-medium"><i className="fas fa-times fa-2x" /></span>
                 </Link>
               </div>
