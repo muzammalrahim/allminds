@@ -186,3 +186,10 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 2525
 EMAIL_HOST_USER = 'hamid.creativetech@gmail.com'
 EMAIL_HOST_PASSWORD = '3PYQnQ8PcaQZ'
+
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'mail.smtp2go.com'
+# EMAIL_USE_TLS = True
+# EMAIL_PORT = 2525
+# EMAIL_HOST_USER = 'mudassir_mir_25@hotmail.com'
+# EMAIL_HOST_PASSWORD = '6x32EQxcz5Me'

@@ -10,6 +10,7 @@ export default class Rates extends Component {
     
     this.state = {
       therapists: [],
+      ratesdata:[],
       filter:{
         min:0, max:0,
       },
@@ -30,11 +31,17 @@ export default class Rates extends Component {
     this.clear = this.clear.bind(this);
   }
   
-  componentDidMount() {
+  async componentDidMount() {
+    let rates = await get('therapist/?');
+    let ratesdata = rates.data.results;
+    console.log('rates', rates);
     for(var item in this.state.filter.specialties){
       console.log(item);
       document.getElementById(this.state.filter.specialties[item]).className= 'button is-light';
     }
+    this.setState({
+      ratesdata,
+    });
     this.getData();
   }
 
@@ -108,6 +115,9 @@ export default class Rates extends Component {
 
   }
     render() {
+      const averageRate = this.state.ratesdata.map((item, key) => {
+  
+      });
         return (
             <div>
         <nav className="navbar is-fixed-top" role="navigation" aria-label="main navigation">
@@ -142,7 +152,7 @@ export default class Rates extends Component {
         <section className="section">
           <div className="container">
             <h5 className="title is-5 filter-header-add">Price range</h5>
-            <p>The average hourly rate is $120
+            <p>The average hourly rate is ${averageRate}
             </p>
             <br />
             <nav className="level">
