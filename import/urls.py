@@ -31,7 +31,8 @@ urlpatterns = [
     #path('admin/allminds/person/import/', views.simple_upload),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('api/sendEmail', views.sendEmail),
-    path('api/feedback', views.feedback)
+    path('api/feedback', views.feedback),
+    path('api/averageRate', views.averageRate),
 ]
 if settings.DEBUG:
 	urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

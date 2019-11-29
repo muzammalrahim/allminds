@@ -13,6 +13,7 @@ import json
 from rest_framework.parsers import JSONParser
 from .resources import PersonResource
 from django.db.models import Q
+from django.db import connection
 # from rest_framework import filters
 
 def index(request):
@@ -235,3 +236,10 @@ def feedback(request):
 		return JsonResponse(me, safe=False)
 	else:
 		return JsonResponse('Make sure all fields are entered and valid.', safe=False)
+
+def averageRate(self):
+	with connection.cursor() as cursor:
+		cursor.execute("SELECT cost_per_session_min, cost_per_session_max FROM alminds_person WHERE cost_per_session_min != null OR cost_per_session_max != null")
+		row = cursor.fetchall()
+	
+	return row

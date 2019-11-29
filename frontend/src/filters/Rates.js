@@ -32,7 +32,7 @@ export default class Rates extends Component {
   }
   
   async componentDidMount() {
-    let rates = await get('therapist/?');
+    let rates = await get('averageRate');
     let ratesdata = rates.data.results;
     console.log('rates', rates);
     for(var item in this.state.filter.specialties){
