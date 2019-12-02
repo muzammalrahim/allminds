@@ -127,17 +127,16 @@ export default class ContactForm extends Component {
                   </span>
                 </div>
               </div>
-              <div className="field">
+              {/* <div className="field">
                 <div className="control">
                   <label className="checkbox">
-                    {/* <input id="mail-checked" type="checkbox" />
-                     */}
+                   
                      <input type='checkbox' id="mail-checked" onChange={this.buttonChecked}/>
                      I am not a robot
                      
                   </label>
-                </div>
-              </div>
+                </div> 
+              </div>*/}
               <div className="field">
                 <div className="control">
                   <div id="messagewrap" className="">

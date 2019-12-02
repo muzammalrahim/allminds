@@ -18,10 +18,14 @@ export default class home extends Component {
           gender:[],
           title:[],
           filter:[],
+          years_in_practice:[],
+          genderCheck:'',
+          language:'',
           therapistTitle:'',
+          practice:'',
           availabilityAbout:['Evening','Weekend'],
+          availability:null,
         };
-        console.log(this.props.location, 'this.props.location');
         if(this.props.location.filter){
           for(var filtersss in this.props.location.filter){
             this.state.filter[filtersss] = this.props.location.filter[filtersss];
@@ -40,15 +44,14 @@ export default class home extends Component {
           const id=this.props.match.params.id;
         
         let dat = await get("therapist/"+id);
-        console.log(this.state, 'this.state');
-        console.log(dat, 'dat');
-         let therapist = dat.data;
-         let special = therapist.specialties ? therapist.specialties.split(','): ['N/A'];
-         let communitie = therapist.communities.split(',');
-         let insurance = therapist.accepted_insurance_plans.split(',');
-         let i_also_speak = therapist.i_also_speak.split(',');
-         let gender = therapist.gender.split(',');
-         let title = therapist.title.split(',');
+        let therapist = dat.data;
+        let special = therapist.specialties ? therapist.specialties.split(','): '';
+        let communitie = therapist.communities ? therapist.communities.split(','): '';
+        let insurance = therapist.accepted_insurance_plans ? therapist.accepted_insurance_plans.split(','): '';
+        let i_also_speak = therapist.i_also_speak ? therapist.i_also_speak.split(','):'';
+        let gender = therapist.gender ? therapist.gender.split(','): '';
+        let years_in_practice = therapist.years_in_practice ? therapist.years_in_practice.split(','): '';
+        let title = therapist.title ? therapist.title.split(','): '';
         
           this.setState({
             therapist,
@@ -58,16 +61,21 @@ export default class home extends Component {
             id,
             i_also_speak,
             gender,
+            years_in_practice,
             title,
           });
              
     }
 
     render() {
+      
+      console.log(this.state.years_in_practice, 'this.props.location');
       const gender = this.state.gender.map((gend, index) => {
         if(gend == 'N/A' || gend == ''){
+          this.state.genderCheck='';
           return gend = '';
         }
+        this.state.genderCheck=1;
         var commClass='';
         if(this.state.filter['gender'] && this.state.filter['gender'].some(item => gend === item)){
           commClass='is-light';
@@ -81,10 +89,7 @@ export default class home extends Component {
         const specialities = this.state.special.map((spec, index) => {
           var specl = '';
           var specClass='';
-          if(spec == 'N/A' || spec == ''){
-            specl = 'N/A';
-          }
-          else if(!specArray.some(item => 'Addiction' === item) && (spec == 'Addiction' || spec == 'Alcohol Abuse' || spec == 'Drug Abuse' || spec == 'Gambling' || spec == 'Internet Addiction' || spec == 'Sexual Addiction' || spec == 'Substance Abuse' || spec == 'Video Game Addiction')){
+          if(!specArray.some(item => 'Addiction' === item) && (spec == 'Addiction' || spec == 'Alcohol Abuse' || spec == 'Drug Abuse' || spec == 'Gambling' || spec == 'Internet Addiction' || spec == 'Sexual Addiction' || spec == 'Substance Abuse' || spec == 'Video Game Addiction')){
             specl = 'Addiction';
             if(this.state.filter['specialties'] && this.state.filter['specialties'].some(item => specl === item)){
               specClass='is-light';
@@ -169,12 +174,14 @@ export default class home extends Component {
             specArray.push('Trauma or abuse');
           }
           if(specl == ''){
+            this.state.special=null;
             return false;
           }
-          return <button key={index} className={"button "+specClass}>
-                        {spec}
+          else {
+            return <button key={index} className={"button "+specClass}>
+                        {specl}
                     </button>
-            
+          }
           });
           const communities = this.state.communitie.map((comm, index) => {
             var commClass='';
@@ -202,8 +209,10 @@ export default class home extends Component {
           const language = this.state.i_also_speak.map((lang, index) => {
             lang = lang.trim();
             if(lang == 'N/A' || lang == ''){
+              this.state.language='';
               return lang = '';
             }
+            this.state.language=1;
             var commClass='';
             if(this.state.filter['languages'] && this.state.filter['languages'].some(item => lang === item)){
               commClass='is-light';
@@ -213,38 +222,53 @@ export default class home extends Component {
                   </button>
             
           });
+          const practice = this.state.years_in_practice.map((prac, index) => {
+            console.log(prac,'prac');
+            prac = prac.trim();
+            if(prac == 'N/A' || prac == ''){
+              this.state.practice='';
+              return prac = '';
+            }
+            return <button key={index} className={this.state.filter['yearsInPractice'] && this.state.filter['yearsInPractice'].length>0 ? "button is-light" : "button"} >
+                    {prac}
+                  </button>
+          });
           const availability = this.state.availabilityAbout.map((avail, index) => {
-            console.log(avail.toLowerCase(),'avail');
-            console.log(this.state.therapist.about,'this.state.therapist.about');
             if(this.state.therapist.about && (this.state.therapist.about.includes(avail) || this.state.therapist.about.includes(avail.toLowerCase())) == 1){
+              console.log("avail: ", avail)
               var commClass = '';
-              if(this.state.filter['availability'] && this.state.filter['availability'].some(item => avail+'s' === item)){
+              avail = avail+'s';
+              if(this.state.filter['availability'] && this.state.filter['availability'].some(item => avail === item)){
                 commClass = "is-light";
               } 
+              this.state.availability=1;
               return  <button key={index} className={"button "+commClass}>
-                        {avail+'s'}
+                        {avail}
                       </button>
 
             }
-            else{
-              return false
-            }
+            this.state.availability=null;
+            return null;
           });
           const Title = this.state.title.map((title, index) => {
             var therapistTitle = title.trim();
+            this.state.therapistTitle='';
             if(therapistTitle == 'Marriage & Family Therapist Associate'){
               therapistTitle = 'Associate therapist';
+              this.state.therapistTitle='Associate therapist';
             }
             else if(therapistTitle == 'Psychologist'){
               therapistTitle = 'Psychologist';
+              this.state.therapistTitle='Psychologist';
             }
             else if(therapistTitle == 'Clinical Social Work/Therapist' || therapistTitle == 'Marriage & Family Therapist'){
               therapistTitle = 'Licensed therapist';
+              this.state.therapistTitle='Licensed therapist';
             }
             else{
               return false;
             }
-            this.state.therapistTitle = therapistTitle;
+            //this.state.therapistTitle = therapistTitle;
             var commClass='';
             if(this.state.filter['title'] && this.state.filter['title'].some(item => therapistTitle === item)){
               commClass='is-light';
@@ -260,11 +284,6 @@ export default class home extends Component {
             <Link className="navbar-item" to={{pathname: "/", filter: this.state.filter, search_filter: this.state.search_filter, currentPage: this.state.currentPage }}>
               <h1 className="title is-5">allminds</h1>
             </Link>
-            {/* <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-        </a> */}
           </div>
           <div className="navbar-menu is-active">
             <div className="navbar-start">
@@ -273,7 +292,6 @@ export default class home extends Component {
         </nav>
         <section className="section">
           <div className="container">
-            {/* Therapist summary */}
             <div className="columns">
               <div className="column is-half">
                 <article className="media">
@@ -283,21 +301,7 @@ export default class home extends Component {
                       {this.state.therapistTitle}
                       <br />
                       <strong>{this.state.therapist.cost_per_session}</strong> / session
-                      {/* Ratings summary for future release */}
-                      {/* <nav class="level is-mobile">
-                    <br>
-                    <div class="level-left">
-                      <div class="star-rating">
-                        <span class="icon"><i class="fas fa-star"></i></span>
-                        <span class="icon"><i class="fas fa-star"></i></span>
-                        <span class="icon"><i class="fas fa-star"></i></span>
-                        <span class="icon"><i class="fas fa-star"></i></span>
-                        <span class="icon"><i class="fas fa-star-half-alt"></i></span>
-                        (23)
-                      </div>
-                    </div>
-                  </nav> */}
-                      {/* Ratings summary for future release */}
+                      
                     </div>
                   </div>
                   <div className="media-right has-text-centered">
@@ -313,8 +317,6 @@ export default class home extends Component {
               </div>
             </div>
             <hr />
-            {/* Therapist summary */}
-            {/* About me and Soecialties  */}
             <div className="columns">
               <div className="column is-half">
                 <h5 className="title is-5">About</h5>
@@ -322,98 +324,34 @@ export default class home extends Component {
               </div>
               <hr className="is-hidden-tablet" />
               <div className="column is-half">
+                {this.state.special ? < div className="therapist-tags">
                 <h5 className="title is-5">Specialties</h5>
                 <div className="buttons therapist-tags">
                   {specialities}
-                </div>
-                <h5 className="title is-5">Client Focus</h5>
+                </div></div> :null }
+                
+                {this.state.communitie && this.state.communitie !='N/A' ? <div className="therapist-tags"><h5 className="title is-5">Client Focus</h5>
                 <div className="buttons therapist-tags">
                 {communities}
-                 </div>
-                <h5 className="title is-5">Background</h5>
+                 </div></div> : null}
+               {console.log("aaa", this.state.i_also_speak)}
+                 {(this.state.language) || (this.state.genderCheck) || (this.state.therapistTitle) || (this.state.practice) ? <div className="therapist-tags"><h5 className="title is-5">Background</h5>
                 <div className="buttons therapist-tags">
                     {gender}
                     {Title}
-                  <button className={this.state.filter['yearsInPractice'] && this.state.filter['yearsInPractice'].length>0 ? "button is-light" : "button"} >
-                    {this.state.therapist.years_in_practice}
-                  </button>
+                    {practice}
                     {language}
-                </div>
-                <h5 className="title is-5">Insurance</h5>
+                </div></div> : null}
+                {insurance ? <div className="therapist-tags"><h5 className="title is-5">Insurance</h5>
                 <div className="buttons therapist-tags">
                   {insurance}
-                </div>
-                <h5 className="title is-5">Availability:</h5>
+                </div></div> : null}
+                {this.state.availability ? <div className="therapist-tags"><h5 className="title is-5">Availability:</h5>
                 <div className="buttons therapist-tags">
                   {availability}
-                </div>
+                </div></div> : null}
               </div>
             </div>
-            {/* About me and Soecialties  */}
-            {/* Review sections, for future release */}
-            {/* <hr>
-        <div class="columns">
-          <div class="column">
-            <h5 class="title is-5">23 reviews</h5>
-
-            <article class="media">
-              <figure class="media-left">
-                <p class="image is-48x48">
-                  <img class="is-rounded has-background-primary" src="icons/Chinchilla.png">
-                </p>
-              </figure>
-              <div class="media-content">
-                <div class="content">
-                  <p>
-                    <strong>Anonymous Chinchilla</strong> 
-                    <br>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut.
-                  </p>
-                </div>
-              </div>
-            </article>
-
-            <article class="media">
-              <figure class="media-left">
-                <p class="image is-48x48">
-                  <img class="is-rounded has-background-primary" src="icons/Axolotl.png">
-                </p>
-              </figure>
-              <div class="media-content">
-                <div class="content">
-                  <p>
-                    <strong>Anonymous Axolotl</strong> 
-                    <br>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut.
-                  </p>
-                </div>
-              </div>
-            </article>
-
-            <br>
-            <nav class="level is-mobile">
-              <div class="level-left">
-                <div class="levl-item">
-                  <a href="#">Read all 23 reviews</a>
-                </div>
-              </div>
-              <div class="level-right">
-                <div class="level-item">
-                  <div class="star-rating">
-                    <span class="icon"><i class="fas fa-star"></i></span>
-                    <span class="icon"><i class="fas fa-star"></i></span>
-                    <span class="icon"><i class="fas fa-star"></i></span>
-                    <span class="icon"><i class="fas fa-star"></i></span>
-                    <span class="icon"><i class="fas fa-star-half-alt"></i></span>
-                    (23)
-                  </div>
-                </div>
-              </div>
-            </nav>
-
-          </div>
-        </div> */}
-            {/* Review sections, for future release */}
           </div>
         </section> 
       </div>
