@@ -29,15 +29,15 @@ export default class Insurance extends Component {
   }
   
   componentDidMount() {
+    //console.log(this.state.filter);
     for(var item in this.state.filter.insurance){
-      console.log(item);
-      document.getElementById(this.state.filter.insurance[item]).className='button is-light';
+      document.getElementById(this.state.filter.insurance[item]).className= 'button is-light';
     }
     this.getData();
   }
   
   async isCurrent(key, event) {
-
+    //console.log(event,'event');
     if(event!=null){
       if(document.getElementById(event).className==='button is-outlined'){
         document.getElementById(event).className= 'button is-light';
@@ -143,7 +143,6 @@ export default class Insurance extends Component {
                 <Link to={{pathname: "/", filter: this.state.filter, search_filter: this.state.search_filter }} className="navbar-item" >
                     <span className="button is-primary is-medium is-fullwidth">
                     Show {this.state.count} Therapists
-                    {console.log(this.state.therapists.count)}
                     </span>
                     </Link>
               </div>

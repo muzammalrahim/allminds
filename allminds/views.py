@@ -152,12 +152,11 @@ class PersonViewSet(viewsets.ModelViewSet):
 
 					if('-' in years_in_practice):
 						years_in_practiceArray = years_in_practice.split('-')
-						self.queryset = self.queryset.filter(years_in_practice_total__gte=5, years_in_practice_total__lte=15)
+						self.queryset = self.queryset.filter(years_in_practice_total__gte=5, years_in_practice_total__lte=15).exclude(years_in_practice__contains="15+")
 
 					if('>' in years_in_practice):
 						years_in_practice = years_in_practice.replace(">","")
 						self.queryset = self.queryset.filter(years_in_practice_total__gte=years_in_practice)
-
 
 		i_also_speak = self.request.query_params.get('languages', None)
 		if i_also_speak is not None:
@@ -183,7 +182,7 @@ class PersonViewSet(viewsets.ModelViewSet):
 				for accepted_insurance_plans in accepted_insurance_plansArray:
 					# if accepted_insurance_plans == 'Out-of-network' or accepted_insurance_plans == 'Any insurance':
 					if accepted_insurance_plans == 'Out-of-network':
-						self.queryset = self.queryset.filter(accepted_insurance_plans__contains='Out of network')
+						self.queryset = self.queryset.filter(accepted_insurance_plans__icontains='Out of network')
 					else:
 						self.queryset = self.queryset.filter(accepted_insurance_plans__contains=accepted_insurance_plans)
 
@@ -201,7 +200,7 @@ class PersonViewSet(viewsets.ModelViewSet):
 
 		search = self.request.query_params.get('search', None)
 		if search is not None:
-			self.queryset = self.queryset.filter(Q(first_name__contains=search) | Q(last_name__contains=search))
+			self.queryset = self.queryset.filter(Q(first_name__icontains=search) | Q(last_name__icontains=search))
 		# exclude therapist without rates
 		self.queryset = self.queryset.exclude(cost_per_session_max=None, cost_per_session_min=None).exclude(profile_image_url="N/A").exclude(cost_per_session="N/A")
 		return self.queryset
