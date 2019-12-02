@@ -18,6 +18,7 @@ export default class home extends Component {
           gender:[],
           title:[],
           filter:[],
+          insuranceArray: ["Out of network","Out of Network","Out-of-network","ACI Specialty Benefits","APS Healthcare","Aetna","Alliance","AmeriHealth","American Behavioral","Anthem","Beacon","Beech Street","Behavioral Health Systems","Blue Care Network","Blue Cross","Blue Shield","BlueCross and BlueShield","Ceridian","ChoiceCare","Cigna","Great-West Life","Hawaii Medical Services Association","Health Net","Humana","Medicaid","Medicare","Military OneSource","Molina","MultiPlan","Network Health","New Directions","Optum","PHCS","PreferredOne","Premera","TRICARE","TriWest","UMR","UnitedHealthcare"],
           therapistTitle:'',
           availabilityAbout:['Evening','Weekend'],
         };
@@ -49,7 +50,6 @@ export default class home extends Component {
          let i_also_speak = therapist.i_also_speak.split(',');
          let gender = therapist.gender.split(',');
          let title = therapist.title.split(',');
-        
           this.setState({
             therapist,
             special,
@@ -64,18 +64,18 @@ export default class home extends Component {
     }
 
     render() {
-      const gender = this.state.gender.map((gend, index) => {
-        if(gend == 'N/A' || gend == ''){
-          return gend = '';
-        }
-        var commClass='';
-        if(this.state.filter['gender'] && this.state.filter['gender'].some(item => gend === item)){
-          commClass='is-light';
-        }
-        return <button key={index} className={"button "+commClass}>
-                      {gend}
-                  </button>
-          
+        const gender = this.state.gender.map((gend, index) => {
+          if(gend == 'N/A' || gend == ''){
+            return gend = '';
+          }
+          var commClass='';
+          if(this.state.filter['gender'] && this.state.filter['gender'].some(item => gend === item)){
+            commClass='is-light';
+          }
+          return <button key={index} className={"button "+commClass}>
+                        {gend}
+                    </button>
+            
         });
         var specArray = [];
         const specialities = this.state.special.map((spec, index) => {
@@ -172,24 +172,31 @@ export default class home extends Component {
             return false;
           }
           return <button key={index} className={"button "+specClass}>
-                        {spec}
+                        {specl}
                     </button>
             
-          });
-          const communities = this.state.communitie.map((comm, index) => {
-            var commClass='';
-            if(this.state.filter['communities'] && this.state.filter['communities'].some(item => comm === item)){
-              commClass='is-light';
-            }
+        });
+        
+        const communities = this.state.communitie.map((comm, index) => {
+          var commClass='';
+          if(this.state.filter['communities'] && this.state.filter['communities'].some(item => comm === item)){
+            commClass='is-light';
+          }
+          return <button key={index} className={"button "+commClass}>
+                      {comm}
+                  </button>
+          
+        });
+
+        const insurance = this.state.insurance.map((insur, index) => {
+          console.log(insur,'insur');
+          if(insur == 'N/A' || insur == ''){
+            insur = 'Private pay';
             return <button key={index} className={"button "+commClass}>
-                        {comm}
-                    </button>
-            
-          });
-          const insurance = this.state.insurance.map((insur, index) => {
-            if(insur == 'N/A' || insur == ''){
-              insur = 'Private pay';
-            }
+                    {insur}
+                  </button>
+          }
+          else if(this.state.insuranceArray.some(item => insur === item)){
             var commClass='';
             if(this.state.filter['insurance'] && this.state.filter['insurance'].some(item => insur === item)){
               commClass='is-light';
@@ -197,74 +204,80 @@ export default class home extends Component {
             return <button key={index} className={"button "+commClass}>
                     {insur}
                   </button>
-            
-          });
-          const language = this.state.i_also_speak.map((lang, index) => {
-            lang = lang.trim();
-            if(lang == 'N/A' || lang == ''){
-              return lang = '';
-            }
-            var commClass='';
-            if(this.state.filter['languages'] && this.state.filter['languages'].some(item => lang === item)){
-              commClass='is-light';
-            }
-            return <button key={index} className={"button "+commClass}>
-                    {lang}
-                  </button>
-            
-          });
-          const availability = this.state.availabilityAbout.map((avail, index) => {
-            console.log(avail.toLowerCase(),'avail');
-            console.log(this.state.therapist.about,'this.state.therapist.about');
-            if(this.state.therapist.about && (this.state.therapist.about.includes(avail) || this.state.therapist.about.includes(avail.toLowerCase())) == 1){
-              var commClass = '';
-              if(this.state.filter['availability'] && this.state.filter['availability'].some(item => avail+'s' === item)){
-                commClass = "is-light";
-              } 
-              return  <button key={index} className={"button "+commClass}>
-                        {avail+'s'}
-                      </button>
+          }
+          return false
+          
+        });
 
-            }
-            else{
-              return false
-            }
-          });
-          const Title = this.state.title.map((title, index) => {
-            var therapistTitle = title.trim();
-            if(therapistTitle == 'Marriage & Family Therapist Associate'){
-              therapistTitle = 'Associate therapist';
-            }
-            else if(therapistTitle == 'Psychologist'){
-              therapistTitle = 'Psychologist';
-            }
-            else if(therapistTitle == 'Clinical Social Work/Therapist' || therapistTitle == 'Marriage & Family Therapist'){
-              therapistTitle = 'Licensed therapist';
-            }
-            else{
-              return false;
-            }
-            this.state.therapistTitle = therapistTitle;
-            var commClass='';
-            if(this.state.filter['title'] && this.state.filter['title'].some(item => therapistTitle === item)){
-              commClass='is-light';
-            }
-            return <button key={index} className={"button "+commClass}>
-                    {therapistTitle}
-                  </button>;
-          });
+        const language = this.state.i_also_speak.map((lang, index) => {
+          lang = lang.trim();
+          if(lang == 'N/A' || lang == ''){
+            return lang = '';
+          }
+          var commClass='';
+          if(this.state.filter['languages'] && this.state.filter['languages'].some(item => lang === item)){
+            commClass='is-light';
+          }
+          return <button key={index} className={"button "+commClass}>
+                  {lang}
+                </button>
+          
+        });
+          
+        const availability = this.state.availabilityAbout.map((avail, index) => {
+          //console.log(avail.toLowerCase(),'avail');
+          //console.log(this.state.therapist.about,'this.state.therapist.about');
+          if(this.state.therapist.about && (this.state.therapist.about.includes(avail) || this.state.therapist.about.includes(avail.toLowerCase())) == 1){
+            var commClass = '';
+            if(this.state.filter['availability'] && this.state.filter['availability'].some(item => avail+'s' === item)){
+              commClass = "is-light";
+            } 
+            return  <button key={index} className={"button "+commClass}>
+                      {avail+'s'}
+                    </button>
+
+          }
+          else{
+            return false
+          }
+        });
+          
+        const Title = this.state.title.map((title, index) => {
+          var therapistTitle = title.trim();
+          if(therapistTitle == 'Marriage & Family Therapist Associate'){
+            therapistTitle = 'Associate therapist';
+          }
+          else if(therapistTitle == 'Psychologist'){
+            therapistTitle = 'Psychologist';
+          }
+          else if(therapistTitle == 'Clinical Social Work/Therapist' || therapistTitle == 'Marriage & Family Therapist'){
+            therapistTitle = 'Licensed therapist';
+          }
+          else{
+            return false;
+          }
+          this.state.therapistTitle = therapistTitle;
+          var commClass='';
+          if(this.state.filter['title'] && this.state.filter['title'].some(item => therapistTitle === item)){
+            commClass='is-light';
+          }
+          return <button key={index} className={"button "+commClass}>
+                  {therapistTitle}
+                </button>;
+        });
+
         return (
-<div style={{textAlign:"left"}}>
-        <nav className="navbar" role="navigation" aria-label="main navigation">
-          <div className="navbar-brand">
-            <Link className="navbar-item" to={{pathname: "/", filter: this.state.filter, search_filter: this.state.search_filter, currentPage: this.state.currentPage }}>
-              <h1 className="title is-5">allminds</h1>
-            </Link>
-            {/* <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-        </a> */}
+          <div style={{textAlign:"left"}}>
+            <nav className="navbar" role="navigation" aria-label="main navigation">
+              <div className="navbar-brand">
+                <Link className="navbar-item" to={{pathname: "/", filter: this.state.filter, search_filter: this.state.search_filter, currentPage: this.state.currentPage }}>
+                  <h1 className="title is-5">allminds</h1>
+                </Link>
+                {/* <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                  <span aria-hidden="true"></span>
+                  <span aria-hidden="true"></span>
+                  <span aria-hidden="true"></span>
+                </a> */}
           </div>
           <div className="navbar-menu is-active">
             <div className="navbar-start">

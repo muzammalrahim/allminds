@@ -13,12 +13,21 @@ export default class FeedBackForm extends Component {
         };
         this.onSubmit = this.onSubmit.bind(this);  
         this.onChange = this.onChange.bind(this);  
-        this.showHideMsg = this.showHideMsg.bind(this);  
-        this.buttonChecked = this.buttonChecked.bind(this);   
+        this.showHideMsg = this.showHideMsg.bind(this);
         
     }
     async onChange(value) {
       console.log("Captcha value:", value);
+      let mailClass="";
+      if(value)
+      {
+        mailClass="button is-primary is-medium is-fullwidth"
+      }
+      else if(value == '')
+      {
+          mailClass="button is-primary is-medium is-fullwidth mail-isChecked"
+      }
+      this.setState({mailClass});
     }
      //Show/Hide Message
      async showHideMsg(message,type){
@@ -63,18 +72,6 @@ export default class FeedBackForm extends Component {
         window.alert("Error: Please verify reCAPTCHA");
         return false;
       }
-    }
-    buttonChecked(){
-      let mailClass="";
-      if(document.getElementById("feedback-message").value)
-      {
-        mailClass="button is-primary is-medium is-fullwidth"
-      }
-      else if(!document.getElementById("feed-back").value)
-      {
-          mailClass="button is-primary is-medium is-fullwidth mail-isChecked"
-      }
-      this.setState({mailClass});
     }
     render() {
         return (
@@ -126,7 +123,7 @@ export default class FeedBackForm extends Component {
                   </div>
                   <div className="field">
                     <div className="control">
-                      <textarea id="feedback-message" onChange={this.buttonChecked} className="textarea" placeholder="Your message" defaultValue={""} />
+                      <textarea id="feedback-message" className="textarea" placeholder="Your message" defaultValue={""} />
                     </div>
                   </div>
                   <div className="field">

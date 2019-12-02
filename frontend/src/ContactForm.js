@@ -15,7 +15,7 @@ export default class ContactForm extends Component {
 
         };
         this.onSubmit = this.onSubmit.bind(this);  
-        this.buttonChecked = this.buttonChecked.bind(this);  
+        this.onChange = this.onChange.bind(this);
 
       }
     async componentDidMount() {
@@ -50,18 +50,20 @@ export default class ContactForm extends Component {
 
     }
 
-    buttonChecked(){
-        let mailClass="";
-        if(document.getElementById("mail-checked").checked)
-        {
+    async onChange(value) {
+      console.log("Captcha value:", value);
+      let mailClass="";
+      if(value)
+      {
         mailClass="button is-primary is-medium is-fullwidth"
-        }
-        else if(!document.getElementById("mail-checked").checked)
-        {
-          mailClass="button is-primary is-medium is-fullwidth mail-isChecked"
-        }
-        this.setState({mailClass});
+      }
+      else if(value == '')
+      {
+        mailClass="button is-primary is-medium is-fullwidth mail-isChecked"
+      }
+      this.setState({mailClass});
     }
+
 
   
     render() {
@@ -125,17 +127,6 @@ export default class ContactForm extends Component {
                   <span className="icon is-small is-left">
                     <i className="fas fa-phone" />
                   </span>
-                </div>
-              </div>
-              <div className="field">
-                <div className="control">
-                  <label className="checkbox">
-                    {/* <input id="mail-checked" type="checkbox" />
-                     */}
-                     <input type='checkbox' id="mail-checked" onChange={this.buttonChecked}/>
-                     I am not a robot
-                     
-                  </label>
                 </div>
               </div>
               <div className="field">
