@@ -80,7 +80,7 @@ export default class ContactForm extends Component {
           </div>
         </nav>
         <nav className="navbar is-fixed-bottom" role="navigation" aria-label="main navigation">
-          <div id="mail-button" className="navbar-menu">
+          <div id="mail-button" className="navbar-menu is-active">
             <div className="navbar-start">
               <div className="navbar-item">
                 <button className={this.state.mailClass} onClick={this.onSubmit}>
@@ -137,6 +137,18 @@ export default class ContactForm extends Component {
                      
                   </label>
                 </div>
+              </div>
+              <div className="field">
+                <div className="control">
+                  <div id="messagewrap" className="">
+                    <span></span>
+                  </div>
+                  <ReCAPTCHA
+                    ref={this.state.recaptchaRef}
+                    sitekey="6LcACcUUAAAAAA1uxR-z-BZF9oUcXrDmk9pSbUHA"
+                    onChange={this.onChange}
+                  />
+                  </div>
               </div>
             </div>
           </div>
