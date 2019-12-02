@@ -29,9 +29,9 @@ export default class Insurance extends Component {
   }
   
   componentDidMount() {
-    for(var item in this.state.filter.specialties){
+    for(var item in this.state.filter.insurance){
       console.log(item);
-      document.getElementById(this.state.filter.specialties[item]).className= 'button is-light';
+      document.getElementById(this.state.filter.insurance[item]).className='button is-light';
     }
     this.getData();
   }

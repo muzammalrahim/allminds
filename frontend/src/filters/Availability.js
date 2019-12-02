@@ -26,7 +26,6 @@ export default class Availability extends Component {
   }
   
   componentDidMount() {
-    console.log(this.props);
     for(var item in this.state.filter.availability){
       document.getElementById(this.state.filter.availability[item]).className= 'button is-light';
     }
@@ -36,7 +35,6 @@ export default class Availability extends Component {
   async isCurrent(key, event) {
 
     if(event!=null){
-      console.log(event, 'event');
       if(document.getElementById(event).className === 'button is-outlined'){
         document.getElementById(event).className = 'button is-light';
         this.state.filter[key].push(event);
