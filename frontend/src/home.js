@@ -10,7 +10,7 @@ export default class home extends Component {
     this.state = {
       therapists: [],
       count: null,
-      currentPage: this.props.location.currentPage ? this.props.location.currentPage : 1,
+      currentPage: 1,
       todosPerPage: 3,
       perPage:1,
       filter: this.props.location.filter ? this.props.location.filter : {
@@ -24,21 +24,9 @@ export default class home extends Component {
     this.handleClick = this.handleClick.bind(this);
     this.isCurrent = this.isCurrent.bind(this);
     this.search_filter = this.search_filter.bind(this);
-    
-    if(this.props.location.currentPage){
-      this.state.currentPage = this.props.location.currentPage;
-    }
-    console.log(this.state.currentPage,'this.state.currentPage');
   }
   componentDidMount() {
-      this.isCurrent(this.state.currentPage);
-  }
-  componentDidUpdate(){
-    window.scrollTo(0, 0)
-    if(document.getElementById(this.state.currentPage))
-      document.getElementById(this.state.currentPage).className = 'pagination-link';
-    if(document.getElementById(this.state.currentPage))
-      document.getElementById(this.state.currentPage).className += ' is-current';
+      this.isCurrent();
   }
   handleClick(event) {
     document.getElementById(this.state.currentPage).className = 'pagination-link';
@@ -112,9 +100,8 @@ export default class home extends Component {
     }
     else if(event!=null)
     { 
-      console.log(this.state.currentPage, 'ashdgajsdasd');
-      if(document.getElementById(this.state.currentPage))
-        document.getElementById(this.state.currentPage).className = 'pagination-link';
+     
+      document.getElementById(this.state.currentPage).className = 'pagination-link';
       console.log(event, 'event');
       perPage = event;
       this.state.currentPage = event;
@@ -173,10 +160,16 @@ export default class home extends Component {
     }
 
     dat = await get(url);
-    if(document.getElementById(this.state.currentPage))
-      document.getElementById(this.state.currentPage).className += ' is-current';
+    console.log('url'+url);
+    document.getElementById(this.state.currentPage).className += ' is-current';
     let therapists = dat.data.results;
     let count = dat.data.count;
+
+    // if(count<9){
+    //   let chkflt = []
+    // }
+
+
     if(count > 0){
       this.state.fromTherapist = this.state.currentPage * 9 - 8;
       if(this.state.currentPage * 9 < count){
@@ -286,7 +279,7 @@ export default class home extends Component {
           return false;
         }
         return  <div key={i} className="column is-half is-one-third-fullhd">
-                  <Link to={{pathname: "/profile/"+therapist.id, filter: this.state.filter, search_filter: this.state.search_filter, currentPage: this.state.currentPage }} className="box therapist-card">
+                  <Link to={"/profile/"+therapist.id} className="box therapist-card">
                     <article className="media">
                       <figure className="media-left">
                         <p className="image is-128x160">
