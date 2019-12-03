@@ -6,6 +6,16 @@ class PersonResource(resources.ModelResource):
         instance.cost_per_session_min = None
         instance.cost_per_session_max = None
         years_in_practice_total = None
+        profile_id = None
+
+        if(instance.url != ''):
+            urlArray = instance.url.strip().split("?")
+            urlArray = urlArray[0].strip().split("/")
+            index = len(urlArray) - 1
+            profile_id = urlArray[index]
+            instance.profile_id = profile_id
+            print(profile_id,'profile_id')
+
         if(instance.cost_per_session != 'N/A'):
             instance.cost_per_session_min = instance.cost_per_session.strip().replace("$","")
             instance.cost_per_session_max = instance.cost_per_session.strip().replace("$","")

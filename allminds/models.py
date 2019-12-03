@@ -37,6 +37,7 @@ class Person(models.Model):
 	cost_per_session_min = models.IntegerField(default=0, null=True)
 	cost_per_session_max = models.IntegerField(default=0, null=True)
 	years_in_practice_total = models.IntegerField(default=0, null=True)
+	profile_id = models.IntegerField(default=0, null=True, unique=True)
 
 	def __str__(self):
 		return '{} {}'.format(self.first_name,self.last_name)
