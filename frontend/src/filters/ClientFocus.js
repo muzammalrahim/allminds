@@ -55,7 +55,6 @@ export default class ClientFocus extends Component {
       }
       
     }
-    localStorage.setItem('filter', JSON.stringify(this.state.filter));
     this.getData();
   }
   clear(){

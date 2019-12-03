@@ -31,6 +31,8 @@ export default class home extends Component {
           for(var filtersss in this.props.location.filter){
             this.state.filter[filtersss] = this.props.location.filter[filtersss];
           }
+          localStorage.setItem('filter', JSON.stringify(this.props.location.filter));
+          console.log(localStorage.getItem('filter'),'localllll');
         }
         if(this.props.location.search_filter){
           this.state.search_filter = this.props.location.search_filter;
@@ -38,7 +40,6 @@ export default class home extends Component {
         if(this.props.location.currentPage){
           this.state.currentPage = this.props.location.currentPage;
         }
-        
       }
     
       async componentDidMount() {

@@ -21,6 +21,7 @@ export default class home extends Component {
       fromTherapist:1,
       toTherapist:1,
     };
+    console.log(this.state.filter,'filter');
     this.handleClick = this.handleClick.bind(this);
     this.isCurrent = this.isCurrent.bind(this);
     this.search_filter = this.search_filter.bind(this);
@@ -41,6 +42,9 @@ export default class home extends Component {
       document.getElementById(this.state.currentPage).className = 'pagination-link';
     if(document.getElementById(this.state.currentPage))
       document.getElementById(this.state.currentPage).className += ' is-current';
+    console.log(localStorage.getItem('filter'), 'localstorage');
+    if(localStorage.getItem('filter'))
+      localStorage.clear();
   }
 
   handleClick(event) {

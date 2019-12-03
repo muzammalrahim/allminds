@@ -50,7 +50,6 @@ export default class Rates extends Component {
     let max = document.getElementById("max-value").value;
     this.state.filter.min = min;
     this.state.filter.max = max;
-    localStorage.setItem('filter', JSON.stringify(this.state.filter));
     this.getData();
   }
   clear(){

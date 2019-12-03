@@ -46,7 +46,6 @@ export default class Specialties extends Component {
         if (index !== -1) this.state.filter[key].splice(index, 1);
       }
     }
-    localStorage.setItem('filter', JSON.stringify(this.state.filter));  
     this.getData();
     
   }
