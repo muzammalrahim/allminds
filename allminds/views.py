@@ -237,8 +237,10 @@ def feedback(request):
 		return JsonResponse('Make sure all fields are entered and valid.', safe=False)
 
 def averageRate(self):
-	with connection.cursor() as cursor:
-		cursor.execute("SELECT cost_per_session_min, cost_per_session_max FROM alminds_person WHERE cost_per_session_min != null OR cost_per_session_max != null")
-		row = cursor.fetchall()
+	rates = Person.objects.values_list('cost_per_session_min','cost_per_session_max').filter(Q(cost_per_session_min__isnull=True) | Q(cost_per_session_max__isnull=True))
+	print('rates')
+	print(rates)
+	# for row in rates:
+	# 	print(row,'row')
 	
-	return row
+	return rates

@@ -115,9 +115,9 @@ export default class Rates extends Component {
 
   }
     render() {
-      const averageRate = this.state.ratesdata.map((item, key) => {
+      // const averageRate = this.state.ratesdata.map((item, key) => {
   
-      });
+      // });
         return (
             <div>
         <nav className="navbar is-fixed-top" role="navigation" aria-label="main navigation">
@@ -152,7 +152,7 @@ export default class Rates extends Component {
         <section className="section">
           <div className="container">
             <h5 className="title is-5 filter-header-add">Price range</h5>
-            <p>The average hourly rate is ${averageRate}
+            <p>The average hourly rate is $
             </p>
             <br />
             <nav className="level">
