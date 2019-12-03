@@ -237,10 +237,23 @@ def feedback(request):
 		return JsonResponse('Make sure all fields are entered and valid.', safe=False)
 
 def averageRate(self):
-	rates = Person.objects.values_list('cost_per_session_min','cost_per_session_max').filter(Q(cost_per_session_min__isnull=True) | Q(cost_per_session_max__isnull=True))
-	print('rates')
-	print(rates)
-	# for row in rates:
-	# 	print(row,'row')
-	
-	return rates
+	rates = Person.objects.filter(~Q(cost_per_session_min = None) | ~Q(cost_per_session_max = None)).values_list('cost_per_session_min','cost_per_session_max')
+	counter = 0
+	totalRate = 0
+	for rate in rates:
+		counter = counter + 1
+		# print(list(rate)[0], 'min',list(rate)[1], 'max', counter)
+		
+		if(list(rate)[0] != None and list(rate)[1] != None):
+			totalRate += (list(rate)[0] + list(rate)[1]) / 2
+			# print(totalRate)
+		elif(list(rate)[0] == None and list(rate)[1] != None):
+			totalRate += list(rate)[1]
+			# print(totalRate)
+		elif(list(rate)[0] != None and list(rate)[1] == None):
+			totalRate += list(rate)[0]
+			# print(totalRate)
+
+	averageRate = round(totalRate/counter,0)
+	# print(averageRate,'averageRate')
+	return JsonResponse(averageRate, safe=False)

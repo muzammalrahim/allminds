@@ -10,7 +10,7 @@ export default class Rates extends Component {
     
     this.state = {
       therapists: [],
-      ratesdata:[],
+      averageRate:0,
       filter:{
         min:0, max:0,
       },
@@ -32,15 +32,15 @@ export default class Rates extends Component {
   }
   
   async componentDidMount() {
-    let rates = await get('averageRate');
-    let ratesdata = rates.data.results;
-    console.log('rates', rates);
+    let ratesdata = await get('averageRate');
+    let averageRate = ratesdata.data;
+    // console.log('rates', averageRate);
     for(var item in this.state.filter.specialties){
       console.log(item);
       document.getElementById(this.state.filter.specialties[item]).className= 'button is-light';
     }
     this.setState({
-      ratesdata,
+      averageRate,
     });
     this.getData();
   }
@@ -152,7 +152,7 @@ export default class Rates extends Component {
         <section className="section">
           <div className="container">
             <h5 className="title is-5 filter-header-add">Price range</h5>
-            <p>The average hourly rate is $
+            <p>The average hourly rate is ${this.state.averageRate}
             </p>
             <br />
             <nav className="level">

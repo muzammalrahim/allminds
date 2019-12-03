@@ -24,6 +24,7 @@ from django.conf import settings
 
 router = routers.DefaultRouter()
 router.register(r'therapist', views.PersonViewSet)
+re_path(r'^(?:.*)/?$', views.index),
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -34,8 +35,7 @@ urlpatterns = [
     path('api/sendEmail', views.sendEmail),
     path('api/feedback', views.feedback),
     path('api/averageRate', views.averageRate),
-    re_path(r'^(?:.*)/?$', views.index),
 ]
+
 if settings.DEBUG:
 	urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-

@@ -247,10 +247,11 @@ export default class home extends Component {
         });
           
         const availability = this.state.availabilityAbout.map((avail, index) => {
-          //console.log(avail.toLowerCase(),'avail');
+          // console.log(avail.toLowerCase(),'avail');
           //console.log(this.state.therapist.about,'this.state.therapist.about');
-          if(this.state.therapist.about && (this.state.therapist.about.includes(avail) || this.state.therapist.about.includes(avail.toLowerCase())) == 1){
+          if(this.state.therapist.about && (this.state.therapist.about.includes(avail) || this.state.therapist.about.includes(avail.toLowerCase()))){
             var commClass = '';
+            console.log(avail.toLowerCase(),'avail');
             avail = avail+'s';
             if(this.state.filter['availability'] && this.state.filter['availability'].some(item => avail === item)){
               commClass = "is-light";
@@ -262,7 +263,7 @@ export default class home extends Component {
 
           }
           else{
-            this.state.availability=null;
+            //this.state.availability=null;
             return null;
           }
         });
