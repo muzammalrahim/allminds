@@ -197,6 +197,7 @@ class PersonViewSet(viewsets.ModelViewSet):
 			cost_per_session_max = int(json.loads(cost_per_session_max))
 			if cost_per_session_max > 0:
 				self.queryset = self.queryset.filter(cost_per_session_max__lte=cost_per_session_max)
+		
 
 		search = self.request.query_params.get('search', None)
 		if search is not None:
