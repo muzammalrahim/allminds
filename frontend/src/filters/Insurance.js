@@ -29,7 +29,6 @@ export default class Insurance extends Component {
   }
   
   componentDidMount() {
-    //console.log(this.state.filter);
     for(var item in this.state.filter.insurance){
       document.getElementById(this.state.filter.insurance[item]).className= 'button is-light';
     }
@@ -37,7 +36,6 @@ export default class Insurance extends Component {
   }
   
   async isCurrent(key, event) {
-    //console.log(event,'event');
     if(event!=null){
       if(document.getElementById(event).className==='button is-outlined'){
         document.getElementById(event).className= 'button is-light';
@@ -49,7 +47,7 @@ export default class Insurance extends Component {
         if (index !== -1) this.state.filter[key].splice(index, 1);
       }
     }
-      
+    localStorage.setItem('filter', JSON.stringify(this.state.filter)); 
     this.getData();
     
   }

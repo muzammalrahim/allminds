@@ -69,8 +69,6 @@ export default class home extends Component {
     }
 
     render() {
-      
-        console.log(this.state.years_in_practice, 'this.props.location');
         const gender = this.state.gender.map((gend, index) => {
           if(gend == 'N/A' || gend == ''){
             this.state.genderCheck='';
@@ -197,7 +195,6 @@ export default class home extends Component {
         });
 
         const insurance = this.state.insurance.map((insur, index) => {
-          console.log(insur,'insur');
           if(insur == 'N/A' || insur == ''){
             insur = 'Private pay';
             return <button key={index} className={"button "+commClass}>
@@ -235,7 +232,6 @@ export default class home extends Component {
         });
 
         const practice = this.state.years_in_practice.map((prac, index) => {
-          console.log(prac,'prac');
           prac = prac.trim();
           if(prac == 'N/A' || prac == ''){
             this.state.practice='';
@@ -247,8 +243,6 @@ export default class home extends Component {
         });
           
         const availability = this.state.availabilityAbout.map((avail, index) => {
-          //console.log(avail.toLowerCase(),'avail');
-          //console.log(this.state.therapist.about,'this.state.therapist.about');
           if(this.state.therapist.about && (this.state.therapist.about.includes(avail) || this.state.therapist.about.includes(avail.toLowerCase())) == 1){
             var commClass = '';
             avail = avail+'s';
@@ -331,7 +325,7 @@ export default class home extends Component {
                   </div>
                 </article>
                 <br />
-                <Link to={"/contactForm/"+this.state.id} className="button is-primary is-medium is-fullwidth">
+                <Link to={{ pathname: "/contactForm/"+this.state.id, filter: this.state.filter, search_filter: this.state.search_filter, currentPage: this.state.currentPage }} className="button is-primary is-medium is-fullwidth">
                   Message me
                 </Link>
               </div>
@@ -354,7 +348,6 @@ export default class home extends Component {
                 <div className="buttons therapist-tags">
                 {communities}
                  </div></div> : null}
-               {console.log("aaa", this.state.i_also_speak)}
                  {(this.state.language) || (this.state.genderCheck) || (this.state.therapistTitle) || (this.state.practice) ? <div className="therapist-tags"><h5 className="title is-5">Background</h5>
                 <div className="buttons therapist-tags">
                     {gender}

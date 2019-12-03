@@ -38,7 +38,7 @@ export default class ContactForm extends Component {
         phoneNumber:document.getElementById('mail-phoneNumber').value,
       };
       const recaptchaValue = this.state.recaptchaRef.current.getValue();
-      if(recaptchaValue != ''){
+      if(recaptchaValue !== ''){
         await post("sendEmail", contactData);
         window.alert("Thank You! I Got Your Message, I Will Contact You Soon");
         this.props.history.push('/');
@@ -51,13 +51,12 @@ export default class ContactForm extends Component {
     }
 
     async onChange(value) {
-      console.log("Captcha value:", value);
       let mailClass="";
       if(value)
       {
         mailClass="button is-primary is-medium is-fullwidth"
       }
-      else if(value == '')
+      else if(value === '')
       {
         mailClass="button is-primary is-medium is-fullwidth mail-isChecked"
       }

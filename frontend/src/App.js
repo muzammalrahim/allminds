@@ -15,10 +15,12 @@ import {
   Switch,
   Route,
 } from "react-router-dom";
+import history from './history';
 
 function App() {
   return (
-    <Router>
+    <Router history={history}> 
+    {console.log(history,'appjs')}
       <Switch>
         <Route exact path="/" component={Home}/>
         <Route exact path="/therapist/?page=:page" component={Home}/>

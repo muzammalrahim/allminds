@@ -17,7 +17,6 @@ export default class FeedBackForm extends Component {
         
     }
     async onChange(value) {
-      console.log("Captcha value:", value);
       let mailClass="";
       if(value)
       {
@@ -32,10 +31,8 @@ export default class FeedBackForm extends Component {
      //Show/Hide Message
      async showHideMsg(message,type){
       if(type == "success"){
-        console.log('success', document.getElementById("messagewrap"));
         document.getElementById("messagewrap").classList.add("success-msg").classList.remove("error-msg");
       }else if(type == "error"){
-        console.log('error', document.getElementById("messagewrap"));
         document.getElementById("messagewrap").classList.remove("success-msg").classList.add("error-msg");
       }
       ReactDOM.render(message, document.getElementById('messagewrap'));
@@ -56,12 +53,10 @@ export default class FeedBackForm extends Component {
         message:document.getElementById('feedback-message').value,
       };
       const recaptchaValue = this.state.recaptchaRef.current.getValue();
-      console.log('recaptchaValue', recaptchaValue);
       if(recaptchaValue != ''){
         //this.showHideMsg("Form Submitted!","success");
         //this.props.onSubmit(recaptchaValue);
         await post("feedback", contactData);
-        console.log("Thank You! We Got Your Feedback");
         window.alert("Thank You! We Got Your Feedback");
         // return this.state.router.history.push(`/`);
         this.props.history.push('/');

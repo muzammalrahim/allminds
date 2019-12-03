@@ -46,7 +46,7 @@ export default class Specialties extends Component {
         if (index !== -1) this.state.filter[key].splice(index, 1);
       }
     }
-      
+    localStorage.setItem('filter', JSON.stringify(this.state.filter));  
     this.getData();
     
   }
@@ -139,7 +139,6 @@ export default class Specialties extends Component {
                     <Link to={{pathname: "/", filter: this.state.filter, search_filter: this.state.search_filter }} className="navbar-item" >
                     <span className="button is-primary is-medium is-fullwidth">
                     Show {this.state.count} Therapists
-                    {console.log(this.state.therapists.count)}
                     </span>
                     </Link>
                   </div>

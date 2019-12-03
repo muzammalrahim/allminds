@@ -34,9 +34,7 @@ export default class Rates extends Component {
   async componentDidMount() {
     let rates = await get('averageRate');
     let ratesdata = rates.data.results;
-    console.log('rates', rates);
     for(var item in this.state.filter.specialties){
-      console.log(item);
       document.getElementById(this.state.filter.specialties[item]).className= 'button is-light';
     }
     this.setState({
@@ -51,7 +49,7 @@ export default class Rates extends Component {
     let max = document.getElementById("max-value").value;
     this.state.filter.min = min;
     this.state.filter.max = max;
-    
+    localStorage.setItem('filter', JSON.stringify(this.state.filter));
     this.getData();
   }
   clear(){
@@ -142,7 +140,6 @@ export default class Rates extends Component {
                 <Link to={{pathname: "/", filter: this.state.filter, search_filter: this.state.search_filter }} className="navbar-item" >
                     <span className="button is-primary is-medium is-fullwidth">
                     Show {this.state.count} Therapists
-                    {console.log(this.state.therapists.count)}
                     </span>
                     </Link>
               </div>

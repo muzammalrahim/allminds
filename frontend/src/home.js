@@ -13,7 +13,7 @@ export default class home extends Component {
       currentPage: 1,
       todosPerPage: 3,
       perPage:1,
-      filter: this.props.location.filter ? this.props.location.filter : {
+      filter: this.props.location.filter ? this.props.location.filter : localStorage.getItem('filter') ? JSON.parse(localStorage.getItem('filter')): {
         specialties:[], genderFocus:[], ageGroup:[], communities:[], gender:[], title:[], yearsInPractice:[], languages:[], insurance:[], availability:[], min:0, max:0,
       },
       search_filter: this.props.location.search_filter ? this.props.location.search_filter : null,
@@ -39,7 +39,7 @@ export default class home extends Component {
     this.state.search_filter=document.getElementById('search_bar').value;
     console.log(this.state.search_filter);
     let url = 'therapist/?';
-    if('specialties' in this.state.filter && this.state.filter.specialties.length>0){
+    if("specialties" in this.state.filter && this.state.filter.specialties.length>0){
       url += 'specialties='+JSON.stringify(this.state.filter.specialties)+'&';
     }
     if('availability' in this.state.filter && this.state.filter.availability.length>0){
@@ -83,7 +83,6 @@ export default class home extends Component {
     let count = dat.data.count;
     let filter = this.state.filter;
     let search_filter = this.state.search_filter;
-
     this.setState({
       therapists, count, filter, search_filter
     });
@@ -160,16 +159,10 @@ export default class home extends Component {
     }
 
     dat = await get(url);
-    console.log('url'+url);
     document.getElementById(this.state.currentPage).className += ' is-current';
     let therapists = dat.data.results;
     let count = dat.data.count;
-
-    // if(count<9){
-    //   let chkflt = []
-    // }
-
-
+    
     if(count > 0){
       this.state.fromTherapist = this.state.currentPage * 9 - 8;
       if(this.state.currentPage * 9 < count){
@@ -191,7 +184,7 @@ export default class home extends Component {
       therapists, count, perPage, total 
     });
     document.getElementById('loadingSpinner').classList.add('hide');
-
+    
 }
 
 
@@ -279,7 +272,7 @@ export default class home extends Component {
           return false;
         }
         return  <div key={i} className="column is-half is-one-third-fullhd">
-                  <Link to={"/profile/"+therapist.id} className="box therapist-card">
+                  <Link to={{pathname: "/profile/"+therapist.id, filter: this.state.filter, search_filter: this.state.search_filter, currentPage: this.state.currentPage }} className="box therapist-card">
                     <article className="media">
                       <figure className="media-left">
                         <p className="image is-128x160">
