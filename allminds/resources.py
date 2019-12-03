@@ -2,45 +2,48 @@ from import_export import resources
 from .models import Person
 
 class PersonResource(resources.ModelResource):
-    def before_import(self, dataset, using_transactions, dry_run, **kwargs):
-        profileIdArray = []
-        datasetNew = []
-        for index, data in enumerate(dataset, start=1):
-            url = list(data)[len(data)-2]
-            # print('index',index)
-            if(url != ''):
-                urlArray = url.strip().split("?")
-                urlArray = urlArray[0].strip().split("/")
-                i = len(urlArray) - 1
-                profile_id = urlArray[i]
-                if profile_id not in profileIdArray:
-                    arrayIndex = index - 1
-                    profileIdArray.append(profile_id)
-                    del dataset[arrayIndex]
-                    # dataset = dataset.pop(index)
-                    print(dataset[arrayIndex][len(data)-2],'index', arrayIndex)
-                else:
-                    datasetNew.append(dataset[arrayIndex])
-                    print(index,'no index')
-                # row.profile_id = profile_id
-                # print(dataset[index],'dataset[index]')
-                # print(profile_id,'profile_id')
-            # print(dataset,'dataset')
-        # print(dataset,'dataset')
-        # print(datasetNew,'datasetNew')
-        return super(self.__class__, self).before_import(dataset, using_transactions, dry_run, **kwargs)
+    # def before_import(self, dataset, using_transactions, dry_run, **kwargs):
+    #     profileIdArray = []
+    #     datasetNew = []
+    #     tempDatasetList = list(dataset)
+    #     for index, data in enumerate(tempDatasetList, start=0):
+    #         url = list(data)[len(data)-2]
+    #         # print('data',dataset[index])
+    #         arrayIndex = index - 1
+    #         if(url != ''):
+    #             urlArray = url.strip().split("?")
+    #             urlArray = urlArray[0].strip().split("/")
+    #             i = len(urlArray) - 1
+    #             profile_id = urlArray[i]
+    #             # if profile_id not in profileIdArray:
+    #                 # profileIdArray.append(profile_id)
+    #             print("datasetttttttttttttttttt")
+    #             del tempDatasetList[arrayIndex]
+    #                 # dataset = dataset.pop(index)
+    #             print(profile_id,'index', arrayIndex)
+    #             # else:
+    #                 # datasetNew.append(dataset[index])
+    #                 # print(index,'no index')
+    #             # row.profile_id = profile_id
+    #             # print(dataset[index],'dataset[index]')
+    #             # print(profile_id,'profile_id')
+    #         # print(dataset,'dataset')
+    #     dataset = tuple(tempDatasetList)
+    #     # print(dataset,'dataset')
+    #     # print(tempDatasetList,'tempDatasetList')
+    #     return super(self.__class__, self).before_import(dataset, using_transactions, dry_run, **kwargs)
 
-    def before_import_row(self, row, **kwargs):
-        profile_id = None
-        # print(row['url'])
-        if(row['url'] != ''):
-            urlArray = row['url'].strip().split("?")
-            urlArray = urlArray[0].strip().split("/")
-            index = len(urlArray) - 1
-            profile_id = urlArray[index]
-            # row.profile_id = profile_id
-            print(profile_id,'profile_id')
-        pass
+    # def before_import_row(self, row, **kwargs):
+    #     profile_id = None
+    #     # print(row['url'])
+    #     if(row['url'] != ''):
+    #         urlArray = row['url'].strip().split("?")
+    #         urlArray = urlArray[0].strip().split("/")
+    #         index = len(urlArray) - 1
+    #         profile_id = urlArray[index]
+    #         # row.profile_id = profile_id
+    #         print(profile_id,'profile_id')
+    #     pass
 
     def before_save_instance(self, instance, using_transactions, dry_run):
         instance.cost_per_session_min = None

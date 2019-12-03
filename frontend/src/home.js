@@ -10,13 +10,13 @@ export default class home extends Component {
     this.state = {
       therapists: [],
       count: null,
-      currentPage: 1,
+      currentPage: localStorage.getItem('currentPage') ? JSON.parse(localStorage.getItem('currentPage')) : 1,
       todosPerPage: 3,
       perPage:1,
       filter: this.props.location.filter ? this.props.location.filter : localStorage.getItem('filter') ? JSON.parse(localStorage.getItem('filter')): {
         specialties:[], genderFocus:[], ageGroup:[], communities:[], gender:[], title:[], yearsInPractice:[], languages:[], insurance:[], availability:[], min:0, max:0,
       },
-      search_filter: this.props.location.search_filter ? this.props.location.search_filter : null,
+      search_filter: this.props.location.search_filter ? this.props.location.search_filter : localStorage.getItem('search_filter') ? JSON.parse(localStorage.getItem('search_filter')) : null,
       totalPages: 1,
       fromTherapist:1,
       toTherapist:1,

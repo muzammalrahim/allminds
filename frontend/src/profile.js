@@ -36,9 +36,11 @@ export default class home extends Component {
         }
         if(this.props.location.search_filter){
           this.state.search_filter = this.props.location.search_filter;
+          localStorage.setItem('search_filter', JSON.stringify(this.props.location.search_filter));
         }
         if(this.props.location.currentPage){
           this.state.currentPage = this.props.location.currentPage;
+          localStorage.setItem('currentPage', JSON.stringify(this.props.location.currentPage));
         }
       }
     
