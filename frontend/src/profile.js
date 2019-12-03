@@ -49,13 +49,13 @@ export default class home extends Component {
         
         let dat = await get("therapist/"+id);
         let therapist = dat.data;
-        let special = therapist.specialties ? therapist.specialties.split(','): '';
-        let communitie = therapist.communities ? therapist.communities.split(','): '';
-        let insurance = therapist.accepted_insurance_plans ? therapist.accepted_insurance_plans.split(','): '';
-        let i_also_speak = therapist.i_also_speak ? therapist.i_also_speak.split(','):'';
-        let gender = therapist.gender ? therapist.gender.split(','): '';
-        let years_in_practice = therapist.years_in_practice ? therapist.years_in_practice.split(','): '';
-        let title = therapist.title ? therapist.title.split(','): '';
+        let special = therapist.specialties ? therapist.specialties.split(','): [];
+        let communitie = therapist.communities ? therapist.communities.split(','): [];
+        let insurance = therapist.accepted_insurance_plans ? therapist.accepted_insurance_plans.split(','): [];
+        let i_also_speak = therapist.i_also_speak ? therapist.i_also_speak.split(','): [];
+        let gender = therapist.gender ? therapist.gender.split(','): [];
+        let years_in_practice = therapist.years_in_practice ? therapist.years_in_practice.split(','): [];
+        let title = therapist.title ? therapist.title.split(','): [];
         
           this.setState({
             therapist,
@@ -72,6 +72,7 @@ export default class home extends Component {
     }
 
     render() {
+      console.log(this.state,'gennnnnn');
         const gender = this.state.gender.map((gend, index) => {
           if(gend == 'N/A' || gend == ''){
             this.state.genderCheck='';

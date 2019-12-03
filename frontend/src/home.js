@@ -98,6 +98,7 @@ export default class home extends Component {
       url += 'search='+this.state.search_filter;
     }
     let dat = await get(url);
+    // let dupl = await get('removeDuplicate');
     let therapists = dat.data.results;
     let count = dat.data.count;
     let filter = this.state.filter;

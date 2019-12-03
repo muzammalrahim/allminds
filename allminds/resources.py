@@ -62,10 +62,10 @@ class PersonResource(resources.ModelResource):
         
         if(instance.url != ''):
             urlArray = instance.url.strip().split("?")
+            instance.url = urlArray[0]
             urlArray = urlArray[0].strip().split("/")
             index = len(urlArray) - 1
             profile_id = urlArray[index]
-            instance.url = urlArray[0]
             instance.profile_id = profile_id
             # print(profile_id,'profile_id')
 
