@@ -24,10 +24,25 @@ export default class home extends Component {
     this.handleClick = this.handleClick.bind(this);
     this.isCurrent = this.isCurrent.bind(this);
     this.search_filter = this.search_filter.bind(this);
+
+    if(this.props.location.currentPage){
+      this.state.currentPage = this.props.location.currentPage;
+    }
+    console.log(this.state.currentPage,'this.state.currentPage');
   }
+
   componentDidMount() {
-      this.isCurrent();
+      this.isCurrent(this.state.currentPage);
   }
+  
+  componentDidUpdate(){
+    window.scrollTo(0, 0)
+    if(document.getElementById(this.state.currentPage))
+      document.getElementById(this.state.currentPage).className = 'pagination-link';
+    if(document.getElementById(this.state.currentPage))
+      document.getElementById(this.state.currentPage).className += ' is-current';
+  }
+
   handleClick(event) {
     document.getElementById(this.state.currentPage).className = 'pagination-link';
     let numb=event.target.id.split('-')
@@ -99,8 +114,9 @@ export default class home extends Component {
     }
     else if(event!=null)
     { 
-     
-      document.getElementById(this.state.currentPage).className = 'pagination-link';
+      console.log(this.state.currentPage, 'ashdgajsdasd');
+      if(document.getElementById(this.state.currentPage))
+        document.getElementById(this.state.currentPage).className = 'pagination-link';
       console.log(event, 'event');
       perPage = event;
       this.state.currentPage = event;
@@ -159,7 +175,8 @@ export default class home extends Component {
     }
 
     dat = await get(url);
-    document.getElementById(this.state.currentPage).className += ' is-current';
+    if(document.getElementById(this.state.currentPage))
+      document.getElementById(this.state.currentPage).className += ' is-current';
     let therapists = dat.data.results;
     let count = dat.data.count;
     
