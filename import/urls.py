@@ -27,6 +27,7 @@ router.register(r'therapist', views.PersonViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    # path('api/profile/', views.PersonViewSet),
     path('api/', include(router.urls)),
     path('', views.index),
     #path('admin/allminds/person/import/', views.simple_upload),
@@ -34,7 +35,8 @@ urlpatterns = [
     path('api/sendEmail', views.sendEmail),
     path('api/feedback', views.feedback),
     path('api/averageRate', views.averageRate),
-    re_path(r'^(?:.*)/?$', views.index),
+    # re_path(r'therapist/', views.PersonViewSet),
+    # re_path(r'^(?:.*)/?$', views.index),
     # path('api/removeDuplicate', views.removeDuplicate),
 ]
 
