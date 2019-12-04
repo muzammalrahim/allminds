@@ -47,7 +47,7 @@ export default class home extends Component {
       async componentDidMount() {
           const id=this.props.match.params.id;
         
-        let dat = await get("therapist/"+id);
+        let dat = await get("therapist/"+id+"/");
         let therapist = dat.data;
         let special = therapist.specialties ? therapist.specialties.split(','): [];
         let communitie = therapist.communities ? therapist.communities.split(','): [];
