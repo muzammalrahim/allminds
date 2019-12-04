@@ -258,3 +258,9 @@ def averageRate(self):
 	averageRate = round(totalRate/counter,0)
 	# print(averageRate,'averageRate')
 	return JsonResponse(averageRate, safe=False)
+
+# def removeDuplicate(self):
+# 	for row in Person.objects.all():
+# 		if Person.objects.filter(profile_id=row.profile_id).count() > 1:
+# 			row.delete()
+	
