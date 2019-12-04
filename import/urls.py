@@ -35,8 +35,7 @@ urlpatterns = [
     path('api/feedback', views.feedback),
     path('api/averageRate', views.averageRate),
     re_path(r'^(?:.*)/?$', views.index),
-    # path('api/removeDuplicate', views.removeDuplicate),
 ]
-
 if settings.DEBUG:
 	urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+

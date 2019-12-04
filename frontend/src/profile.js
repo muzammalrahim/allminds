@@ -11,7 +11,11 @@ export default class home extends Component {
           currentPage:1,
           therapist: [],
           special:[],
+          gendFocus:[],
+          ethnicity:[],
+          ageGroup:[],
           communitie:[],
+          faith:[],
           id:null,
           insurance:[],
           i_also_speak:[],
@@ -24,6 +28,7 @@ export default class home extends Component {
           language:'',
           therapistTitle:'',
           practice:'',
+          commcheck:'',
           availabilityAbout:['Evening','Weekend'],
           availability:null,
         };
@@ -50,7 +55,11 @@ export default class home extends Component {
         let dat = await get("therapist/"+id+"/");
         let therapist = dat.data;
         let special = therapist.specialties ? therapist.specialties.split(','): [];
+        let gendFocus = therapist.specialties ? therapist.specialties.split(','): [];
+        let ethnicity = therapist.ethnicity ? therapist.ethnicity.split(','): [];
+        let ageGroup = therapist.age ? therapist.age.split(','): [];
         let communitie = therapist.communities ? therapist.communities.split(','): [];
+        let faith = therapist.faith ? therapist.faith.split(','): [];
         let insurance = therapist.accepted_insurance_plans ? therapist.accepted_insurance_plans.split(','): [];
         let i_also_speak = therapist.i_also_speak ? therapist.i_also_speak.split(','): [];
         let gender = therapist.gender ? therapist.gender.split(','): [];
@@ -60,7 +69,11 @@ export default class home extends Component {
           this.setState({
             therapist,
             special,
+            gendFocus,
+            ethnicity,
+            ageGroup,
             communitie,
+            faith,
             insurance,
             id,
             i_also_speak,
@@ -130,6 +143,7 @@ export default class home extends Component {
           }
           else if(!specArray.some(item => 'Family Issues' === item) && (spec == 'Adoption' || spec == 'Behavioral Issues' || spec == 'Child or Adolescent' || spec == 'Family Conflict' || spec == 'Oppositional Defiance' || spec == 'Parenting')){
             specl = 'Family Issues';
+            console.log('Family Issues');
             if(this.state.filter['specialties'] && this.state.filter['specialties'].some(item => specl === item)){
               specClass='is-light';
             }
@@ -178,7 +192,6 @@ export default class home extends Component {
             specArray.push('Trauma or abuse');
           }
           if(specl == ''){
-            this.state.special=null;
             return false;
           }
           this.state.special=1;
@@ -187,18 +200,159 @@ export default class home extends Component {
                     </button>
             
         });
-        
-        const communities = this.state.communitie.map((comm, index) => {
-          var commClass='';
-          if(this.state.filter['communities'] && this.state.filter['communities'].some(item => comm === item)){
-            commClass='is-light';
+
+        var gendFocArray = [];
+        const gendFocus = this.state.gendFocus.map((ethn, index) => {
+          var ethnClass='';
+          var ethnl = '';
+          console.log(ethn,'ethn');
+          if(!gendFocArray.some(item => 'Female' === item) && ethn.includes("Women")){
+            ethnl = 'Female';
+            if(this.state.filter['genderFocus'] && this.state.filter['genderFocus'].some(item => ethnl === item)){
+              ethnClass='is-light';
+            }
+            gendFocArray.push('Female');
           }
-          return <button key={index} className={"button "+commClass}>
-                      {comm}
+          else if(!gendFocArray.some(item => 'Male' === item) && ethn.includes("Men")){
+            ethnl = 'Male';
+            if(this.state.filter['genderFocus'] && this.state.filter['genderFocus'].some(item => ethnl === item)){
+              ethnClass='is-light';
+            }
+            gendFocArray.push('Male');
+          }
+          else if(!gendFocArray.some(item => 'Non-binary' === item) && ethn.includes("Non-Binary Allied")){
+            ethnl = 'Non-binary';
+            if(this.state.filter['genderFocus'] && this.state.filter['genderFocus'].some(item => ethnl === item)){
+              ethnClass='is-light';
+            }
+            gendFocArray.push('Non-binary');
+          }
+          if(ethnl == ''){
+            return null
+          }
+          this.state.commcheck = 1;
+          return <button key={index} className={"button "+ethnClass}>
+                      {ethnl}
                   </button>
           
         });
 
+        var ethinicArray = [];
+        const ethnicity = this.state.ethnicity.map((ethn, index) => {
+          var ethnClass='';
+          var ethnl = '';
+          if(!ethinicArray.some(item => 'Ethnic minorites' === item) && (ethn.includes("Asian") || ethn.includes("African-American") || ethn.includes('Hispanic, Latino') || ethn.includes('Pacific Islander') || ethn.includes('Other Racial or Ethnic Background') || ethn.includes('Racial Justice Allied') || ethn.includes('Racial Identity'))){
+            ethnl = 'Ethnic minorites';
+            if(this.state.filter['communities'] && this.state.filter['communities'].some(item => ethnl === item)){
+              ethnClass='is-light';
+            }
+            ethinicArray.push('Ethnic minorites');
+          }
+          if(ethnl == ''){
+            return null
+          }
+          this.state.commcheck = 1;
+          return <button key={index} className={"button "+ethnClass}>
+                      {ethnl}
+                  </button>
+          
+        });
+        
+        var ageGroupArray = [];
+        const ageGroup = this.state.ageGroup.map((ethn, index) => {
+          var ethnClass='';
+          var ethnl = '';
+          console.log(ethn,'ethn');
+          if(!ageGroupArray.some(item => 'Teens' === item) && (ethn == "Toddlers / Preschoolers" || ethn == "Children" || ethn == "Preteens / Tweens" || ethn == "Adolescents / Teenagers" || ethn == "Child or Adolescent")){
+            ethnl = 'Teens';
+            if(this.state.filter['ageGroup'] && this.state.filter['ageGroup'].some(item => ethnl === item)){
+              ethnClass='is-light';
+            }
+            ageGroupArray.push('Teens');
+          }
+          else if(!ageGroupArray.some(item => 'Adults' === item) && ethn.includes("Adults")){
+            ethnl = 'Adults';
+            if(this.state.filter['ageGroup'] && this.state.filter['ageGroup'].some(item => ethnl === item)){
+              ethnClass='is-light';
+            }
+            ageGroupArray.push('Adults');
+          }
+          else if(!ageGroupArray.some(item => 'Elders' === item) && ethn.includes("Elders")){
+            ethnl = 'Elders';
+            if(this.state.filter['ageGroup'] && this.state.filter['ageGroup'].some(item => ethnl === item)){
+              ethnClass='is-light';
+            }
+            ageGroupArray.push('Elders');
+          }
+          if(ethnl == ''){
+            return null
+          }
+          this.state.commcheck = 1;
+          return <button key={index} className={"button "+ethnClass}>
+                      {ethnl}
+                  </button>
+          
+        });
+
+        var commArray = [];
+        const communities = this.state.communitie.map((val, index) => {
+          var commClass='';
+          var comml = '';
+          var comm = val.trim();
+          if(!commArray.some(item => 'LGBTQ' === item) && (comm == 'Bisexual Allied' || comm == 'Gay Allied' || comm == 'HIV / AIDS Allied' || comm == 'Intersex Allied' || comm == 'Lesbian Allied' || comm == 'Transgender Allied' || comm == 'Non-Binary Allied' || comm == 'Queer Allied')){
+            comml = 'LGBTQ';
+            if(this.state.filter['communities'] && this.state.filter['communities'].some(item => comml === item)){
+              commClass='is-light';
+            }
+            commArray.push('LGBTQ');
+          }
+					else if(!commArray.some(item => 'Veterans' === item) && (comm == 'Veterans')){
+            comml = 'Veterans';
+            if(this.state.filter['communities'] && this.state.filter['communities'].some(item => comml === item)){
+              commClass='is-light';
+            }
+            commArray.push('Veterans');
+          }
+          else if(!commArray.some(item => 'Cancer survivors' === item) && (comm == 'Cancer')){
+            comml = 'Cancer survivors';
+            if(this.state.filter['communities'] && this.state.filter['communities'].some(item => comml === item)){
+              commClass='is-light';
+            }
+            commArray.push('Cancer survivors');
+          }
+          if(comml == ''){
+            return null
+          }
+          this.state.commcheck = 1;
+          return <button key={index} className={"button "+commClass}>
+                      {comml}
+                  </button>
+          
+        });
+
+        var faithArray = [];
+        const faith = this.state.faith.map((val, index) => {
+          var commClass='';
+          var fal = '';
+          var val = val.trim();
+          // console.log(val,'val');
+          if(!faithArray.some(item => 'Religious / Spiritual' === item) && (val == 'Spirituality' || val == 'Buddhist' || val == 'Hindu' || val == 'Islam' || val == 'Jewish' || val == 'Mormon' || val == 'Other Spiritual or Religious Affiliations')){
+            fal = 'Religious / Spiritual';
+            // console.log(this.state.filter['communities'],'ahvgsdjashdjnabsdj');
+            if(this.state.filter['communities'] && this.state.filter['communities'].some(item => fal === item)){
+              commClass='is-light';
+            }
+            faithArray.push('Religious / Spiritual');
+          }
+          if(fal == ''){
+            return null
+          }
+          this.state.commcheck = 1;
+          return <button key={index} className={"button "+commClass}>
+                      {fal}
+                  </button>
+          
+        });
         const insurance = this.state.insurance.map((insur, index) => {
           if(insur == 'N/A' || insur == ''){
             insur = 'Private pay';
@@ -342,15 +496,19 @@ export default class home extends Component {
               </div>
               <hr className="is-hidden-tablet" />
               <div className="column is-half">
-                {this.state.special ? < div className="therapist-tags">
+                {this.state.special == 1 ? < div className="therapist-tags">
                 <h5 className="title is-5">Specialties</h5>
                 <div className="buttons therapist-tags">
                   {specialities}
                 </div></div> :null }
                 
-                {this.state.communitie && this.state.communitie !='N/A' ? <div className="therapist-tags"><h5 className="title is-5">Client Focus</h5>
+                {this.state.commcheck != '' ? <div className="therapist-tags"><h5 className="title is-5">Client Focus</h5>
                 <div className="buttons therapist-tags">
-                {communities}
+                  {gendFocus}
+                  {ethnicity}
+                  {ageGroup}
+                  {communities}
+                  {faith}
                  </div></div> : null}
                  {(this.state.language) || (this.state.genderCheck) || (this.state.therapistTitle) || (this.state.practice) ? <div className="therapist-tags"><h5 className="title is-5">Background</h5>
                 <div className="buttons therapist-tags">
