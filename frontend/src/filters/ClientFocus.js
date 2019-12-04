@@ -168,10 +168,10 @@ export default class ClientFocus extends Component {
               <p><strong>Age group</strong></p>
               <button id="Adults" className="button is-outlined" onClick={()=>this.isCurrent("ageGroup","Adults")}>Adults</button>
               <button id="Elders" className="button is-outlined" onClick={()=>this.isCurrent("ageGroup","Elders")}>Elders</button>
-              <button id="Teens" className="button is-outlined" onClick={()=>this.isCurrent("ageGroup","Teens")}>Teens</button>
+              <button id="Teens" className="button is-outlined" onClick={()=>this.isCurrent("ageGroup","Teens")}>Children & Teens</button>
               <br />
               <p><strong>Communities</strong></p>
-              <button id="Ethnic minorites" className="button is-outlined" onClick={()=>this.isCurrent("communities","Ethnic minorites")}>Ethnic minorites</button>
+              <button id="Ethnic minorites" className="button is-outlined" onClick={()=>this.isCurrent("communities","Ethnic minorites")}>Recial & Ethnic minorites</button>
               <button id="LGBTQ" className="button is-outlined" onClick={()=>this.isCurrent("communities","LGBTQ")}>LGBTQ</button>
               <button id="Veterans" className="button is-outlined" onClick={()=>this.isCurrent("communities","Veterans")}>Veterans</button>
               <button id="Cancer survivors" className="button is-outlined" onClick={()=>this.isCurrent("communities","Cancer survivors")}>Cancer Survivors</button>

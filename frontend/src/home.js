@@ -29,7 +29,6 @@ export default class home extends Component {
     if(this.props.location.currentPage){
       this.state.currentPage = this.props.location.currentPage;
     }
-    console.log(this.state.currentPage,'this.state.currentPage');
   }
 
   componentDidMount() {
