@@ -47,7 +47,7 @@ export default class home extends Component {
       async componentDidMount() {
           const id=this.props.match.params.id;
         
-        let dat = await get("therapist/"+id);
+        let dat = await get("therapist/"+id+"/");
         let therapist = dat.data;
         let special = therapist.specialties ? therapist.specialties.split(','): [];
         let communitie = therapist.communities ? therapist.communities.split(','): [];
@@ -84,8 +84,8 @@ export default class home extends Component {
             commClass='is-light';
           }
           return <button key={index} className={"button "+commClass}>
-                        {gend}
-                    </button>
+                    {gend}
+                </button>
           
         });
 
@@ -181,6 +181,7 @@ export default class home extends Component {
             this.state.special=null;
             return false;
           }
+          this.state.special=1;
           return <button key={index} className={"button "+specClass}>
                         {specl}
                     </button>
@@ -214,7 +215,7 @@ export default class home extends Component {
                     {insur}
                   </button>
           }
-          return false
+          return null
           
         });
 
@@ -224,7 +225,6 @@ export default class home extends Component {
             this.state.language='';
             return lang = '';
           }
-          this.state.language=1;
           var commClass='';
           if(this.state.filter['languages'] && this.state.filter['languages'].some(item => lang === item)){
             commClass='is-light';
@@ -247,8 +247,6 @@ export default class home extends Component {
         });
           
         const availability = this.state.availabilityAbout.map((avail, index) => {
-          // console.log(avail.toLowerCase(),'avail');
-          //console.log(this.state.therapist.about,'this.state.therapist.about');
           if(this.state.therapist.about && (this.state.therapist.about.includes(avail) || this.state.therapist.about.includes(avail.toLowerCase()))){
             var commClass = '';
             console.log(avail.toLowerCase(),'avail');
@@ -263,7 +261,6 @@ export default class home extends Component {
 
           }
           else{
-            //this.state.availability=null;
             return null;
           }
         });
@@ -366,7 +363,7 @@ export default class home extends Component {
                 <div className="buttons therapist-tags">
                   {insurance}
                 </div></div> : null}
-                {this.state.availability ? <div className="therapist-tags"><h5 className="title is-5">Availability:</h5>
+                {this.state.availability ? <div className="therapist-tags"><h5 className="title is-5">Availability</h5>
                 <div className="buttons therapist-tags">
                   {availability}
                 </div></div> : null}

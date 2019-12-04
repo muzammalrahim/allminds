@@ -186,8 +186,8 @@ async getData() {
             <br />
             <div className="filter-list">
               <p><strong>Gender</strong></p>
-              <button id="Female" className="button is-outlined" onClick={()=>this.isCurrent("gender","Female")}>Women</button>
-              <button id="Male" className="button is-outlined" onClick={()=>this.isCurrent("gender","Male")}>Men</button>
+              <button id="Female" className="button is-outlined" onClick={()=>this.isCurrent("gender","Female")}>Female</button>
+              <button id="Male" className="button is-outlined" onClick={()=>this.isCurrent("gender","Male")}>Male</button>
               <button id="Non-Binary" className="button is-outlined" onClick={()=>this.isCurrent("gender","Non-Binary")}>Non-binary</button>
               <br />
               <p><strong>Title</strong></p>
