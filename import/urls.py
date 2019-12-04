@@ -34,7 +34,7 @@ urlpatterns = [
     path('api/sendEmail', views.sendEmail),
     path('api/feedback', views.feedback),
     path('api/averageRate', views.averageRate),
-    re_path(r'^(?:.*)/?$', views.index),
+    # re_path(r'^(?:.*)/?$', views.index),
     # path('api/removeDuplicate', views.removeDuplicate),
 ]
 
