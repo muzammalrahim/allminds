@@ -156,7 +156,9 @@ export default class Specialties extends Component {
                   <button id="Anxiety or panic attacks" className="button is-outlined" onClick={()=>this.isCurrent("specialties","Anxiety or panic attacks")}>Anxiety or panic attacks</button>
                   <button id="Depression" className="button is-outlined" onClick={()=>this.isCurrent("specialties","Depression")}>Depression</button>
                   <button id="Eating and food issues" className="button is-outlined" onClick={()=>this.isCurrent("specialties","Eating and food issues")}>Eating and food issues</button>
+                  <button id="Family Issues" className="button is-outlined" onClick={()=>this.isCurrent("specialties","Family Issues")}>Family Issues</button>
                   <button id="Grief" className="button is-outlined" onClick={()=>this.isCurrent("specialties","Grief")}>Grief</button>
+                  <button id="Health Issues" className="button is-outlined" onClick={()=>this.isCurrent("specialties","Health Issues")}>Health Issues</button>
                   <button id="Relationship issues" className="button is-outlined" onClick={()=>this.isCurrent("specialties","Relationship issues")}>Relationship issues</button>
                   <button id="Life transitions" className="button is-outlined" onClick={()=>this.isCurrent("specialties","Life transitions")}>Life transitions</button>
                   <button id="Sex and sexuality" className="button is-outlined" onClick={()=>this.isCurrent("specialties","Sex and sexuality")}>Sex and sexuality</button>

@@ -130,6 +130,7 @@ export default class home extends Component {
           }
           else if(!specArray.some(item => 'Family Issues' === item) && (spec == 'Adoption' || spec == 'Behavioral Issues' || spec == 'Child or Adolescent' || spec == 'Family Conflict' || spec == 'Oppositional Defiance' || spec == 'Parenting')){
             specl = 'Family Issues';
+            console.log('Family Issues');
             if(this.state.filter['specialties'] && this.state.filter['specialties'].some(item => specl === item)){
               specClass='is-light';
             }
@@ -181,6 +182,8 @@ export default class home extends Component {
             this.state.special=null;
             return false;
           }
+          this.state.special=1;
+          console.log(specl);
           return <button key={index} className={"button "+specClass}>
                         {specl}
                     </button>

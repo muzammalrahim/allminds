@@ -34,7 +34,7 @@ urlpatterns = [
     path('api/sendEmail', views.sendEmail),
     path('api/feedback', views.feedback),
     path('api/averageRate', views.averageRate),
-    # re_path(r'^(?:.*)/?$', views.index),
+    re_path(r'^(?:.*)/?$', views.index),
 ]
 if settings.DEBUG:
 	urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
