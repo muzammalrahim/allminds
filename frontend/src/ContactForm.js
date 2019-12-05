@@ -9,7 +9,9 @@ export default class ContactForm extends Component {
         
         this.state = {
             id:null,
-            mailClass:"button is-primary is-medium is-fullwidth mail-isChecked",
+            contactData:[],
+            // mailClass:"button is-primary is-medium is-fullwidth mail-isChecked",
+            mailClass: '',
             recaptchaRef: React.createRef(),
             therapist: [],
             filter:[],
@@ -19,16 +21,12 @@ export default class ContactForm extends Component {
           for(var filtersss in this.props.location.filter){
             this.state.filter[filtersss] = this.props.location.filter[filtersss];
           }
-          localStorage.setItem('filter', JSON.stringify(this.props.location.filter));
-          console.log(localStorage.getItem('filter'),'localllll');
         }
         if(this.props.location.search_filter){
           this.state.search_filter = this.props.location.search_filter;
-          localStorage.setItem('search_filter', JSON.stringify(this.props.location.search_filter));
         }
         if(this.props.location.currentPage){
           this.state.currentPage = this.props.location.currentPage;
-          localStorage.setItem('currentPage', JSON.stringify(this.props.location.currentPage));
         }
         this.onSubmit = this.onSubmit.bind(this);  
         this.onChange = this.onChange.bind(this);
@@ -45,7 +43,6 @@ export default class ContactForm extends Component {
     }
 
     async onSubmit() {
-    
       const contactData = {
 
         message:document.getElementById('mail-message').value,
@@ -53,11 +50,15 @@ export default class ContactForm extends Component {
         email:document.getElementById('mail-email').value,
         phoneNumber:document.getElementById('mail-phoneNumber').value,
       };
-      const recaptchaValue = this.state.recaptchaRef.current.getValue();
+      // const recaptchaValue = this.state.recaptchaRef.current.getValue();
+      const recaptchaValue = 1;
+      localStorage.setItem('test','test');
       if(recaptchaValue !== ''){
         await post("sendEmail", contactData);
         window.alert("Thank You! I Got Your Message, I Will Contact You Soon");
-        this.props.history.push('/');
+        // this.props.history.push('/');
+        this.setState({contactData});
+        document.getElementById('redirectTo').click();
       }
       else{
         window.alert("Error: Please verify reCAPTCHA");
@@ -103,6 +104,7 @@ export default class ContactForm extends Component {
                 <button className={this.state.mailClass} onClick={this.onSubmit}>
                   Send message
                 </button>
+                <Link to={{pathname: "/emailConfirmation", id: this.state.id, filter: this.state.filter, search_filter: this.state.search_filter, currentPage: this.state.currentPage, contactData: this.state.contactData }} style={{display: "none"}} className="hidden" id="redirectTo"></Link>
               </div>
             </div>
           </div>
