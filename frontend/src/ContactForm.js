@@ -12,8 +12,24 @@ export default class ContactForm extends Component {
             mailClass:"button is-primary is-medium is-fullwidth mail-isChecked",
             recaptchaRef: React.createRef(),
             therapist: [],
+            filter:[],
 
         };
+        if(this.props.location.filter){
+          for(var filtersss in this.props.location.filter){
+            this.state.filter[filtersss] = this.props.location.filter[filtersss];
+          }
+          localStorage.setItem('filter', JSON.stringify(this.props.location.filter));
+          console.log(localStorage.getItem('filter'),'localllll');
+        }
+        if(this.props.location.search_filter){
+          this.state.search_filter = this.props.location.search_filter;
+          localStorage.setItem('search_filter', JSON.stringify(this.props.location.search_filter));
+        }
+        if(this.props.location.currentPage){
+          this.state.currentPage = this.props.location.currentPage;
+          localStorage.setItem('currentPage', JSON.stringify(this.props.location.currentPage));
+        }
         this.onSubmit = this.onSubmit.bind(this);  
         this.onChange = this.onChange.bind(this);
 
@@ -71,7 +87,7 @@ export default class ContactForm extends Component {
             <div>
         <nav className="navbar" role="navigation" aria-label="main navigation">
           <div className="navbar-brand">
-            <Link to={"/profile/"+this.state.id} className="navbar-item">
+            <Link to={{pathname:"/profile/"+this.state.id, filter: this.state.filter, search_filter: this.state.search_filter, currentPage: this.state.currentPage }} className="navbar-item">
               <span className="icon is-medium"><i className="fas fa-times fa-2x" /></span>
             </Link>
           </div>
