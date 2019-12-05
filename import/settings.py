@@ -26,8 +26,8 @@ SECRET_KEY = '1z)nuq7dk*j%%y)x*@*qq6184z5$9a(7po$y522#am3ao82)_9'
 DEBUG = False
 
 
-ALLOWED_HOSTS = ['allminds.us-west-2.elasticbeanstalk.com']
-# ALLOWED_HOSTS = ['*']
+# ALLOWED_HOSTS = ['allminds.us-west-2.elasticbeanstalk.com']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -85,24 +85,24 @@ WSGI_APPLICATION = 'import.wsgi.application'
 
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.postgresql',
-    #     'NAME': 'allminds',
-    #     'USER': 'postgres',
-    #     'PASSWORD': 'postgres',
-    #     'HOST': '127.0.0.1',
-    #     'PORT': '5432',
-    # }
     'default': {
-        # 'ENGINE': 'django.db.backends.sqlite3',
-        # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'ebdb',
+        'NAME': 'allminds',
         'USER': 'postgres',
-        'PASSWORD': 'allminds%123',
-        'HOST': 'aa1pjcnx603sbjm.cqvoxsrxcwj1.us-west-2.rds.amazonaws.com',
+        'PASSWORD': 'postgres',
+        'HOST': '127.0.0.1',
         'PORT': '5432',
     }
+    # 'default': {
+    #     # 'ENGINE': 'django.db.backends.sqlite3',
+    #     # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': 'ebdb',
+    #     'USER': 'postgres',
+    #     'PASSWORD': 'allminds%123',
+    #     'HOST': 'aa1pjcnx603sbjm.cqvoxsrxcwj1.us-west-2.rds.amazonaws.com',
+    #     'PORT': '5432',
+    # }
 
 }
 
