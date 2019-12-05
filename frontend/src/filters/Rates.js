@@ -35,9 +35,9 @@ export default class Rates extends Component {
     let ratesdata = await get('averageRate');
     let averageRate = ratesdata.data;
     // console.log('rates', averageRate);
-    for(var item in this.state.filter.specialties){
+    /* for(var item in this.state.filter.specialties){
       document.getElementById(this.state.filter.specialties[item]).className= 'button is-light';
-    }
+    } */
     this.setState({
       averageRate,
     });
@@ -156,7 +156,7 @@ export default class Rates extends Component {
               <div className="level-left">
                 <div className="level-item price-input">
                   <div className="field">
-                    <label className="label">min value</label>
+                    <label className="label">Min</label>
                     <p className="control has-icons-left">
                       <input id="min-value" className="input" type="text" value={this.state.filter.min > 0 ? this.state.filter.min : ''} placeholder={10} onChange={()=>this.isCurrent()}/>
                       <span className="icon is-small is-left">
@@ -168,7 +168,7 @@ export default class Rates extends Component {
                 <div className="level-item is-hidden-mobile"><p>-</p></div>
                 <div className="level-item price-input">
                   <div className="field">
-                    <label className="label">max value</label>
+                    <label className="label">Max</label>
                     <p className="control has-icons-left">
                       <input id="max-value" className="input" type="text" value={this.state.filter.max > 0 ? this.state.filter.max : ''} placeholder={200} onChange={()=>this.isCurrent()}/>
                       <span className="icon is-small is-left">

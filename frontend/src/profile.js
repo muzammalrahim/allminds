@@ -22,7 +22,7 @@ export default class home extends Component {
           gender:[],
           title:[],
           filter:[],
-          insuranceArray: ["Out of network","Out of Network","Out-of-network","ACI Specialty Benefits","APS Healthcare","Aetna","Alliance","AmeriHealth","American Behavioral","Anthem","Beacon","Beech Street","Behavioral Health Systems","Blue Care Network","Blue Cross","Blue Shield","BlueCross and BlueShield","Ceridian","ChoiceCare","Cigna","Great-West Life","Hawaii Medical Services Association","Health Net","Humana","Medicaid","Medicare","Military OneSource","Molina","MultiPlan","Network Health","New Directions","Optum","PHCS","PreferredOne","Premera","TRICARE","TriWest","UMR","UnitedHealthcare"],
+          insuranceArray: ["Private pay","Out of network","Out of Network","Out-of-network","ACI Specialty Benefits","APS Healthcare","Aetna","Alliance","AmeriHealth","American Behavioral","Anthem","Beacon","Beech Street","Behavioral Health Systems","Blue Care Network","Blue Cross","Blue Shield","BlueCross and BlueShield","Ceridian","ChoiceCare","Cigna","Great-West Life","Hawaii Medical Services Association","Health Net","Humana","Medicaid","Medicare","Military OneSource","Molina","MultiPlan","Network Health","New Directions","Optum","PHCS","PreferredOne","Premera","TRICARE","TriWest","UMR","UnitedHealthcare"],
           years_in_practice:[],
           genderCheck:'',
           language:'',
@@ -60,7 +60,7 @@ export default class home extends Component {
         let ageGroup = therapist.age ? therapist.age.split(','): [];
         let communitie = therapist.communities ? therapist.communities.split(','): [];
         let faith = therapist.faith ? therapist.faith.split(','): [];
-        let insurance = therapist.accepted_insurance_plans ? therapist.accepted_insurance_plans.split(','): [];
+        let insurance = therapist.accepted_insurance_plans ? therapist.accepted_insurance_plans.split(','): ['Private pay'];
         let i_also_speak = therapist.i_also_speak ? therapist.i_also_speak.split(','): [];
         let gender = therapist.gender ? therapist.gender.split(','): [];
         let years_in_practice = therapist.years_in_practice ? therapist.years_in_practice.split(','): [];
@@ -91,11 +91,11 @@ export default class home extends Component {
             this.state.genderCheck='';
             return gend = '';
           }
-          this.state.genderCheck=1;
           var commClass='';
           if(this.state.filter['gender'] && this.state.filter['gender'].some(item => gend === item)){
             commClass='is-light';
           }
+          this.state.genderCheck=1;
           return <button key={index} className={"button "+commClass}>
                     {gend}
                 </button>
@@ -353,9 +353,20 @@ export default class home extends Component {
                   </button>
           
         });
+
         const insurance = this.state.insurance.map((insur, index) => {
+          console.log(this.state.insurance,'insur');
           if(insur == 'N/A' || insur == ''){
             insur = 'Private pay';
+            return <button key={index} className={"button "}>
+                    {insur}
+                  </button>
+          }
+          else if(insur == 'Out of Network'){
+            var commClass='';
+            if(this.state.filter['insurance'] && this.state.filter['insurance'].some(item => 'Out-of-network' === item)){
+              commClass='is-light';
+            }
             return <button key={index} className={"button "+commClass}>
                     {insur}
                   </button>
@@ -383,6 +394,7 @@ export default class home extends Component {
           if(this.state.filter['languages'] && this.state.filter['languages'].some(item => lang === item)){
             commClass='is-light';
           }
+          this.state.language=1;
           return <button key={index} className={"button "+commClass}>
                   {lang}
                 </button>
@@ -395,6 +407,7 @@ export default class home extends Component {
             this.state.practice='';
             return prac = '';
           }
+          this.state.practice=1;
           return <button key={index} className={this.state.filter['yearsInPractice'] && this.state.filter['yearsInPractice'].length>0 ? "button is-light" : "button"} >
                   {prac}
                 </button>
@@ -439,6 +452,7 @@ export default class home extends Component {
           if(this.state.filter['title'] && this.state.filter['title'].some(item => therapistTitle === item)){
             commClass='is-light';
           }
+          this.state.therapistTitle=1;
           return <button key={index} className={"button "+commClass}>
                   {therapistTitle}
                 </button>;
