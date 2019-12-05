@@ -306,7 +306,7 @@ export default class home extends Component {
           return false;
         }
         return  <div key={i} className="column is-half is-one-third-fullhd">
-                  <Link to={{pathname: "/profile/"+therapist.id, filter: this.state.filter, search_filter: this.state.search_filter, currentPage: this.state.currentPage }} id="openProfilelink" onClick="" className="box therapist-card">
+                  <Link to={{pathname: "/profile/"+therapist.id, filter: this.state.filter, search_filter: this.state.search_filter, currentPage: this.state.currentPage }} id="openProfilelink" onClick={this.onClick} className="box therapist-card">
                     <article className="media">
                       <figure className="media-left">
                         <p className="image is-128x160">

@@ -355,7 +355,7 @@ export default class home extends Component {
         });
 
         const insurance = this.state.insurance.map((insur, index) => {
-          console.log(this.state.insurance,'insur');
+          //console.log(this.state.insurance,'insur');
           if(insur == 'N/A' || insur == ''){
             insur = 'Private pay';
             return <button key={index} className={"button "}>
@@ -379,6 +379,25 @@ export default class home extends Component {
             return <button key={index} className={"button "+commClass}>
                     {insur}
                   </button>
+          }
+          else{
+            commClass='';
+            this.state.insuranceArray.map((value, index) => {
+              if(value == "Alliance"){
+                console.log(insur,'insureeee');
+                console.log(value,'value');
+              }
+              if(insur.includes(value)){
+                insur = value;
+                console.log(insur,'got it');
+                commClass='is-light';
+              }
+            });
+            if(commClass != ''){
+              return <button key={index} className={"button "+commClass}>
+                      {insur}
+                    </button>
+            }
           }
           return null
           
