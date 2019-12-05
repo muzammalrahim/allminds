@@ -32,7 +32,7 @@ function App() {
         <Route path="/insurance" component={Insurance}/>
        <Route path="/availability" component={Availability}/>
        <Route path="/rates" component={Rates}/>
-       <Route path="/emailConfirmation" component={EmailConfirm}/>
+       <Route path="/emailConfirmation/:id" component={EmailConfirm}/>
        <Route path="/contactForm/:id" component={ContactForm}/>
        <Route path="/feedback" component={FeedBack}/>
        </Switch>

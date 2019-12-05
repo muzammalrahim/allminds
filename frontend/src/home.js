@@ -25,9 +25,22 @@ export default class home extends Component {
     this.handleClick = this.handleClick.bind(this);
     this.isCurrent = this.isCurrent.bind(this);
     this.search_filter = this.search_filter.bind(this);
+    this.onClick = this.onClick.bind(this);
 
     if(this.props.location.currentPage){
       this.state.currentPage = this.props.location.currentPage;
+    }
+  }
+
+  async onClick(){
+    if(this.state.filter){
+      localStorage.setItem('filter', JSON.stringify(this.state.filter));
+    }
+    if(this.state.search_filter){
+      localStorage.setItem('search_filter', JSON.stringify(this.state.search_filter));
+    }
+    if(this.state.currentPage){
+      localStorage.setItem('currentPage', JSON.stringify(this.state.currentPage));
     }
   }
 
@@ -293,7 +306,7 @@ export default class home extends Component {
           return false;
         }
         return  <div key={i} className="column is-half is-one-third-fullhd">
-                  <Link to={{pathname: "/profile/"+therapist.id, filter: this.state.filter, search_filter: this.state.search_filter, currentPage: this.state.currentPage }} className="box therapist-card">
+                  <Link to={{pathname: "/profile/"+therapist.id, filter: this.state.filter, search_filter: this.state.search_filter, currentPage: this.state.currentPage }} id="openProfilelink" onClick="" className="box therapist-card">
                     <article className="media">
                       <figure className="media-left">
                         <p className="image is-128x160">

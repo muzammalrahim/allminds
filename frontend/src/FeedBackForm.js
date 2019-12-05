@@ -10,6 +10,7 @@ export default class FeedBackForm extends Component {
         this.state = {
             mailClass:"button is-primary is-medium is-fullwidth mail-isChecked",
             recaptchaRef: React.createRef(),
+            filter: this.props.location.filter ? this.props.location.filter : localStorage.getItem('filter') ? JSON.parse(localStorage.getItem('filter')): []
         };
         this.onSubmit = this.onSubmit.bind(this);  
         this.onChange = this.onChange.bind(this);  
@@ -44,16 +45,28 @@ export default class FeedBackForm extends Component {
       .slideUp(); */
     }
     async onSubmit() {
-
-      const contactData = {
-
-        
-        name:document.getElementById('feedback-name').value,
-        email:document.getElementById('feedback-email').value,
-        message:document.getElementById('feedback-message').value,
-      };
+      let name = document.getElementById('feedback-name').value;
+      let email = document.getElementById('feedback-email').value;
+      let message = document.getElementById('feedback-message').value;
       const recaptchaValue = this.state.recaptchaRef.current.getValue();
-      if(recaptchaValue != ''){
+      if(name == ''){
+        window.alert("Error: Please Enter Your Name");
+        return false;
+      }
+      else if(email == ''){
+        window.alert("Error: Please Enter Your Email");
+        return false;
+      }
+      else if(message == ''){
+        window.alert("Error: Please Enter Your Message");
+        return false;
+      }
+      else if(recaptchaValue != ''){
+        const contactData = {
+          message: message,
+          name: name,
+          email: email,
+        };
         //this.showHideMsg("Form Submitted!","success");
         //this.props.onSubmit(recaptchaValue);
         await post("feedback", contactData);

@@ -21,7 +21,7 @@ export default class home extends Component {
           i_also_speak:[],
           gender:[],
           title:[],
-          filter:[],
+          filter: this.props.location.filter ? this.props.location.filter : localStorage.getItem('filter') ? JSON.parse(localStorage.getItem('filter')): [],
           insuranceArray: ["Private pay","Out of network","Out of Network","Out-of-network","ACI Specialty Benefits","APS Healthcare","Aetna","Alliance","AmeriHealth","American Behavioral","Anthem","Beacon","Beech Street","Behavioral Health Systems","Blue Care Network","Blue Cross","Blue Shield","BlueCross and BlueShield","Ceridian","ChoiceCare","Cigna","Great-West Life","Hawaii Medical Services Association","Health Net","Humana","Medicaid","Medicare","Military OneSource","Molina","MultiPlan","Network Health","New Directions","Optum","PHCS","PreferredOne","Premera","TRICARE","TriWest","UMR","UnitedHealthcare"],
           years_in_practice:[],
           genderCheck:'',
@@ -36,16 +36,16 @@ export default class home extends Component {
           for(var filtersss in this.props.location.filter){
             this.state.filter[filtersss] = this.props.location.filter[filtersss];
           }
-          localStorage.setItem('filter', JSON.stringify(this.props.location.filter));
+          localStorage.setItem('filter', JSON.stringify(this.state.filter));
           console.log(localStorage.getItem('filter'),'localllll');
         }
         if(this.props.location.search_filter){
           this.state.search_filter = this.props.location.search_filter;
-          localStorage.setItem('search_filter', JSON.stringify(this.props.location.search_filter));
+          localStorage.setItem('search_filter', JSON.stringify(this.state.search_filter));
         }
         if(this.props.location.currentPage){
           this.state.currentPage = this.props.location.currentPage;
-          localStorage.setItem('currentPage', JSON.stringify(this.props.location.currentPage));
+          localStorage.setItem('currentPage', JSON.stringify(this.state.currentPage));
         }
       }
     

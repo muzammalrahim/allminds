@@ -10,11 +10,11 @@ export default class ContactForm extends Component {
         this.state = {
             id:null,
             contactData:[],
-            // mailClass:"button is-primary is-medium is-fullwidth mail-isChecked",
-            mailClass: '',
+            mailClass:"button is-primary is-medium is-fullwidth mail-isChecked",
+            // mailClass: '',
             recaptchaRef: React.createRef(),
             therapist: [],
-            filter:[],
+            filter: this.props.location.filter ? this.props.location.filter : localStorage.getItem('filter') ? JSON.parse(localStorage.getItem('filter')): [],
 
         };
         if(this.props.location.filter){
@@ -34,7 +34,7 @@ export default class ContactForm extends Component {
       }
     async componentDidMount() {
         const id=this.props.match.params.id;
-        let dat = await get("therapist/"+id);
+        let dat = await get("therapist/"+id+"/");
         let therapist = dat.data;
         this.setState({
             id, therapist,
@@ -43,22 +43,47 @@ export default class ContactForm extends Component {
     }
 
     async onSubmit() {
-      const contactData = {
-
-        message:document.getElementById('mail-message').value,
-        name:document.getElementById('mail-name').value,
-        email:document.getElementById('mail-email').value,
-        phoneNumber:document.getElementById('mail-phoneNumber').value,
-      };
-      // const recaptchaValue = this.state.recaptchaRef.current.getValue();
-      const recaptchaValue = 1;
-      localStorage.setItem('test','test');
-      if(recaptchaValue !== ''){
+      let message = document.getElementById('mail-message').value;
+      let name = document.getElementById('mail-name').value;
+      let email = document.getElementById('mail-email').value;
+      let phoneNumber = document.getElementById('mail-phoneNumber').value;
+      const recaptchaValue = this.state.recaptchaRef.current.getValue();
+      // const recaptchaValue = 1;
+      if(message == ''){
+        window.alert("Error: Please Enter Your Message");
+        return false;
+      }
+      else if(name == ''){
+        window.alert("Error: Please Enter Your Name");
+        return false;
+      }
+      else if(email == ''){
+        window.alert("Error: Please Enter Your Email");
+        return false;
+      }
+      else if(phoneNumber == ''){
+        window.alert("Error: Please Enter Your Phone number");
+        return false;
+      }
+      else if(recaptchaValue !== ''){
+        const contactData = {
+          message: message,
+          name: name,
+          email: email,
+          phoneNumber: phoneNumber,
+        };
         await post("sendEmail", contactData);
-        window.alert("Thank You! I Got Your Message, I Will Contact You Soon");
-        // this.props.history.push('/');
-        this.setState({contactData});
-        document.getElementById('redirectTo').click();
+        //window.alert("Thank You! I Got Your Message, I Will Contact You Soon");
+        localStorage.setItem('contactData', JSON.stringify(contactData));
+        localStorage.setItem('id', JSON.stringify(this.state.id));
+        this.props.history.push({
+          contactData: contactData,
+          pathname: "/emailConfirmation/"+this.state.id,
+          id: this.state.id,
+          filter: this.state.filter,
+          search_filter: this.state.search_filter,
+          currentPage: this.state.currentPage,
+        });
       }
       else{
         window.alert("Error: Please verify reCAPTCHA");
@@ -104,7 +129,6 @@ export default class ContactForm extends Component {
                 <button className={this.state.mailClass} onClick={this.onSubmit}>
                   Send message
                 </button>
-                <Link to={{pathname: "/emailConfirmation", id: this.state.id, filter: this.state.filter, search_filter: this.state.search_filter, currentPage: this.state.currentPage, contactData: this.state.contactData }} style={{display: "none"}} className="hidden" id="redirectTo"></Link>
               </div>
             </div>
           </div>

@@ -7,15 +7,19 @@ export default class EmailConfirm extends Component {
         super(props);
         
         this.state = {
-            id:null,
-            filter:[],
+            id: null,
+            filter: this.props.location.filter ? this.props.location.filter : localStorage.getItem('filter') ? JSON.parse(localStorage.getItem('filter')) : [],
+            contactData: this.props.location.contactData ? this.props.location.contactData : localStorage.getItem('contactData') ? JSON.parse(localStorage.getItem('contactData')) : [],
+            therapist: [],
 
         };
+        console.log(this.props,'location');
+        console.log(this.state,'state');
+        console.log(localStorage,'localStorage');
         if(this.props.location.filter){
           for(var filtersss in this.props.location.filter){
             this.state.filter[filtersss] = this.props.location.filter[filtersss];
           }
-          console.log(this.props.location,'localllll');
         }
         if(this.props.location.search_filter){
           this.state.search_filter = this.props.location.search_filter;
@@ -23,15 +27,19 @@ export default class EmailConfirm extends Component {
         if(this.props.location.currentPage){
           this.state.currentPage = this.props.location.currentPage;
         }
+        if(this.props.location.contactData){
+          this.state.contactData = this.props.location.contactData;
+        }
       }
     async componentDidMount() {
         const id=this.props.match.params.id;
-        let dat = await get("therapist/"+id);
+        console.log(id,'id');
+        let dat = await get("therapist/"+id+"/");
         let therapist = dat.data;
         this.setState({
             id, therapist,
         });
-           
+        console.log(this.state.therapist,'therapist'); 
     }
     render() {
         return (
@@ -55,13 +63,13 @@ export default class EmailConfirm extends Component {
           <section className="section">
             <div className="container">
               <div className="content">
-                <h5 className="title is-5">Your message was sent to Kati</h5>
-                <p>We're so stoked that you took this first step</p>
+                <h5 className="title is-5">Your message was sent to {this.state.therapist.first_name}</h5>
+                <p>{this.state.contactData ? this.state.contactData.message: ''}</p>
                 <br />
                 <h5 className="title is-5">What's next?</h5>
                 <p>Make sure you receive a confirmation to the email address you've provided: </p>
                 <p>
-                  <strong>user@email.com</strong>
+                  <strong>{this.state.contactData ? this.state.contactData.email: ''}</strong>
                   {/* <br>
               <a href="#">Change my email address</a> */}
                 </p>
@@ -69,9 +77,7 @@ export default class EmailConfirm extends Component {
                 <br />
                 <h5 className="title is-5">Help us make allminds better</h5>
                 <p>We're trying to make it easier for anyone to start therapy. Your feedback would be hugely appreciated</p>
-                <a className="button is-primary is-medium is-fullwidth" href="feedbackForm.html">
-                  Share feedback
-                </a>
+                <Link to="/feedback" className="button is-primary is-medium is-fullwidth" >Share feedback</Link>
               </div>
             </div>
           </section>
