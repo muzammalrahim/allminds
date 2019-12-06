@@ -453,7 +453,7 @@ export default class home extends Component {
           
         const Title = this.state.title.map((title, index) => {
           var therapistTitle = title.trim();
-          this.state.therapistTitle='';
+          // this.state.therapistTitle='';
           if(therapistTitle == 'Marriage & Family Therapist Associate'){
             therapistTitle = 'Associate therapist';
           }
@@ -471,7 +471,6 @@ export default class home extends Component {
           if(this.state.filter['title'] && this.state.filter['title'].some(item => therapistTitle === item)){
             commClass='is-light';
           }
-          this.state.therapistTitle=1;
           return <button key={index} className={"button "+commClass}>
                   {therapistTitle}
                 </button>;

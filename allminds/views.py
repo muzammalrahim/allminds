@@ -201,7 +201,12 @@ class PersonViewSet(viewsets.ModelViewSet):
 
 		search = self.request.query_params.get('search', None)
 		if search is not None:
-			self.queryset = self.queryset.filter(Q(first_name__icontains=search) | Q(last_name__icontains=search))
+			if " " in search:
+				searchArray = search.split(' ')
+				for searchPart in searchArray:
+					self.queryset = self.queryset.filter(Q(first_name__icontains=searchPart) | Q(last_name__icontains=searchPart))
+			else:
+				self.queryset = self.queryset.filter(Q(first_name__icontains=search) | Q(last_name__icontains=search))
 		# exclude therapist without rates
 		self.queryset = self.queryset.exclude(cost_per_session_max=None, cost_per_session_min=None).exclude(profile_image_url="N/A").exclude(cost_per_session="N/A")
 		return self.queryset
