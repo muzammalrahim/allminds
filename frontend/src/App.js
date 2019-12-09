@@ -9,15 +9,19 @@ import Insurance from './filters/Insurance';
 import Availability from './filters/Availability';
 import Rates from './filters/Rates';
 import ContactForm from './ContactForm';
+import FeedBack from './FeedBackForm';
+import EmailConfirm from './EmailConfirm';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
 } from "react-router-dom";
+import history from './history';
 
 function App() {
   return (
-    <Router>
+    <Router history={history}> 
+    {console.log(history,'appjs')}
       <Switch>
         <Route exact path="/" component={Home}/>
         <Route exact path="/therapist/?page=:page" component={Home}/>
@@ -28,7 +32,9 @@ function App() {
         <Route path="/insurance" component={Insurance}/>
        <Route path="/availability" component={Availability}/>
        <Route path="/rates" component={Rates}/>
+       <Route path="/emailConfirmation/:id" component={EmailConfirm}/>
        <Route path="/contactForm/:id" component={ContactForm}/>
+       <Route path="/feedback" component={FeedBack}/>
        </Switch>
    </Router>
     

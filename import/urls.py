@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.urls import re_path
 from django.urls import include
 from rest_framework import routers
 from allminds import views
@@ -30,7 +31,10 @@ urlpatterns = [
     path('', views.index),
     #path('admin/allminds/person/import/', views.simple_upload),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    path('sendEmail', views.sendEmail)
+    path('api/sendEmail', views.sendEmail),
+    path('api/feedback', views.feedback),
+    path('api/averageRate', views.averageRate),
+    re_path(r'^(?:.*)/?$', views.index),
 ]
 if settings.DEBUG:
 	urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

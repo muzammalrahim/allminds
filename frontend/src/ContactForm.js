@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
 import { post, get } from "./api";
+import ReCAPTCHA from "react-google-recaptcha";
 
 export default class ContactForm extends Component {
     constructor(props) {
@@ -8,17 +9,32 @@ export default class ContactForm extends Component {
         
         this.state = {
             id:null,
+            contactData:[],
             mailClass:"button is-primary is-medium is-fullwidth mail-isChecked",
+            // mailClass: '',
+            recaptchaRef: React.createRef(),
             therapist: [],
+            filter: this.props.location.filter ? this.props.location.filter : localStorage.getItem('filter') ? JSON.parse(localStorage.getItem('filter')): [],
 
         };
+        if(this.props.location.filter){
+          for(var filtersss in this.props.location.filter){
+            this.state.filter[filtersss] = this.props.location.filter[filtersss];
+          }
+        }
+        if(this.props.location.search_filter){
+          this.state.search_filter = this.props.location.search_filter;
+        }
+        if(this.props.location.currentPage){
+          this.state.currentPage = this.props.location.currentPage;
+        }
         this.onSubmit = this.onSubmit.bind(this);  
-        this.buttonChecked = this.buttonChecked.bind(this);  
+        this.onChange = this.onChange.bind(this);
 
       }
     async componentDidMount() {
         const id=this.props.match.params.id;
-        let dat = await get("therapist/"+id);
+        let dat = await get("therapist/"+id+"/");
         let therapist = dat.data;
         this.setState({
             id, therapist,
@@ -27,32 +43,68 @@ export default class ContactForm extends Component {
     }
 
     async onSubmit() {
-    
-      const contactData = {
-
-        message:document.getElementById('mail-message').value,
-        name:document.getElementById('mail-name').value,
-        email:document.getElementById('mail-email').value,
-        phoneNumber:document.getElementById('mail-phoneNumber').value,
-      };
-    
-      await post("contact", contactData);
-      window.alert("Thank You! I Got Your Message, I Will Contact You Soon");
+      let message = document.getElementById('mail-message').value;
+      let name = document.getElementById('mail-name').value;
+      let email = document.getElementById('mail-email').value;
+      let phoneNumber = document.getElementById('mail-phoneNumber').value;
+      const recaptchaValue = this.state.recaptchaRef.current.getValue();
+      // const recaptchaValue = 1;
+      if(message == ''){
+        window.alert("Error: Please Enter Your Message");
+        return false;
+      }
+      else if(name == ''){
+        window.alert("Error: Please Enter Your Name");
+        return false;
+      }
+      else if(email == ''){
+        window.alert("Error: Please Enter Your Email");
+        return false;
+      }
+      else if(phoneNumber == ''){
+        window.alert("Error: Please Enter Your Phone number");
+        return false;
+      }
+      else if(recaptchaValue !== ''){
+        const contactData = {
+          message: message,
+          name: name,
+          email: email,
+          phoneNumber: phoneNumber,
+        };
+        await post("sendEmail", contactData);
+        //window.alert("Thank You! I Got Your Message, I Will Contact You Soon");
+        localStorage.setItem('contactData', JSON.stringify(contactData));
+        localStorage.setItem('id', JSON.stringify(this.state.id));
+        this.props.history.push({
+          contactData: contactData,
+          pathname: "/emailConfirmation/"+this.state.id,
+          id: this.state.id,
+          filter: this.state.filter,
+          search_filter: this.state.search_filter,
+          currentPage: this.state.currentPage,
+        });
+      }
+      else{
+        window.alert("Error: Please verify reCAPTCHA");
+        return false;
+      }
 
     }
 
-    buttonChecked(){
-        let mailClass="";
-        if(document.getElementById("mail-checked").checked)
-        {
+    async onChange(value) {
+      let mailClass="";
+      if(value)
+      {
         mailClass="button is-primary is-medium is-fullwidth"
-        }
-        else if(!document.getElementById("mail-checked").checked)
-        {
-          mailClass="button is-primary is-medium is-fullwidth mail-isChecked"
-        }
-        this.setState({mailClass});
+      }
+      else if(value === '')
+      {
+        mailClass="button is-primary is-medium is-fullwidth mail-isChecked"
+      }
+      this.setState({mailClass});
     }
+
 
   
     render() {
@@ -61,7 +113,7 @@ export default class ContactForm extends Component {
             <div>
         <nav className="navbar" role="navigation" aria-label="main navigation">
           <div className="navbar-brand">
-            <Link to={"/profile/"+this.state.id} className="navbar-item">
+            <Link to={{pathname:"/profile/"+this.state.id, filter: this.state.filter, search_filter: this.state.search_filter, currentPage: this.state.currentPage }} className="navbar-item">
               <span className="icon is-medium"><i className="fas fa-times fa-2x" /></span>
             </Link>
           </div>
@@ -71,7 +123,7 @@ export default class ContactForm extends Component {
           </div>
         </nav>
         <nav className="navbar is-fixed-bottom" role="navigation" aria-label="main navigation">
-          <div id="mail-button" className="navbar-menu">
+          <div id="mail-button" className="navbar-menu is-active">
             <div className="navbar-start">
               <div className="navbar-item">
                 <button className={this.state.mailClass} onClick={this.onSubmit}>
@@ -118,16 +170,27 @@ export default class ContactForm extends Component {
                   </span>
                 </div>
               </div>
-              <div className="field">
+              {/* <div className="field">
                 <div className="control">
                   <label className="checkbox">
-                    {/* <input id="mail-checked" type="checkbox" />
-                     */}
+                   
                      <input type='checkbox' id="mail-checked" onChange={this.buttonChecked}/>
                      I am not a robot
                      
                   </label>
-                </div>
+                </div> 
+              </div>*/}
+              <div className="field">
+                <div className="control">
+                  <div id="messagewrap" className="">
+                    <span></span>
+                  </div>
+                  <ReCAPTCHA
+                    ref={this.state.recaptchaRef}
+                    sitekey="6LcACcUUAAAAAA1uxR-z-BZF9oUcXrDmk9pSbUHA"
+                    onChange={this.onChange}
+                  />
+                  </div>
               </div>
             </div>
           </div>

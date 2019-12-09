@@ -26,8 +26,8 @@ SECRET_KEY = '1z)nuq7dk*j%%y)x*@*qq6184z5$9a(7po$y522#am3ao82)_9'
 DEBUG = False
 
 
-# ALLOWED_HOSTS = ['allminds.us-west-2.elasticbeanstalk.com']
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['allminds.us-west-2.elasticbeanstalk.com']
+# ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -89,8 +89,8 @@ DATABASES = {
     #     'ENGINE': 'django.db.backends.postgresql',
     #     'NAME': 'allminds',
     #     'USER': 'postgres',
-    #     'PASSWORD': '    ',
-    #     'HOST': 'localhost',
+    #     'PASSWORD': 'postgres',
+    #     'HOST': '127.0.0.1',
     #     'PORT': '5432',
     # }
     'default': {
@@ -103,7 +103,7 @@ DATABASES = {
         'HOST': 'aa1pjcnx603sbjm.cqvoxsrxcwj1.us-west-2.rds.amazonaws.com',
         'PORT': '5432',
     }
-    
+
 }
 
 # Password validation
@@ -149,17 +149,22 @@ IMPORT_EXPORT_USE_TRANSACTIONS = True
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 10,
+    'PAGE_SIZE': 9,
     # 'DEFAULT_PARSER_CLASSES': ['rest_framework.parsers.JSONParser'],
     # 'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend', 'django_filters.rest_framework.SearchFilter']
 }
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'mail.smtp2go.com'
-EMAIL_USE_TLS = True
-EMAIL_PORT = 2525
-EMAIL_HOST_USER = 'mudassirmir25@gmail.com'
-EMAIL_HOST_PASSWORD = 'djJnZmppaGFqMjgw'
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'mail.smtp2go.com'
+# EMAIL_USE_TLS = True
+# EMAIL_PORT = 2525
+# EMAIL_HOST_USER = 'mudassirmir25@gmail.com'
+# EMAIL_HOST_PASSWORD = 'djJnZmppaGFqMjgw'
+
+# EMAIL_HOST = 'smtp.mailtrap.io'
+# EMAIL_HOST_USER = '6b471e37086079'
+# EMAIL_HOST_PASSWORD = '84fcb78ed68681'
+# EMAIL_PORT = '2525'
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'frontend/build'),
@@ -175,9 +180,16 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 # EMAIL_HOST_USER = 'mudassir.creative@gmail.com'
 # EMAIL_HOST_PASSWORD = 'lxtrRPojpSrI'
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'mail.smtp2go.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 2525
+EMAIL_HOST_USER = 'hamid.creativetech@gmail.com'
+EMAIL_HOST_PASSWORD = '3PYQnQ8PcaQZ'
+
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # EMAIL_HOST = 'mail.smtp2go.com'
 # EMAIL_USE_TLS = True
 # EMAIL_PORT = 2525
-# EMAIL_HOST_USER = 'hamidraza715@gmail.com'
-# EMAIL_HOST_PASSWORD = 'NzJmbDU5bTV1ZzQw'
+# EMAIL_HOST_USER = 'mudassir_mir_25@hotmail.com'
+# EMAIL_HOST_PASSWORD = '6x32EQxcz5Me'

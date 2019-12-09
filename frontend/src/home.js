@@ -2,81 +2,254 @@ import React, { Component } from 'react';
 import {get} from './api';
 import {Link} from 'react-router-dom';
 
+
 export default class home extends Component {
 
     constructor(props) {
     super(props);
-    
     this.state = {
       therapists: [],
       count: null,
-      currentPage: 1,
-      todosPerPage: 15,
+      currentPage: localStorage.getItem('currentPage') ? JSON.parse(localStorage.getItem('currentPage')) : 1,
+      todosPerPage: 3,
       perPage:1,
-     
-     
+      filter: this.props.location.filter ? this.props.location.filter : localStorage.getItem('filter') ? JSON.parse(localStorage.getItem('filter')): {
+        specialties:[], genderFocus:[], ageGroup:[], communities:[], gender:[], title:[], yearsInPractice:[], languages:[], insurance:[], availability:[], min:0, max:0,
+      },
+      search_filter: this.props.location.search_filter ? this.props.location.search_filter : localStorage.getItem('search_filter') ? JSON.parse(localStorage.getItem('search_filter')) : null,
+      totalPages: 1,
+      fromTherapist:1,
+      toTherapist:1,
     };
+    console.log(this.state.filter,'filter');
     this.handleClick = this.handleClick.bind(this);
     this.isCurrent = this.isCurrent.bind(this);
+    this.search_filter = this.search_filter.bind(this);
+    this.onClick = this.onClick.bind(this);
+
+    if(this.props.location.currentPage){
+      this.state.currentPage = this.props.location.currentPage;
+    }
   }
+
+  async onClick(){
+    if(this.state.filter){
+      localStorage.setItem('filter', JSON.stringify(this.state.filter));
+    }
+    if(this.state.search_filter){
+      localStorage.setItem('search_filter', JSON.stringify(this.state.search_filter));
+    }
+    if(this.state.currentPage){
+      localStorage.setItem('currentPage', JSON.stringify(this.state.currentPage));
+    }
+  }
+
   componentDidMount() {
-    
-    this.isCurrent();
-         
+      this.isCurrent(this.state.currentPage);
   }
   
+  componentDidUpdate(){
+    window.scrollTo(0, 0)
+    if(document.getElementById(this.state.currentPage))
+      document.getElementById(this.state.currentPage).className = 'pagination-link';
+    if(document.getElementById(this.state.currentPage))
+      document.getElementById(this.state.currentPage).className += ' is-current';
+    console.log(localStorage.getItem('filter'), 'localstorage');
+    if(localStorage.getItem('filter'))
+      localStorage.clear();
+  }
+
   handleClick(event) {
-  document.getElementById(this.state.perPage).className = 'pagination-link';
-  let perPage=((event.target.id-1)*15+1); 
-  this.setState({
-    currentPage: Number(event.target.id), perPage,
-      });
-      
+    document.getElementById(this.state.currentPage).className = 'pagination-link';
+    let numb=event.target.id.split('-')
+    this.state.currentPage = Number(numb[1]);
+    this.isCurrent(this.state.currentPage);
+  }
+
+  async search_filter(){
+    this.state.search_filter=document.getElementById('search_bar').value;
+    console.log(this.state.search_filter);
+    let url = 'therapist/?';
+    if("specialties" in this.state.filter && this.state.filter.specialties.length>0){
+      url += 'specialties='+JSON.stringify(this.state.filter.specialties)+'&';
+    }
+    if('availability' in this.state.filter && this.state.filter.availability.length>0){
+      url += 'availability='+JSON.stringify(this.state.filter.availability)+'&';
+    }
+    if('insurance' in this.state.filter && this.state.filter.insurance.length>0){
+      url += 'insurance='+JSON.stringify(this.state.filter.insurance)+'&';
+    }
+    if('genderFocus' in this.state.filter && this.state.filter.genderFocus.length>0){
+      url += 'genderFocus='+JSON.stringify(this.state.filter.genderFocus)+'&';
+    }
+    if('ageGroup' in this.state.filter && this.state.filter.ageGroup.length>0){
+      url += 'ageGroup='+JSON.stringify(this.state.filter.ageGroup)+'&';
+    }
+    if('communities' in this.state.filter && this.state.filter.communities.length>0){
+      url += 'communities='+JSON.stringify(this.state.filter.communities)+'&';
+    }
+    if('gender' in this.state.filter && this.state.filter.gender.length>0){
+      url += 'gender='+JSON.stringify(this.state.filter.gender)+'&';
+    }
+    if('title' in this.state.filter && this.state.filter.title.length>0){
+      url += 'title='+JSON.stringify(this.state.filter.title)+'&';
+    }
+    if('yearsInPractice' in this.state.filter && this.state.filter.yearsInPractice.length>0){
+      url += 'yearsInPractice='+JSON.stringify(this.state.filter.yearsInPractice)+'&';
+    }
+    if('languages' in this.state.filter && this.state.filter.languages.length>0){
+      url += 'languages='+JSON.stringify(this.state.filter.languages)+'&';
+    }
+    if('min' in this.state.filter && this.state.filter.min.length>0){
+      url += 'min='+this.state.filter.min+'&';
+    }
+    if('max' in this.state.filter && this.state.filter.max.length>0){
+      url += 'max='+this.state.filter.max+'&';
+    }
+    if(this.state.search_filter && this.state.search_filter != null){
+      url += 'search='+this.state.search_filter;
+    }
+    let dat = await get(url);
+    // let dupl = await get('removeDuplicate');
+    let therapists = dat.data.results;
+    let count = dat.data.count;
+    let filter = this.state.filter;
+    let search_filter = this.state.search_filter;
+    this.setState({
+      therapists, count, filter, search_filter
+    });
   }
 
   async isCurrent(event) {
+    document.getElementById('loadingSpinner').classList.remove('hide');
     let dat=null;
+    let url = 'therapist/?';
     var perPage = this.state.perPage;
     if(event==null)
     { 
-      dat = await get("therapist/");
-      document.getElementById(perPage).className += ' is-current';
+      document.getElementById(1).className += ' is-current';
     }
     else if(event!=null)
-    {
-    dat = await get("therapist/?page="+event);
-    document.getElementById(perPage).className = 'pagination-link';
-    perPage = event;
+    { 
+      console.log(this.state.currentPage, 'ashdgajsdasd');
+      if(document.getElementById(this.state.currentPage))
+        document.getElementById(this.state.currentPage).className = 'pagination-link';
+      console.log(event, 'event');
+      perPage = event;
+      this.state.currentPage = event;
+      url += "page="+event+'&';
     }
-    
-    document.getElementById(perPage).className += ' is-current';
+    if('specialties' in this.state.filter && this.state.filter.specialties.length>0){
+      document.getElementById("Specialties").className = 'button is-light';
+      url += 'specialties='+JSON.stringify(this.state.filter.specialties)+'&';
+    }
+    if('availability' in this.state.filter && this.state.filter.availability.length>0){
+      document.getElementById("Availability").className = 'button is-light';
+      url += 'availability='+JSON.stringify(this.state.filter.availability)+'&';
+    }
+    if('insurance' in this.state.filter && this.state.filter.insurance.length>0){
+      document.getElementById("Insurance").className = 'button is-light';
+      url += 'insurance='+JSON.stringify(this.state.filter.insurance)+'&';
+    }
+    if('genderFocus' in this.state.filter && this.state.filter.genderFocus.length>0){
+      document.getElementById("Client Focus").className = 'button is-light';
+      url += 'genderFocus='+JSON.stringify(this.state.filter.genderFocus)+'&';
+    }
+    if('ageGroup' in this.state.filter && this.state.filter.ageGroup.length>0){
+      document.getElementById("Client Focus").className = 'button is-light';
+      url += 'ageGroup='+JSON.stringify(this.state.filter.ageGroup)+'&';
+    }
+    if('communities' in this.state.filter && this.state.filter.communities.length>0){
+      document.getElementById("Client Focus").className = 'button is-light';
+      url += 'communities='+JSON.stringify(this.state.filter.communities)+'&';
+    }
+    if('gender' in this.state.filter && this.state.filter.gender.length>0){
+      document.getElementById("Background").className = 'button is-light';
+      url += 'gender='+JSON.stringify(this.state.filter.gender)+'&';
+    }
+    if('title' in this.state.filter && this.state.filter.title.length>0){
+      document.getElementById("Background").className = 'button is-light';
+      url += 'title='+JSON.stringify(this.state.filter.title)+'&';
+    }
+    if('yearsInPractice' in this.state.filter && this.state.filter.yearsInPractice.length>0){
+      document.getElementById("Background").className = 'button is-light';
+      url += 'yearsInPractice='+JSON.stringify(this.state.filter.yearsInPractice)+'&';
+    }
+    if('languages' in this.state.filter && this.state.filter.languages.length>0){
+      document.getElementById("Background").className = 'button is-light';
+      url += 'languages='+JSON.stringify(this.state.filter.languages)+'&';
+    }
+    if('min' in this.state.filter && this.state.filter.min.length>0){
+      document.getElementById("Rates").className = 'button is-light';
+      url += 'min='+this.state.filter.min+'&';
+    }
+    if('max' in this.state.filter && this.state.filter.max.length>0){
+      document.getElementById("Rates").className = 'button is-light';
+      url += 'max='+this.state.filter.max+'&';
+    }
+    if(this.state.search_filter && this.state.search_filter != null){
+      url += 'search='+this.state.search_filter+'&';
+    }
+
+    dat = await get(url);
+    if(document.getElementById(this.state.currentPage))
+      document.getElementById(this.state.currentPage).className += ' is-current';
     let therapists = dat.data.results;
     let count = dat.data.count;
     
-      this.setState({
-        therapists, count, perPage,
-         });
+    if(count > 0){
+      this.state.fromTherapist = this.state.currentPage * 9 - 8;
+      if(this.state.currentPage * 9 < count){
+        this.state.toTherapist = this.state.currentPage * 9;
+      }
+      else{
+        this.state.toTherapist = count;
+      }
+    }
+    else{
+      this.state.fromTherapist = 0;
+    }
+    if(window.total_therapist == undefined) {
+      window.total_therapist = count;
+    }
+    let total = window.total_therapist;
+
+    this.setState({
+      therapists, count, perPage, total 
+    });
+    document.getElementById('loadingSpinner').classList.add('hide');
+    
 }
+
+
     render() {
+      let spec=[];
+    if(this.props.location.specialities){
+      spec =this.props.location.specialities.specialities;
+    }
+    console.log(spec,"spec00");
       const {currentPage, todosPerPage } = this.state;
       let totalPages = pageCount(this.state.count);
+      this.state.totalPages = totalPages;
       let lastPage = rightCount(totalPages);
       function pageCount(val){
         let value = 1;
-        if(value%10==0){
-          value = val/10;
+        if(val%9==0){
+          value = val/9;
+          if(value == 0) 
+            value = 1;
         }
         else{
-          value = val/10+1;
+          value = val/9+1;
         }
         return value | 0;
       }
       function rightCount(val){
-        if(val%15==0){
-          return val/15 |0;
+        if(val%9==0){
+          return val/9 |0;
         }
         else{
-          return val/15+1 | 0;
+          return val/9+1 | 0;
         }
       }
       let isLeft = 'pagination-previous';
@@ -84,7 +257,7 @@ export default class home extends Component {
       if (currentPage<2) {
         isLeft += ' is-first-page';
       }
-      if (currentPage>=lastPage) {
+      if (currentPage>=totalPages) {
         isRight += ' is-first-page';
       }
     
@@ -92,22 +265,71 @@ export default class home extends Component {
         for(let i=0; i<totalPages; i++){
           pages.push(i+1);
         }
-      const indexOfLastTodo = currentPage * todosPerPage;
-      const indexOfFirstTodo = indexOfLastTodo - todosPerPage;
-      const currentTodos = pages.slice(indexOfFirstTodo, indexOfLastTodo);
+      const currentTodos = pages;
 
 
       const renderTodos = currentTodos.map((page, i) => {
-        return <li key={i}>
+
+        if((page == totalPages || (page >= currentPage -1 && page <= currentPage + 1)) || (page == 1 && this.state.count > 0)) {
+          var currClassname = 'dat-nlast';
+          if(page == totalPages || page + 1 == totalPages ) {
+            currClassname = '';
+          }
+          return <li className={currClassname} key={i}>
                   <a name={"therapist/?page="+page} id={page} className={'pagination-link'} onClick={()=>this.isCurrent(page)} aria-label={"Page "+page} aria-current="page">{page}</a>
                 </li> 
+        }
+        else if((currentPage + 2 == page) || (currentPage - 2 == page)) {
+          var currClassname = '';
+          if(currentPage - 2 == page && currentPage + 2 != totalPages) {
+            currClassname = 'dat-class';
+          }
+          return <li className={currClassname} key={i}>
+                  <a className={'pagination-link'} aria-current="page">...</a>
+                </li> 
+        } 
         
       });
+
+      const therapistTitleF = this.state.therapists.map((therapist, i) => {
+        var therapistTitle = therapist.title;
+        if(therapistTitle.search('Marriage & Family Therapist Associate') == 1){
+          therapistTitle = 'Associate therapist';
+        }
+        else if(therapistTitle.search('Psychologist') == 1){
+          therapistTitle = 'Psychologist';
+        }
+        else if(therapistTitle.search('Clinical Social Work/Therapist') == 1 || therapistTitle.search('Marriage & Family Therapist') == 1){
+          therapistTitle = 'Licensed therapist';
+        }
+        else{
+          return false;
+        }
+        return  <div key={i} className="column is-half is-one-third-fullhd">
+                  <Link to={{pathname: "/profile/"+therapist.id, filter: this.state.filter, search_filter: this.state.search_filter, currentPage: this.state.currentPage }} id="openProfilelink" onClick={this.onClick} className="box therapist-card">
+                    <article className="media">
+                      <figure className="media-left">
+                        <p className="image is-128x160">
+                          <img alt='' src={therapist.profile_image_url} />
+                        </p>
+                      </figure>
+                      <div className="media-content">
+                        <div className="content">
+                          <div className="therapist-title">{therapistTitle}</div>
+                          <h4 className="title is-4">{therapist.first_name+" "+therapist.last_name}</h4>
+                          <small><strong>{therapist.cost_per_session}</strong>/session</small>
+                        </div>
+                      </div>
+                    </article>
+                  </Link>
+                </div>
+      });
+
       const pageNumbers = [];
       for (let i = 1; i <= Math.ceil(pages.length / todosPerPage); i++) {
         pageNumbers.push(i);
       }
-      
+      console.log(this.props,"spec");
 
         return (
             <div>
@@ -120,7 +342,7 @@ export default class home extends Component {
           <div className="navbar-menu is-active">
             <div className="navbar-start navbar-search">
               <div className="navbar-item">
-                <input className="input" type="text" placeholder="Look for a specific therapist" />
+                <input className="input" type="text" id="search_bar" value={this.state.search_filter} placeholder="Look for a specific therapist" onChange={this.search_filter}/>
               </div>
             </div>
           </div>
@@ -131,26 +353,26 @@ export default class home extends Component {
               <span className="icon is-medium">
                 <i className="far fa-grin fa-2x" />
               </span>
-              <p>Over 300 online therapists available to talk with you from the comfort of your home. Find the one that fits your needs and we'll help you reach them.</p>
+              <p>Over {this.state.total} online therapists available to talk with you from the comfort of your home. Find the one that fits your needs and we'll help you reach them.</p>
             </div>
             <div className="search-filters">
               <div className="buttons">
-                <Link to="/specialties" className="button is-outlined" >
+                <Link to={{pathname: "/specialties", filter: this.state.filter, search_filter: this.state.search_filter }} className="button is-outlined" id="Specialties" >
                   Specialties
                 </Link>
-                <Link to="/clientFocus" className="button is-outlined">
+                <Link to={{pathname: "/clientFocus", filter: this.state.filter, search_filter: this.state.search_filter }} className="button is-outlined" id="Client Focus">
                   Client Focus
                 </Link>
-                <Link to="/background" className="button is-outlined">
+                <Link to={{pathname: "/background", filter: this.state.filter, search_filter: this.state.search_filter }} className="button is-outlined" id="Background">
                   Background
                 </Link>
-                <Link to="/insurance" className="button is-outlined">
+                <Link to={{pathname: "/insurance", filter: this.state.filter, search_filter: this.state.search_filter }} className="button is-outlined" id="Insurance">
                   Insurance
                 </Link>
-                <Link to="/availability" className="button is-outlined">
+                <Link to={{pathname: "/availability", filter: this.state.filter, search_filter: this.state.search_filter }} className="button is-outlined" id="Availability">
                   Availability
                 </Link>
-                <Link to="/rates" className="button is-outlined">
+                <Link to={{pathname: "/rates", filter: this.state.filter, search_filter: this.state.search_filter }} className="button is-outlined" id="Rates">
                   Rates
                 </Link>
               </div>
@@ -160,49 +382,30 @@ export default class home extends Component {
                 <div className="level-left">
                   <div className="level-item">
                     <span className="icon is-medium">
-                      <img alt='' src="./images/lamp.svg" />
+                      <img alt='' src="/static/images/lamp.svg" />
                     </span>
                   </div>
                   <div className="level-item">
-                    <p>Want more filters? <a href="feedbackForm.html">Let us know</a></p>
+                    <p>Want more filters? <Link to="/feedback" >Let us know</Link></p>
                   </div> 
                 </div>
               </nav>
             </div>
-            <p style={{textAlign:"left"}}>1-10 of {this.state.count}+ Therapists</p>
-            <div className="columns is-multiline">
-              {this.state.therapists.map(function(therapist, i){
-                return  <div key={i} className="column is-half is-one-third-fullhd">
-                          <Link to={"/profile/"+therapist.id} className="box therapist-card">
-                            <article className="media">
-                              <figure className="media-left">
-                                <p className="image is-128x128">
-                                  <img alt='' src={therapist.profile_image_url} />
-                                </p>
-                              </figure>
-                              <div className="media-content">
-                                <div className="content">
-                                  <div className="therapist-title">{therapist.title}</div>
-                                  <h4 className="title is-4">{therapist.first_name+" "+therapist.last_name}</h4>
-                                  <small><strong>{therapist.cost_per_session}</strong>/session</small>
-                                </div>
-                              </div>
-                            </article>
-                          </Link>
-                        </div>
-              })}
-           </div>
+        <p style={{textAlign:"left"}}>{this.state.fromTherapist}-{this.state.toTherapist} of {this.state.count}+ Therapists</p>
+              <div className="columns is-multiline">
+                {therapistTitleF}
+              </div>
               
               <nav className={"pagination is-rounded is-centered"} role="navigation" aria-label="pagination">
-              <a className={isLeft}><span className="icon"><i className="fas fa-chevron-left" id={currentPage-1} onClick={this.handleClick}/></span></a>
-              <ul className="pagination-list">
-             {renderTodos}
-                               
-              </ul>
-              <a className={isRight}><span className="icon"><i className="fas fa-chevron-right" id={currentPage+1} onClick={this.handleClick}/></span></a>
+                <a className={isLeft}><span className="icon"><i className="fas fa-chevron-left" id={"page-"+(currentPage-1)} onClick={this.handleClick}/></span></a>
+                <ul className="pagination-list">
+                  {renderTodos}
+                </ul>
+                <a className={isRight}><span className="icon"><i className="fas fa-chevron-right" id={"page-"+(currentPage+1)} onClick={this.handleClick}/></span></a>
             </nav>
           </div>
         </section>
+        <div id="loadingSpinner" className="loading hide">Loading&#8230;</div>
       </div>
     
             
